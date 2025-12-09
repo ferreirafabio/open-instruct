@@ -5,7 +5,8 @@ set -euo pipefail
 # Usage: ./prepare_dolci_sft_data.sh [OUTPUT_DIR] [TOKENIZER]
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-OUTPUT_DIR="${1:-${SCRIPT_DIR}/dolci_think_sft_data}"
+REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+OUTPUT_DIR="${1:-${REPO_ROOT}/data/dolci_think_sft_tokenized}"
 TOKENIZER="${2:-allenai/Olmo-3-1025-7B}"
 
 CACHE_DIR="${OUTPUT_DIR}/hf_cache"
@@ -27,7 +28,7 @@ echo "HF_HUB_CACHE=$HF_HUB_CACHE"
 
 mkdir -p "$OUTPUT_DIR" "$HF_DATASETS_CACHE" "$HF_MODULES_CACHE" "$HF_HUB_CACHE"
 
-cd "$SCRIPT_DIR"
+cd "$REPO_ROOT"
 
 python scripts/data/convert_sft_data_for_olmocore.py \
   --tokenizer_name_or_path "$TOKENIZER" \
