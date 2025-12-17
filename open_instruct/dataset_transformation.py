@@ -45,6 +45,7 @@ import hashlib
 import json
 import multiprocessing
 import os
+import time
 from dataclasses import asdict, dataclass, field
 from functools import cached_property
 from typing import Any, Dict, List, Literal, Optional, Tuple, Union
@@ -67,6 +68,29 @@ from transformers import (
 from transformers.utils.hub import _CACHED_NO_EXIST, TRANSFORMERS_CACHE, extract_commit_hash, try_to_load_from_cache
 
 from open_instruct.utils import hf_whoami, max_num_processes
+
+DEBUG_LOG_PATH = "/work/dlclarge2/ferreira-oellm/open-instruct/.cursor/debug.log"
+
+
+def append_debug_log_dt(
+    session_id: str,
+    run_id: str,
+    hypothesis_id: str,
+    location: str,
+    message: str,
+    data: Dict[str, Any],
+) -> None:
+    log_entry = {
+        "sessionId": session_id,
+        "runId": run_id,
+        "hypothesisId": hypothesis_id,
+        "location": location,
+        "message": message,
+        "data": data,
+        "timestamp": int(time.time() * 1000),
+    }
+    with open(DEBUG_LOG_PATH, "a") as log_file:
+        log_file.write(json.dumps(log_entry) + "\n")
 
 
 # ----------------------------------------------------------------------------
@@ -1611,7 +1635,11 @@ class DatasetTransformationCache:
         self.hf_entity = hf_entity or hf_whoami()["name"]
 
     def load_or_transform_dataset(
-        self, dcs: List[DatasetConfig], tc: TokenizerConfig, dataset_skip_cache: bool = False
+        self,
+        dcs: List[DatasetConfig],
+        tc: TokenizerConfig,
+        dataset_skip_cache: bool = False,
+        keep_dataset_in_memory: bool = True,
     ) -> Dataset:
         """Load dataset from cache if it exists, otherwise transform and cache it."""
         repo_name = f"{self.hf_entity}/dataset-mix-cached"
@@ -1714,7 +1742,11 @@ class LocalDatasetTransformationCache:
             json.dump(config_dict, f, indent=2)
 
     def load_or_transform_dataset(
-        self, dcs: List[DatasetConfig], tc: TokenizerConfig, dataset_skip_cache: bool = False
+        self,
+        dcs: List[DatasetConfig],
+        tc: TokenizerConfig,
+        dataset_skip_cache: bool = False,
+        keep_dataset_in_memory: bool = True,
     ) -> Tuple[Dataset, Dict[str, Any]]:
         """Load dataset from local cache if it exists, otherwise transform and cache it locally."""
         cache_path = self.get_cache_path()
@@ -1722,7 +1754,27 @@ class LocalDatasetTransformationCache:
         # Check if the cache exists
         if os.path.exists(cache_path) and not dataset_skip_cache:
             print(f"✅ Found cached dataset at {cache_path}")
-            dataset = Dataset.load_from_disk(cache_path, keep_in_memory=True)
+            # region agent log
+            append_debug_log_dt(
+                session_id="debug-session",
+                run_id="run1",
+                hypothesis_id="H2",
+                location="dataset_transformation.py:load_from_disk_cached_start",
+                message="loading cached dataset into memory",
+                data={"cache_path": cache_path, "keep_in_memory": keep_dataset_in_memory},
+            )
+            # endregion agent log
+            dataset = Dataset.load_from_disk(cache_path, keep_in_memory=keep_dataset_in_memory)
+            # region agent log
+            append_debug_log_dt(
+                session_id="debug-session",
+                run_id="run1",
+                hypothesis_id="H2",
+                location="dataset_transformation.py:load_from_disk_cached_end",
+                message="cached dataset loaded",
+                data={"cache_path": cache_path, "keep_in_memory": keep_dataset_in_memory},
+            )
+            # endregion agent log
             # Load statistics from cache if available
             stats_path = os.path.join(cache_path, "dataset_statistics.json")
             if os.path.exists(stats_path):
@@ -1803,7 +1855,27 @@ class LocalDatasetTransformationCache:
         print(f"🚀 Saved transformed dataset to {cache_path}")
         print(f"✅ Found cached dataset at {cache_path}")
 
-        loaded_dataset = Dataset.load_from_disk(cache_path, keep_in_memory=True)
+        # region agent log
+        append_debug_log_dt(
+            session_id="debug-session",
+            run_id="run1",
+            hypothesis_id="H2",
+            location="dataset_transformation.py:load_from_disk_post_transform_start",
+            message="loading transformed dataset into memory",
+            data={"cache_path": cache_path, "keep_in_memory": keep_dataset_in_memory},
+        )
+        # endregion agent log
+        loaded_dataset = Dataset.load_from_disk(cache_path, keep_in_memory=keep_dataset_in_memory)
+        # region agent log
+        append_debug_log_dt(
+            session_id="debug-session",
+            run_id="run1",
+            hypothesis_id="H2",
+            location="dataset_transformation.py:load_from_disk_post_transform_end",
+            message="transformed dataset loaded",
+            data={"cache_path": cache_path, "keep_in_memory": keep_dataset_in_memory},
+        )
+        # endregion agent log
         return loaded_dataset, all_statistics
 
 
@@ -1879,6 +1951,7 @@ def get_cached_dataset_tulu_with_statistics(
     drop_dataset_source: bool = True,
     dataset_config_seed: int = 42,
     system_prompt_override: Optional[str] = None,
+    keep_dataset_in_memory: bool = True,
 ) -> Union[Dataset, Tuple[Dataset, Dict[str, Any]]]:
     if dataset_config_hash is None:
         dcs = load_dataset_configs(
@@ -1899,7 +1972,12 @@ def get_cached_dataset_tulu_with_statistics(
     elif dataset_cache_mode == "hf":
         cache = DatasetTransformationCache(config_hash=dataset_config_hash, hf_entity=hf_entity)
 
-    dataset, statistics = cache.load_or_transform_dataset(dcs, tc, dataset_skip_cache=dataset_skip_cache)
+    dataset, statistics = cache.load_or_transform_dataset(
+        dcs,
+        tc,
+        dataset_skip_cache=dataset_skip_cache,
+        keep_dataset_in_memory=keep_dataset_in_memory,
+    )
 
     if drop_dataset_source:
         dataset = remove_dataset_source_field(dataset)

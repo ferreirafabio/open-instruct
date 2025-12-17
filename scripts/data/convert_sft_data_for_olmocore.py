@@ -64,6 +64,7 @@ import gzip
 import json
 import os
 import sys
+import time
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -84,6 +85,30 @@ from open_instruct.dataset_transformation import (
     visualize_token,
 )
 from open_instruct.utils import ArgumentParserPlus, is_beaker_job
+
+DEBUG_LOG_PATH = "/work/dlclarge2/ferreira-oellm/open-instruct/.cursor/debug.log"
+
+
+def append_debug_log(
+    session_id: str,
+    run_id: str,
+    hypothesis_id: str,
+    location: str,
+    message: str,
+    data: Dict[str, Any],
+) -> None:
+    """Write a single NDJSON entry to the debug log."""
+    log_entry = {
+        "sessionId": session_id,
+        "runId": run_id,
+        "hypothesisId": hypothesis_id,
+        "location": location,
+        "message": message,
+        "data": data,
+        "timestamp": int(time.time() * 1000),
+    }
+    with open(DEBUG_LOG_PATH, "a") as log_file:
+        log_file.write(json.dumps(log_entry) + "\n")
 
 
 @dataclass
@@ -147,6 +172,20 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
         if os.path.exists(beaker_cache_dir):
             args.dataset_local_cache_dir = beaker_cache_dir
 
+    # region agent log
+    append_debug_log(
+        session_id="debug-session",
+        run_id="run1",
+        hypothesis_id="H1",
+        location="convert_sft_data_for_olmocore.py:main_start",
+        message="starting main",
+        data={
+            "dataset_mixer_list": args.dataset_mixer_list,
+            "max_seq_length": args.max_seq_length,
+        },
+    )
+    # endregion agent log
+
     print("Verify these values match the tokenizer config used in Olmo-core:")
     print(f"Tokenizer vocab_size: {tc.tokenizer.vocab_size}")
     print(f"Tokenizer bos_token_id: {tc.tokenizer.bos_token_id}")
@@ -187,6 +226,20 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
         ("sft_tulu_filter_v1", {}),  # remove examples that don't have any labels
     ]
 
+    # region agent log
+    append_debug_log(
+        session_id="debug-session",
+        run_id="run1",
+        hypothesis_id="H2",
+        location="convert_sft_data_for_olmocore.py:dataset_loading_start",
+        message="starting dataset load",
+        data={
+            "dataset_mixer_list": args.dataset_mixer_list,
+            "max_seq_length": args.max_seq_length,
+        },
+    )
+    # endregion agent log
+
     train_dataset, dataset_statistics = get_cached_dataset_tulu_with_statistics(
         dataset_mixer_list=args.dataset_mixer_list,
         dataset_mixer_list_splits=args.dataset_mixer_list_splits,
@@ -199,7 +252,22 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
         dataset_local_cache_dir=args.dataset_local_cache_dir,
         dataset_skip_cache=args.dataset_skip_cache,
         drop_dataset_source=False,
+        keep_dataset_in_memory=False,
     )
+
+    # region agent log
+    append_debug_log(
+        session_id="debug-session",
+        run_id="run1",
+        hypothesis_id="H2",
+        location="convert_sft_data_for_olmocore.py:dataset_loaded",
+        message="dataset loaded",
+        data={
+            "dataset_length": len(train_dataset),
+            "dataset_mixer_list": args.dataset_mixer_list,
+        },
+    )
+    # endregion agent log
 
     train_dataset = train_dataset.shuffle()
 
@@ -270,6 +338,22 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
             f"Expected all attention mask values to be 1, but found: {sample[ATTENTION_MASK_KEY]}"
         )
 
+        if idx % 500_000 == 0:
+            # region agent log
+            append_debug_log(
+                session_id="debug-session",
+                run_id="run1",
+                hypothesis_id="H1",
+                location="convert_sft_data_for_olmocore.py:collecting_tokens",
+                message="collection progress",
+                data={
+                    "idx": idx,
+                    "token_ids_length": len(token_ids),
+                    "labels_mask_length": len(labels_mask),
+                },
+            )
+            # endregion agent log
+
     train_dataset = remove_dataset_source_field(train_dataset)
 
     # Calculate final statistics
@@ -291,6 +375,16 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
         max_size_bytes = max_size_gb * 1024**3
 
         chunk_size = max_size_bytes // item_size
+        # region agent log
+        append_debug_log(
+            session_id="debug-session",
+            run_id="run1",
+            hypothesis_id="H3",
+            location="convert_sft_data_for_olmocore.py:chunk_size_calculated",
+            message="chunk size computed",
+            data={"chunk_size": chunk_size, "max_size_gb": max_size_gb},
+        )
+        # endregion agent log
         chunks = []
         chunk_boundaries = []
 
