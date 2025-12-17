@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #SBATCH --job-name=dolci-think-sft
-#SBATCH --partition=testdlc2_gpu-h200#alldlc2_gpu-h200
+#SBATCH --partition=alldlc2_gpu-h200 #testdlc2_gpu-h200#alldlc2_gpu-h200
 #SBATCH --nodes=1
-#SBATCH --gpus=2
-#SBATCH --time=1:00:00
+#SBATCH --gpus=8
+#SBATCH --time=24:00:00
 #SBATCH --output=slurm_logs/olmo3-7b-think-sft/%j.%x.%N.out
 #SBATCH --error=slurm_logs/olmo3-7b-think-sft/%j.%x.%N.err
 
@@ -22,9 +22,9 @@ export PYTHONPATH="${OLMOCORE_PATH}/src:${PYTHONPATH:-}"
 
 RUN_NAME="${RUN_NAME:-dolci-think-sft}"
 CLUSTER_NAME="slurm"
-GPUS="${GPUS:-2}"
+GPUS="${GPUS:-8}"
 DATASET_PATH="${DATASET_PATH:-/work/dlclarge2/ferreira-oellm/open-instruct/data/dolci_think_sft_tokenized}"
-BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/models/Olmo-3-1025-7B}"
+BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/models/Olmo-3-1025-7B-olmocore}"
 CACHE_DIR="${CACHE_DIR:-/work/dlclarge2/ferreira-oellm/open-instruct/.cache}"
 LEARNING_RATE="${LEARNING_RATE:-5e-5}"
 SEQ_LEN="${SEQ_LEN:-32768}"
