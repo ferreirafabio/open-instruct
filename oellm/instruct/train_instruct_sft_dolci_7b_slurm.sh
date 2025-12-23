@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=olmo3-7b-dolci-think-sft-singlenode
+#SBATCH --job-name=olmo3-7b-dolci-instruct-sft-singlenode
 #SBATCH --partition=alldlc2_gpu-h200
 #SBATCH --nodes=1
 #SBATCH --gpus=8
 #SBATCH --time=24:00:00
-#SBATCH --output=slurm_logs/olmo3-7b-dolci-think-sft-singlenode/%A_%a.%x.%N.out
-#SBATCH --error=slurm_logs/olmo3-7b-dolci-think-sft-singlenode/%A_%a.%x.%N.err
-#SBATCH --array=0-9%1
+#SBATCH --output=slurm_logs/olmo3-7b-dolci-instruct-sft-singlenode/%A_%a.%x.%N.out
+#SBATCH --error=slurm_logs/olmo3-7b-dolci-instruct-sft-singlenode/%A_%a.%x.%N.err
+#SBATCH --array=0-0%1
 
 set -euo pipefail
 
@@ -21,15 +21,21 @@ source /work/dlclarge2/ferreira-oellm/open-instruct/.venv/bin/activate
 OLMOCORE_PATH="/work/dlclarge2/ferreira-oellm/OLMo-core"
 export PYTHONPATH="${OLMOCORE_PATH}/src:${PYTHONPATH:-}"
 
-RUN_NAME="${RUN_NAME:-dolci-think-sft}"
+RUN_NAME="${RUN_NAME:-dolci-instruct-sft}"
 CLUSTER_NAME="slurm"
 GPUS="${GPUS:-8}"
-DATASET_PATH="${DATASET_PATH:-/work/dlclarge2/ferreira-oellm/open-instruct/data/dolci_think_sft_tokenized}"
-BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/models/Olmo-3-1025-7B-olmocore}"
+DATASET_PATH="${DATASET_PATH:-/work/dlclarge2/ferreira-oellm/open-instruct/data/dolci_instruct_sft_tokenized}"
+
+# BASE_CKPT should be the output of the think-sft stage
+# Adjust this path to point to your actual think-sft checkpoint
+THINK_SFT_RUN_NAME="dolci-think-sft"
+USER_NAME="${USER:-ferreira}"
+BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/checkpoints/${USER_NAME}/olmo3-7b-sft/${THINK_SFT_RUN_NAME}}"
+
 CACHE_DIR="${CACHE_DIR:-/work/dlclarge2/ferreira-oellm/open-instruct/.cache}"
-LEARNING_RATE="${LEARNING_RATE:-5e-5}"
+LEARNING_RATE="${LEARNING_RATE:-2e-5}"  # Often lower for the second stage
 SEQ_LEN="${SEQ_LEN:-32768}"
-GLOBAL_BATCH_SIZE="${GLOBAL_BATCH_SIZE:-$((SEQ_LEN * 32))}" # 1M tokens (per baseline paper)
+GLOBAL_BATCH_SIZE="${GLOBAL_BATCH_SIZE:-$((SEQ_LEN * 32))}" # 1M tokens per batch
 SEED="${SEED:-42}"
 
 export HF_HOME="${HF_HOME:-${CACHE_DIR}}"
@@ -38,7 +44,7 @@ export HF_MODULES_CACHE="${HF_MODULES_CACHE:-${HF_HOME}/modules}"
 export HF_HUB_CACHE="${HF_HUB_CACHE:-${HF_HOME}/hub}"
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
 
-# W&B (OLMo-core uses WandBCallback). We keep this "auto" so jobs don't crash if WANDB_API_KEY isn't set.
+# W&B
 WANDB_ENABLED="${WANDB_ENABLED:-auto}"
 if [[ "${WANDB_ENABLED}" == "auto" ]]; then
   if [[ -n "${WANDB_API_KEY:-}" ]]; then
@@ -49,13 +55,11 @@ if [[ "${WANDB_ENABLED}" == "auto" ]]; then
 fi
 WANDB_PROJECT="${WANDB_PROJECT:-olmo-sft}"
 WANDB_ENTITY="${WANDB_ENTITY:-}"
-# Tags must be a *list* for the OLMo-core config parser. Use a JSON-ish list string.
-WANDB_TAGS_JSON="${WANDB_TAGS_JSON:-[\"dolci\",\"think\",\"sft\",\"7b\"]}"
-# W&B "cancel by tag" checks require W&B API connectivity; disable by default to avoid 30s stalls on clusters w/o egress.
+WANDB_TAGS_JSON="${WANDB_TAGS_JSON:-[\"dolci\",\"instruct\",\"sft\",\"7b\"]}"
 WANDB_CANCEL_CHECK_INTERVAL="${WANDB_CANCEL_CHECK_INTERVAL:-1000000000}"
 WANDB_CANCEL_TAGS_JSON="${WANDB_CANCEL_TAGS_JSON:-[]}"
 
-mkdir -p slurm_logs/olmo3-7b-dolci-think-sft-singlenode "$HF_DATASETS_CACHE" "$HF_MODULES_CACHE" "$HF_HUB_CACHE"
+mkdir -p slurm_logs/olmo3-7b-dolci-instruct-sft-singlenode "$HF_DATASETS_CACHE" "$HF_MODULES_CACHE" "$HF_HUB_CACHE"
 
 echo "RUN_NAME=$RUN_NAME"
 echo "DATASET=$DATASET_PATH"
@@ -69,7 +73,7 @@ NUM_GPUS=$GPUS
 NUM_MACHINES=1
 MACHINE_RANK=0
 MAIN_PROCESS_IP=localhost
-MAIN_PROCESS_PORT=29500
+MAIN_PROCESS_PORT=29501 # Use a different port if running multiple jobs on the same node
 
 srun accelerate launch \
   --mixed_precision bf16 \
@@ -102,5 +106,5 @@ srun accelerate launch \
     --trainer.callbacks.wandb.cancel_tags="$WANDB_CANCEL_TAGS_JSON" \
     --save_tokenizer=True \
     --budget=unused \
-    --workspace=unused \
-    # seed is controlled by `init_seed` inside the SFT script config; avoid passing unsupported overrides here
+    --workspace=unused
+
