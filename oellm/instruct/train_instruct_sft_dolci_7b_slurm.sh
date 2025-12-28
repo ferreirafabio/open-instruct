@@ -23,20 +23,21 @@ export PYTHONPATH="${OLMOCORE_PATH}/src:${PYTHONPATH:-}"
 
 RUN_NAME="${RUN_NAME:-dolci-instruct-sft}"
 CLUSTER_NAME="slurm"
-GPUS="${GPUS:-8}"
+GPUS="${GPUS:-2}"
 DATASET_PATH="${DATASET_PATH:-/work/dlclarge2/ferreira-oellm/open-instruct/data/dolci_instruct_sft_tokenized}"
 
 # BASE_CKPT should be the output of the think-sft stage
 # Adjust this path to point to your actual think-sft checkpoint
 THINK_SFT_RUN_NAME="dolci-think-sft"
 USER_NAME="${USER:-ferreira}"
-BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/checkpoints/${USER_NAME}/olmo3-7b-sft/${THINK_SFT_RUN_NAME}}"
+# Default to a specific checkpoint step. Set THINK_SFT_STEP to "" to auto-detect latest.
+THINK_SFT_STEP="${THINK_SFT_STEP:-step42500}"
+BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/checkpoints/${USER_NAME}/olmo3-7b-sft/${THINK_SFT_RUN_NAME}/${THINK_SFT_STEP}}"
 
 CACHE_DIR="${CACHE_DIR:-/work/dlclarge2/ferreira-oellm/open-instruct/.cache}"
-LEARNING_RATE="${LEARNING_RATE:-2e-5}"  # Often lower for the second stage
+LEARNING_RATE="${LEARNING_RATE:-8e-5}"  # OLMo 3 paper: 8e-5 for Instruct SFT stage
 SEQ_LEN="${SEQ_LEN:-32768}"
 GLOBAL_BATCH_SIZE="${GLOBAL_BATCH_SIZE:-$((SEQ_LEN * 32))}" # 1M tokens per batch
-SEED="${SEED:-42}"
 
 export HF_HOME="${HF_HOME:-${CACHE_DIR}}"
 export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-${HF_HOME}/datasets}"
@@ -107,4 +108,5 @@ srun accelerate launch \
     --save_tokenizer=True \
     --budget=unused \
     --workspace=unused
+    # seed is controlled by `init_seed` inside the SFT script config; avoid passing unsupported overrides here
 

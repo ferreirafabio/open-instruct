@@ -30,13 +30,30 @@ CACHE_DIR="${CACHE_DIR:-/work/dlclarge2/ferreira-oellm/open-instruct/.cache}"
 LEARNING_RATE="${LEARNING_RATE:-5e-5}"
 SEQ_LEN="${SEQ_LEN:-32768}"
 GLOBAL_BATCH_SIZE="${GLOBAL_BATCH_SIZE:-$((SEQ_LEN * 32))}" # 1M tokens (per baseline paper)
-SEED="${SEED:-42}"
 
 export HF_HOME="${HF_HOME:-${CACHE_DIR}}"
 export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-${HF_HOME}/datasets}"
 export HF_MODULES_CACHE="${HF_MODULES_CACHE:-${HF_HOME}/modules}"
 export HF_HUB_CACHE="${HF_HUB_CACHE:-${HF_HOME}/hub}"
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export NCCL_P2P_LEVEL="${NCCL_P2P_LEVEL:-nvlink}"
+export NCCL_IB_DISABLE="${NCCL_IB_DISABLE:-1}"
+# Note: Don't set NCCL_ALGO=TREE as it doesn't support Broadcast with ncclInt8
+export NCCL_DEBUG="${NCCL_DEBUG:-WARN}"
+
+# Support a short smoke test run while keeping the production hyperparameters unchanged.
+TEST_RUN="${TEST_RUN:-false}"
+TEST_STEPS="${TEST_STEPS:-20}"
+EXTRA_ACCELERATE_ARGS=()
+if [[ "${TEST_RUN}" == "true" ]]; then
+  echo "TEST_RUN=true: limiting this submission to ${TEST_STEPS} steps."
+  EXTRA_ACCELERATE_ARGS+=(
+    "--trainer.max_duration.value=${TEST_STEPS}"
+    "--trainer.max_duration.unit=steps"
+    "--trainer.callbacks.checkpointer.save_interval=${TEST_STEPS}"
+    "--trainer.callbacks.checkpointer.ephemeral_save_interval=${TEST_STEPS}"
+  )
+fi
 
 # W&B (OLMo-core uses WandBCallback). We keep this "auto" so jobs don't crash if WANDB_API_KEY isn't set.
 WANDB_ENABLED="${WANDB_ENABLED:-auto}"
@@ -69,7 +86,7 @@ NUM_GPUS=$GPUS
 NUM_MACHINES=1
 MACHINE_RANK=0
 MAIN_PROCESS_IP=localhost
-MAIN_PROCESS_PORT=29500
+MAIN_PROCESS_PORT=29501
 
 srun accelerate launch \
   --mixed_precision bf16 \
@@ -103,4 +120,5 @@ srun accelerate launch \
     --save_tokenizer=True \
     --budget=unused \
     --workspace=unused \
+    "${EXTRA_ACCELERATE_ARGS[@]}"
     # seed is controlled by `init_seed` inside the SFT script config; avoid passing unsupported overrides here
