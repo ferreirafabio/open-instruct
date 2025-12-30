@@ -1,0 +1,3 @@
+srun: job 26992667 queued and waiting for resources
+srun: job 26992667 has been allocated resources
+Exit code: 0

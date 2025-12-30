@@ -6,7 +6,7 @@
 #SBATCH --time=24:00:00
 #SBATCH --output=slurm_logs/olmo3-7b-dolci-instruct-sft-singlenode/%A_%a.%x.%N.out
 #SBATCH --error=slurm_logs/olmo3-7b-dolci-instruct-sft-singlenode/%A_%a.%x.%N.err
-#SBATCH --array=0-0%1
+#SBATCH --array=0-9%1
 
 set -euo pipefail
 
@@ -23,14 +23,13 @@ export PYTHONPATH="${OLMOCORE_PATH}/src:${PYTHONPATH:-}"
 
 RUN_NAME="${RUN_NAME:-dolci-instruct-sft}"
 CLUSTER_NAME="slurm"
-GPUS="${GPUS:-2}"
+GPUS="${GPUS:-8}"
 DATASET_PATH="${DATASET_PATH:-/work/dlclarge2/ferreira-oellm/open-instruct/data/dolci_instruct_sft_tokenized}"
 
 # BASE_CKPT should be the output of the think-sft stage
 # Adjust this path to point to your actual think-sft checkpoint
 THINK_SFT_RUN_NAME="dolci-think-sft"
 USER_NAME="${USER:-ferreira}"
-# Default to a specific checkpoint step. Set THINK_SFT_STEP to "" to auto-detect latest.
 THINK_SFT_STEP="${THINK_SFT_STEP:-step42500}"
 BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/checkpoints/${USER_NAME}/olmo3-7b-sft/${THINK_SFT_RUN_NAME}/${THINK_SFT_STEP}}"
 
@@ -38,6 +37,20 @@ CACHE_DIR="${CACHE_DIR:-/work/dlclarge2/ferreira-oellm/open-instruct/.cache}"
 LEARNING_RATE="${LEARNING_RATE:-8e-5}"  # OLMo 3 paper: 8e-5 for Instruct SFT stage
 SEQ_LEN="${SEQ_LEN:-32768}"
 GLOBAL_BATCH_SIZE="${GLOBAL_BATCH_SIZE:-$((SEQ_LEN * 32))}" # 1M tokens per batch
+
+# Support a short smoke test run while keeping the production hyperparameters unchanged.
+TEST_RUN="${TEST_RUN:-false}"
+TEST_STEPS="${TEST_STEPS:-20}"
+EXTRA_ARGS=()
+if [[ "${TEST_RUN}" == "true" ]]; then
+  echo "TEST_RUN=true: limiting this submission to ${TEST_STEPS} steps."
+  EXTRA_ARGS+=(
+    "--trainer.max_duration.value=${TEST_STEPS}"
+    "--trainer.max_duration.unit=steps"
+    "--trainer.callbacks.checkpointer.save_interval=${TEST_STEPS}"
+    "--trainer.callbacks.checkpointer.ephemeral_save_interval=$((TEST_STEPS / 2))"
+  )
+fi
 
 export HF_HOME="${HF_HOME:-${CACHE_DIR}}"
 export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-${HF_HOME}/datasets}"
@@ -107,6 +120,7 @@ srun accelerate launch \
     --trainer.callbacks.wandb.cancel_tags="$WANDB_CANCEL_TAGS_JSON" \
     --save_tokenizer=True \
     --budget=unused \
-    --workspace=unused
+    --workspace=unused \
+    "${EXTRA_ARGS[@]}"
     # seed is controlled by `init_seed` inside the SFT script config; avoid passing unsupported overrides here
 
