@@ -91,6 +91,48 @@ curl http://localhost:8000/v1/chat/completions \
   }'
 ```
 
+## Option 3: Interactive Chat UI (Recommended)
+
+Serve the model with vLLM and a browser-based chat interface:
+
+```bash
+cd /work/dlclarge2/ferreira-oellm/open-instruct
+
+# Serve instruct model with public link (no port forwarding needed!)
+sbatch oellm/serve_model.sh instruct share
+
+# Serve think model with public link
+sbatch oellm/serve_model.sh think share
+```
+
+Check the log for the public Gradio URL:
+
+```bash
+tail -f oellm/serve_*.log
+# Look for: Running on public URL: https://xxxxx.gradio.live
+```
+
+Open the `gradio.live` link in your browser to chat with the model!
+
+### Manual Setup (separate terminals)
+
+If you prefer to run vLLM and the UI separately:
+
+```bash
+# Terminal 1: Start vLLM server
+srun -p alldlc2_gpu-h200 --gpus=1 --time=4:00:00 \
+  /work/dlclarge2/ferreira-oellm/open-instruct/.venv/bin/python \
+  -m vllm.entrypoints.openai.api_server \
+  --model /work/dlclarge2/ferreira-oellm/open-instruct/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf \
+  --served-model-name dolci-instruct \
+  --trust-remote-code \
+  --host 0.0.0.0 \
+  --port 8000
+
+# Terminal 2: Start Chat UI (on same node or with port forward)
+python oellm/chat_ui.py --api-base http://localhost:8000 --model dolci-instruct --share
+```
+
 ## Model Configuration
 
 Both models are OLMo-3 7B with:
@@ -103,6 +145,8 @@ Both models are OLMo-3 7B with:
 
 - `test_model.py` - Script to test models with sample prompts
 - `convert_to_hf.sh` - SLURM script to convert checkpoints to HuggingFace format
+- `serve_model.sh` - SLURM script to serve model with vLLM + chat UI
+- `chat_ui.py` - Gradio-based browser chat interface
 - `test_output_instruct.txt` - Sample outputs from instruct model
 - `test_output_think.txt` - Sample outputs from think model
 - `MODEL_TESTING_GUIDE.md` - This file
