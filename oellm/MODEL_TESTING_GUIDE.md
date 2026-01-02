@@ -9,6 +9,29 @@ Guide for testing the OLMo-3 7B SFT models trained with DOLCi data.
 | Instruct | `checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft/step3394/` | Direct instruction-following |
 | Think | `checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft/step43376/` | Chain-of-thought reasoning with `<think>` tags |
 
+## Evaluation
+
+For comprehensive model evaluation, see the [evaluations/](evaluations/) directory:
+
+| Type | Location | Description |
+|------|----------|-------------|
+| **Manual** | [`evaluations/manual/`](evaluations/manual/) | Interactive chat testing via vLLM + Gradio UI |
+| **Benchmarks** | [`evaluations/benchmarks/`](evaluations/benchmarks/) | Automated LLM-judge evaluation against baseline |
+
+### Quick Evaluation Start
+
+```bash
+# Download the baseline model for comparison
+sbatch oellm/evaluations/download_baseline.sh
+
+# Manual: Serve model with chat UI
+sbatch oellm/evaluations/manual/serve_model.sh instruct
+
+# Benchmarks: Run automated evaluation (requires slurmpilot setup)
+cd oellm/evaluations/benchmarks
+python launch_evaluation.py
+```
+
 ## Option 1: Direct Testing with OLMo-core
 
 Test models directly using the native OLMo-core checkpoint format:
@@ -93,26 +116,28 @@ curl http://localhost:8000/v1/chat/completions \
 
 ## Option 3: Interactive Chat UI (Recommended)
 
-Serve the model with vLLM and a browser-based chat interface:
+Serve the model with vLLM and a browser-based chat interface.
+
+> **Note**: Chat UI tools have moved to [`evaluations/manual/`](evaluations/manual/). See the [manual evaluation README](evaluations/manual/README.md) for full details.
 
 ```bash
 cd /work/dlclarge2/ferreira-oellm/open-instruct
 
-# Serve instruct model with public link (no port forwarding needed!)
-sbatch oellm/serve_model.sh instruct share
+# Serve instruct model
+sbatch oellm/evaluations/manual/serve_model.sh instruct
 
-# Serve think model with public link
-sbatch oellm/serve_model.sh think share
+# Serve think model
+sbatch oellm/evaluations/manual/serve_model.sh think
+
+# Serve baseline for comparison
+sbatch oellm/evaluations/manual/serve_model.sh baseline
 ```
 
-Check the log for the public Gradio URL:
+Check the log for connection instructions:
 
 ```bash
-tail -f oellm/serve_*.log
-# Look for: Running on public URL: https://xxxxx.gradio.live
+tail -f oellm/logs/serve_*.log
 ```
-
-Open the `gradio.live` link in your browser to chat with the model!
 
 ### Manual Setup (separate terminals)
 
@@ -130,7 +155,7 @@ srun -p alldlc2_gpu-h200 --gpus=1 --time=4:00:00 \
   --port 8000
 
 # Terminal 2: Start Chat UI (on same node or with port forward)
-python oellm/chat_ui.py --api-base http://localhost:8000 --model dolci-instruct --share
+python oellm/evaluations/manual/chat_ui.py --api-base http://localhost:8000 --model dolci-instruct --share
 ```
 
 ## Model Configuration
@@ -145,9 +170,12 @@ Both models are OLMo-3 7B with:
 
 - `test_model.py` - Script to test models with sample prompts
 - `convert_to_hf.sh` - SLURM script to convert checkpoints to HuggingFace format
-- `serve_model.sh` - SLURM script to serve model with vLLM + chat UI
-- `chat_ui.py` - Gradio-based browser chat interface
 - `test_output_instruct.txt` - Sample outputs from instruct model
 - `test_output_think.txt` - Sample outputs from think model
 - `MODEL_TESTING_GUIDE.md` - This file
+- `logs/` - SLURM job output logs (serve, convert, download)
+- `evaluations/` - Model evaluation tools
+  - `download_baseline.sh` - Download official baseline model
+  - `manual/` - Interactive chat testing (vLLM + Gradio)
+  - `benchmarks/` - Automated LLM-judge evaluation
 

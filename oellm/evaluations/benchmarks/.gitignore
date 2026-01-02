@@ -1,0 +1,7 @@
+# Cloned dependencies
+OpenJury/
+
+# Cached results
+*.json
+results/
+

@@ -3,7 +3,7 @@
 #SBATCH --partition=alldlc2_gpu-h200
 #SBATCH --gpus=1
 #SBATCH --time=1:00:00
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/convert_hf_%j.log
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/logs/convert_hf_%j.log
 
 set -euo pipefail
 

@@ -73,12 +73,7 @@ DEBUG_LOG_PATH = "/work/dlclarge2/ferreira-oellm/open-instruct/.cursor/debug.log
 
 
 def append_debug_log_dt(
-    session_id: str,
-    run_id: str,
-    hypothesis_id: str,
-    location: str,
-    message: str,
-    data: Dict[str, Any],
+    session_id: str, run_id: str, hypothesis_id: str, location: str, message: str, data: Dict[str, Any]
 ) -> None:
     log_entry = {
         "sessionId": session_id,
@@ -1973,10 +1968,7 @@ def get_cached_dataset_tulu_with_statistics(
         cache = DatasetTransformationCache(config_hash=dataset_config_hash, hf_entity=hf_entity)
 
     dataset, statistics = cache.load_or_transform_dataset(
-        dcs,
-        tc,
-        dataset_skip_cache=dataset_skip_cache,
-        keep_dataset_in_memory=keep_dataset_in_memory,
+        dcs, tc, dataset_skip_cache=dataset_skip_cache, keep_dataset_in_memory=keep_dataset_in_memory
     )
 
     if drop_dataset_source:

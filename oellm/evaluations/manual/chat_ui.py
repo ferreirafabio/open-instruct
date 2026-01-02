@@ -11,10 +11,16 @@ def create_chat_interface(api_base: str, model_name: str):
     
     def chat(message: str, history: list):
         messages = []
-        for user_msg, assistant_msg in history:
-            messages.append({"role": "user", "content": user_msg})
-            if assistant_msg:
-                messages.append({"role": "assistant", "content": assistant_msg})
+        # History format in newer Gradio: list of {"role": ..., "content": ...}
+        for msg in history:
+            if isinstance(msg, dict):
+                messages.append({"role": msg["role"], "content": msg["content"]})
+            else:
+                # Old tuple format fallback: (user, assistant)
+                user_msg, assistant_msg = msg
+                messages.append({"role": "user", "content": user_msg})
+                if assistant_msg:
+                    messages.append({"role": "assistant", "content": assistant_msg})
         messages.append({"role": "user", "content": message})
         
         response = client.chat.completions.create(
