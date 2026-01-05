@@ -22,8 +22,12 @@ MODEL_ID="allenai/Olmo-3-7B-Instruct-SFT"
 # Clean directory name (no nested HF cache structure)
 TARGET_DIR="$PROJECT_ROOT/models/baselines/Olmo-3-7B-Instruct-SFT"
 
+# Use project cache instead of home directory
+export HF_HOME="$PROJECT_ROOT/.cache/huggingface"
+
 echo "=== Downloading $MODEL_ID ==="
 echo "Target directory: $TARGET_DIR"
+echo "HF_HOME: $HF_HOME"
 echo ""
 
 # Activate the virtual environment
@@ -52,11 +56,13 @@ echo ""
 echo "=== Download Complete ==="
 echo "Model saved to: $TARGET_DIR"
 echo ""
-echo "Directory structure:"
-echo "  models/baselines/"
-echo "    Olmo-3-7B-Instruct-SFT/   <-- Downloaded (SFT baseline for comparison)"
-echo "    Olmo-3-1025-7B/           # Base model (pre-training, HF format)"
-echo "    Olmo-3-1025-7B-olmocore/  # Base model (OLMo-core format)"
+echo "Next steps:"
+echo "  1. Update symlinks for Instruct evaluation:"
+echo "     cd $PROJECT_ROOT/models"
+echo "     rm -f baseline ours"
+echo "     ln -s baselines/Olmo-3-7B-Instruct-SFT baseline"
+echo "     ln -s ../checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf ours"
 echo ""
-echo "You can now use this model for evaluation comparisons."
+echo "  2. Run evaluation:"
+echo "     sbatch oellm/evaluations/benchmarks/run_evaluation.sh all"
 
