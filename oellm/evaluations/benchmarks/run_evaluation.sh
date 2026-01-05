@@ -45,9 +45,7 @@ fi
 # Timestamped, informative results root to keep runs organized
 RESULTS_TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 BASELINE_NAME="$(basename "$BASELINE")"
-# We typically run all datasets; keep the label simple and stable.
-DATASET_LABEL="all"
-RESULTS_ROOT="$OPENJURY_DIR/results/${MODEL_TYPE}-${DATASET_LABEL}-${BASELINE_NAME}-${RESULTS_TIMESTAMP}"
+RESULTS_ROOT="$OPENJURY_DIR/results/${MODEL_TYPE}-${BASELINE_NAME}-${RESULTS_TIMESTAMP}"
 
 # Verify models exist
 if [ ! -d "$BASELINE" ]; then
