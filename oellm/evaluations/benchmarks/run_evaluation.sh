@@ -9,11 +9,12 @@
 # Compares trained model against baseline using automated judges
 #
 # Usage:
-#   sbatch run_evaluation.sh instruct              # Run instruct model on alpaca-eval
-#   sbatch run_evaluation.sh think                 # Run think model on alpaca-eval
-#   sbatch run_evaluation.sh instruct all          # Run instruct on all 3 datasets
-#   sbatch run_evaluation.sh think arena-hard      # Run think on specific dataset
-#   sbatch run_evaluation.sh think all 100         # Limit to 100 instructions (for testing)
+#   sbatch run_evaluation.sh instruct                          # Run instruct model on alpaca-eval
+#   sbatch run_evaluation.sh think                             # Run think model on alpaca-eval
+#   sbatch run_evaluation.sh instruct all                      # Run instruct on all 3 datasets
+#   sbatch run_evaluation.sh think arena-hard                  # Run think on specific dataset
+#   sbatch run_evaluation.sh think all 100                     # Limit to 100 instructions (for testing)
+#   sbatch run_evaluation.sh instruct all 50000 my-experiment  # Custom experiment name prefix
 
 set -euo pipefail
 
@@ -23,9 +24,10 @@ OPENJURY_DIR="$PROJECT_ROOT/oellm/evaluations/benchmarks/OpenJury"
 VENV_PYTHON="$PROJECT_ROOT/.venv/bin/python"
 
 # Arguments
-MODEL_TYPE="${1:-instruct}"   # instruct or think
-DATASET="${2:-alpaca-eval}"   # alpaca-eval, arena-hard, m-arena-hard-EU, or all
-N_INSTRUCTIONS="${3:-50000}"  # High number = use all available instructions
+MODEL_TYPE="${1:-instruct}"       # instruct or think
+DATASET="${2:-alpaca-eval}"       # alpaca-eval, arena-hard, m-arena-hard-EU, or all
+N_INSTRUCTIONS="${3:-50000}"      # High number = use all available instructions
+EXPERIMENT_NAME="${4:-baseline-repro}"  # Experiment name prefix for results dir
 
 # Set models based on type
 if [ "$MODEL_TYPE" == "instruct" ]; then
@@ -45,7 +47,7 @@ fi
 # Timestamped, informative results root to keep runs organized
 RESULTS_TIMESTAMP="$(date +%Y%m%d_%H%M%S)"
 BASELINE_NAME="$(basename "$BASELINE")"
-RESULTS_ROOT="$OPENJURY_DIR/results/${MODEL_TYPE}-${BASELINE_NAME}-${RESULTS_TIMESTAMP}"
+RESULTS_ROOT="$OPENJURY_DIR/results/${EXPERIMENT_NAME}-${BASELINE_NAME}-${RESULTS_TIMESTAMP}"
 
 # Verify models exist
 if [ ! -d "$BASELINE" ]; then
