@@ -66,10 +66,11 @@ export OPENJURY_EVAL_DATA="$PROJECT_ROOT/data/openjury-eval-data"
 export PYTHONPATH="$OPENJURY_DIR:${PYTHONPATH:-}"
 export HF_HOME="$PROJECT_ROOT/.cache/huggingface"
 
-# Debug mode - set DEBUG_EVAL=1 to enable detailed logging
-# Usage: DEBUG_EVAL=1 sbatch run_evaluation.sh ...
-export DEBUG_EVAL="${DEBUG_EVAL:-0}"
-export DEBUG_EVAL_FILE="${DEBUG_EVAL_FILE:-$PROJECT_ROOT/oellm/logs/eval_debug_${SLURM_JOB_ID:-local}.txt}"
+# Debug file is always created in the results directory
+# Clear any old debug file at job start so all datasets accumulate fresh
+DEBUG_FILE="$RESULTS_ROOT/debug_${SLURM_JOB_ID:-local}.txt"
+rm -f "$DEBUG_FILE" 2>/dev/null || true
+export DEBUG_EVAL_FILE="$DEBUG_FILE"
 
 # Ignore cache - set IGNORE_CACHE=1 to force fresh generation (avoids stale cached outputs)
 # Usage: IGNORE_CACHE=1 sbatch run_evaluation.sh ...
@@ -135,10 +136,47 @@ echo ""
 echo "=============================================="
 echo "Evaluation Complete!"
 echo "=============================================="
+
+# Generate summary file in the results directory
+SUMMARY_FILE="$RESULTS_ROOT/summary.txt"
+echo "Generating summary file: $SUMMARY_FILE"
+
+{
+    echo "=============================================="
+    echo "EVALUATION SUMMARY"
+    echo "=============================================="
+    echo "Job ID: ${SLURM_JOB_ID:-local}"
+    echo "Model Type: $MODEL_TYPE"
+    echo "Results Dir: $RESULTS_ROOT"
+    echo "Date: $(date)"
+    echo ""
+    
+    echo "=============================================="
+    echo "PREFERENCE SUMMARY (summarize_preferences.py)"
+    echo "=============================================="
+    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/summarize_preferences.py" --results-dir "$RESULTS_ROOT"
+    echo ""
+    
+    echo "=============================================="
+    echo "WINRATE TABLE (analyse_results.py)"
+    echo "=============================================="
+    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/analyse_results.py" --results-dir "$RESULTS_ROOT"
+    echo ""
+    
+    echo "=============================================="
+    echo "ORIGINAL FORMAT (analyse_results_original.py)"
+    echo "=============================================="
+    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/analyse_results_original.py" --results-dir "$RESULTS_ROOT" 2>/dev/null || echo "(skipped - may not support --results-dir)"
+    echo ""
+    
+} > "$SUMMARY_FILE" 2>&1
+
 echo ""
-echo "Debug log (detailed input/output/judge comparisons):"
-echo "  $DEBUG_EVAL_FILE"
+echo "Output files:"
+echo "  Summary:    $SUMMARY_FILE"
+echo "  Debug log:  $DEBUG_FILE"
+echo "  Results:    $RESULTS_ROOT"
 echo ""
-echo "Analyze results with:"
-echo "  uv run oellm/evaluations/benchmarks/analyse_results.py --type $MODEL_TYPE"
+echo "Quick view:"
+echo "  cat $SUMMARY_FILE"
 

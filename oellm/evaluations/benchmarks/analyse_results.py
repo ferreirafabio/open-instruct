@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import argparse
 import json
 import os
@@ -30,7 +32,7 @@ DEFAULT_RESULTS_ROOT = Path(
 TIMESTAMP_PATTERN = re.compile(r"^\d{8}_\d{6}$")
 
 
-def collect_result_dirs(cli_dirs: list[str] | None) -> list[Path]:
+def collect_result_dirs(cli_dirs: list[str] | None, latest_only: bool = False) -> list[Path]:
     """Return the list of result directories to scan."""
     if cli_dirs:
         return [Path(d).expanduser() for d in cli_dirs]
@@ -39,10 +41,14 @@ def collect_result_dirs(cli_dirs: list[str] | None) -> list[Path]:
         return []
 
     candidates = [d for d in DEFAULT_RESULTS_ROOT.iterdir() if d.is_dir()]
-    timestamped = [d for d in candidates if TIMESTAMP_PATTERN.match(d.name)]
+    
+    if latest_only and candidates:
+        # Sort by modification time, return only the most recent
+        candidates.sort(key=lambda d: d.stat().st_mtime, reverse=True)
+        return [candidates[0]]
 
-    # If timestamped dirs exist, use them all; otherwise fall back to root for legacy runs.
-    return timestamped if timestamped else [DEFAULT_RESULTS_ROOT]
+    # Return all directories
+    return candidates if candidates else [DEFAULT_RESULTS_ROOT]
 
 
 parser = argparse.ArgumentParser()
@@ -51,12 +57,24 @@ parser.add_argument(
     "--results-dir",
     action="append",
     help="Path to a results directory. Can be passed multiple times. "
-    "Defaults to all timestamped subdirectories under the standard results root, "
-    "or the root itself if none are timestamped.",
+    "Defaults to all subdirectories under the standard results root.",
+)
+parser.add_argument(
+    "--latest",
+    action="store_true",
+    default=True,
+    help="Only analyze the most recent results directory (by modification time). Default: True.",
+)
+parser.add_argument(
+    "--all",
+    action="store_true",
+    help="Analyze all results directories instead of just the latest.",
 )
 args = parser.parse_args()
 
-result_dirs = collect_result_dirs(args.results_dir)
+# --all overrides --latest
+latest_only = not args.all
+result_dirs = collect_result_dirs(args.results_dir, latest_only=latest_only)
 result_rows = []
 all_judges = set()
 
@@ -111,8 +129,19 @@ if not result_rows:
 else:
     df = pd.DataFrame(result_rows)
 
-    # Use short names for models in the table
-    df["model_B_short"] = df["model_B"].apply(lambda x: x.split("/")[-1])
+    # Use short names for models in the table (include parent for context, resolve symlinks)
+    def short_model_name(x):
+        # Strip provider prefix (e.g., "VLLM/")
+        path_str = x.split("VLLM/", 1)[-1] if "VLLM/" in x else x
+        p = Path(path_str)
+        if p.exists():
+            try:
+                p = p.resolve()  # Follow symlinks
+            except Exception:
+                pass
+        parts = p.parts
+        return "/".join(parts[-2:]) if len(parts) >= 2 else p.name
+    df["model_B_short"] = df["model_B"].apply(short_model_name)
 
     # Count runs per model/dataset
     counts = df.groupby(["model_B_short", "dataset"]).size().unstack()
@@ -120,8 +149,11 @@ else:
     # Create pivot table (initially Model A winrates)
     df_pivot = df.pivot_table(index="model_B_short", columns="dataset", values="winrate")
 
-    # Add baseline row (0.5)
-    baseline_name = f"{args.type}-baseline" if args.type else "instruct-baseline"
+    # Add baseline row (0.5) - use resolved model_A name
+    if not df.empty:
+        baseline_name = short_model_name(df["model_A"].iloc[0])
+    else:
+        baseline_name = f"{args.type}-baseline" if args.type else "instruct-baseline"
     if baseline_name not in df_pivot.index:
         df_pivot.loc[baseline_name] = 0.5
 
@@ -134,5 +166,6 @@ else:
 
     print("\nWINRATES (higher = better than baseline)")
     print("==========================================")
+    df_pivot.index.name = None  # Remove index name from output
     print(df_pivot.to_string(float_format="%.3f"))
     print()

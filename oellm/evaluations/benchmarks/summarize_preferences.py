@@ -7,9 +7,22 @@ Usage:
     python summarize_preferences.py --results-dir /path/to/results
 """
 
+from __future__ import annotations
+
 import argparse
 import json
 from pathlib import Path
+
+
+def get_latest_results_dir(root: Path) -> Path | None:
+    """Get the most recent results subdirectory by modification time."""
+    if not root.exists():
+        return None
+    candidates = [d for d in root.iterdir() if d.is_dir()]
+    if not candidates:
+        return root  # Fallback to root if no subdirs
+    candidates.sort(key=lambda d: d.stat().st_mtime, reverse=True)
+    return candidates[0]
 
 
 def main():
@@ -18,14 +31,27 @@ def main():
         "--results-dir",
         type=str,
         default=None,
-        help="Path to results directory. Defaults to OpenJury/results.",
+        help="Path to results directory. Defaults to latest in OpenJury/results.",
+    )
+    parser.add_argument(
+        "--all",
+        action="store_true",
+        help="Scan all results directories instead of just the latest.",
     )
     args = parser.parse_args()
 
+    root_dir = Path(__file__).parent / "OpenJury" / "results"
+
     if args.results_dir:
         results_dir = Path(args.results_dir).expanduser()
+    elif args.all:
+        results_dir = root_dir
     else:
-        results_dir = Path(__file__).parent / "OpenJury" / "results"
+        # Default: get latest results directory
+        results_dir = get_latest_results_dir(root_dir)
+        if results_dir is None:
+            print(f"Results directory not found: {root_dir}")
+            return
 
     if not results_dir.exists():
         print(f"Results directory not found: {results_dir}")
@@ -45,7 +71,7 @@ def main():
         model_a = first_data.get("model_A", "unknown")
         model_b = first_data.get("model_B", "unknown")
         
-        # Resolve symlinks and get actual model name
+        # Resolve symlinks and get actual model name with parent
         def resolve_model_name(raw: str) -> str:
             # Strip provider prefix (e.g., "VLLM/")
             path_str = raw.split("VLLM/", 1)[-1] if "VLLM/" in raw else raw
@@ -55,6 +81,10 @@ def main():
                     p = p.resolve()  # Follow symlinks
                 except Exception:
                     pass
+            # Return parent/name for more context
+            parts = p.parts
+            if len(parts) >= 2:
+                return "/".join(parts[-2:])
             return p.name
         
         model_a_short = resolve_model_name(model_a)
