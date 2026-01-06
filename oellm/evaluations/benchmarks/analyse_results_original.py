@@ -10,12 +10,16 @@ TODOs:
 """
 
 path = Path(
+    # "~/slurmpilot/jobs/llm-judge-elaine-model-llama3-70B-judge-2025-11-14-12-24-36"
+    # "/Users/salinasd/slurmpilot/jobs/llm-judge-elaine-model-llama3-70B-judge-v2-2025-11-17-17-33-58"
+    # "/Users/salinasd/slurmpilot/jobs/llm-judge-elaine-model/mixtures-2025-11-21-11-44-56"
     "/work/dlclarge2/ferreira-oellm/open-instruct/oellm/evaluations/benchmarks/OpenJury/results"
 ).expanduser()
 
 result_rows = []
 for result in path.rglob("*results-*.json"):
-    if result.parent.parent.name == "results":
+    # Accept any results-*.json file found under the results directory
+    if "results" in str(result):
         print(result)
         with open(result, "r") as f:
             res = json.load(f)

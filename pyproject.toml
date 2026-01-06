@@ -11,9 +11,9 @@ dependencies = [
     "bitsandbytes>=0.44.1; platform_system != 'Darwin'",
     "datasets>=4.0.0",
     "debugpy>=1.8.13",
-    "deepspeed<0.17.3",  # version 17.3 and up break our training code right now
+    "deepspeed<0.17.3", # version 17.3 and up break our training code right now
     "hf-transfer>=0.1.8",
-    "litellm>=1.72.0,<1.75.2",  # avoid needing backoff https://github.com/BerriAI/litellm/issues/13827
+    "litellm>=1.72.0,<1.75.2", # avoid needing backoff https://github.com/BerriAI/litellm/issues/13827
     "matplotlib>=3.9.3",
     "nltk>=3.9.1",
     "numpy<2",
@@ -26,12 +26,17 @@ dependencies = [
     "tensorboard>=2.18.0",
     "torch>=2.8.0,<2.9",
     "transformers>=4.57.0",
-    "vllm==0.11.0",
+    "vllm==0.10.2",
     "wandb==0.18.1",
     "langdetect==1.0.9",
     "immutabledict==1.2.0",
     "flash-attn>=2.8.3; platform_system != 'Darwin'",
     "liger-kernel>=0.5.4; platform_system != 'Darwin'",
+    "slurmpilot>=0.1.4.2",
+    "langchain==0.3.27",
+    "langchain-community==0.3.29",
+    "langchain-openai==0.3.32",
+    "langchain-together==0.3.1",
 ]
 
 [build-system]
@@ -52,6 +57,7 @@ flash-attn = { FLASH_ATTENTION_SKIP_CUDA_BUILD = "TRUE" }
 torch = [
   { index = "pytorch-cu128", marker = "platform_system != 'Darwin'"},
 ]
+slurmpilot = { git = "https://github.com/geoalgo/slurmpilot.git", rev = "main" }
 
 [[tool.uv.index]]
 name = "pytorch-cu128"

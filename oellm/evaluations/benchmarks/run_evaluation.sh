@@ -66,10 +66,14 @@ export OPENJURY_EVAL_DATA="$PROJECT_ROOT/data/openjury-eval-data"
 export PYTHONPATH="$OPENJURY_DIR:${PYTHONPATH:-}"
 export HF_HOME="$PROJECT_ROOT/.cache/huggingface"
 
-# Debug mode - set DEBUG_EVAL=1 and DEBUG_EVAL_FILE to enable detailed logging
+# Debug mode - set DEBUG_EVAL=1 to enable detailed logging
 # Usage: DEBUG_EVAL=1 sbatch run_evaluation.sh ...
 export DEBUG_EVAL="${DEBUG_EVAL:-0}"
 export DEBUG_EVAL_FILE="${DEBUG_EVAL_FILE:-$PROJECT_ROOT/oellm/logs/eval_debug_${SLURM_JOB_ID:-local}.txt}"
+
+# Ignore cache - set IGNORE_CACHE=1 to force fresh generation (avoids stale cached outputs)
+# Usage: IGNORE_CACHE=1 sbatch run_evaluation.sh ...
+IGNORE_CACHE="${IGNORE_CACHE:-0}"
 
 # Function to run single evaluation
 run_eval() {
@@ -100,13 +104,21 @@ run_eval() {
     ln -sf "$BASELINE" "$TEMP_BASELINE"
     ln -sf "$TRAINED" "$TEMP_OURS"
     
+    # Build optional flags
+    EXTRA_FLAGS=""
+    if [ "$IGNORE_CACHE" == "1" ]; then
+        EXTRA_FLAGS="$EXTRA_FLAGS --ignore_cache"
+        echo "Note: --ignore_cache enabled, forcing fresh generation"
+    fi
+
     $VENV_PYTHON openjury/generate_and_evaluate.py \
         --dataset "$dataset" \
         --model_A "VLLM/$TEMP_BASELINE" \
         --model_B "VLLM/$TEMP_OURS" \
         --judge_model "VLLM/$JUDGE_MODEL" \
         --n_instructions "$N_INSTRUCTIONS" \
-        --result_folder "$RESULTS_ROOT"
+        --result_folder "$RESULTS_ROOT" \
+        $EXTRA_FLAGS
 }
 
 # Run evaluation(s)
