@@ -27,12 +27,14 @@ VENV_PYTHON="$PROJECT_ROOT/.venv/bin/python"
 MODEL_TYPE="${1:-instruct}"       # instruct or think
 DATASET="${2:-alpaca-eval}"       # alpaca-eval, arena-hard, m-arena-hard-EU, or all
 N_INSTRUCTIONS="${3:-50000}"      # High number = use all available instructions
-EXPERIMENT_NAME="${4:-baseline-repro}"  # Experiment name prefix for results dir
+EXPERIMENT_NAME="${4:-baseline-repro}"
+#EXPERIMENT_NAME="${4:-instruct-correct-tokenizer-no-retrain}"  # Experiment name prefix for results dir
 
 # Set models based on type
 if [ "$MODEL_TYPE" == "instruct" ]; then
     BASELINE="$PROJECT_ROOT/models/baselines/Olmo-3-7B-Instruct-SFT"
-    TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf"
+    #TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf"
+    TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf-correct-instruct-tokenizer-without-training"
 elif [ "$MODEL_TYPE" == "think" ]; then
     # Default to stronger 32B think baseline; keep old 7B baseline noted for reference
     BASELINE="$PROJECT_ROOT/models/baselines/Olmo-3-7B-Think-SFT"

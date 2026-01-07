@@ -6,8 +6,8 @@ set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
-OUTPUT_DIR="${1:-${REPO_ROOT}/data/dolci_instruct_sft_tokenized}"
-TOKENIZER="${2:-allenai/Olmo-3-1025-7B}"
+OUTPUT_DIR="${1:-${REPO_ROOT}/data/dolci_instruct_sft_tokenized_correct_instruct_tok}"
+TOKENIZER="${2:-allenai/Olmo-3-7B-Instruct-SFT}"
 
 CACHE_DIR="${OUTPUT_DIR}/hf_cache"
 HF_HOME="${HF_HOME:-${CACHE_DIR}}"

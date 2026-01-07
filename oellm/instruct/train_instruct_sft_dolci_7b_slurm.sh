@@ -24,7 +24,7 @@ export PYTHONPATH="${OLMOCORE_PATH}/src:${PYTHONPATH:-}"
 RUN_NAME="${RUN_NAME:-dolci-instruct-sft}"
 CLUSTER_NAME="slurm"
 GPUS="${GPUS:-8}"
-DATASET_PATH="${DATASET_PATH:-/work/dlclarge2/ferreira-oellm/open-instruct/data/dolci_instruct_sft_tokenized}"
+DATASET_PATH="${DATASET_PATH:-/work/dlclarge2/ferreira-oellm/open-instruct/data/dolci_instruct_sft_tokenized_correct_instruct_tok}"
 
 # BASE_CKPT should be the output of the think-sft stage
 # Adjust this path to point to your actual think-sft checkpoint
