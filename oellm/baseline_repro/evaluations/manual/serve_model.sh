@@ -3,14 +3,14 @@
 #SBATCH --partition=alldlc2_gpu-h200
 #SBATCH --gpus=1
 #SBATCH --time=4:00:00
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/logs/serve_%j.log
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/baseline_repro/logs/serve_%j.log
 
 set -euo pipefail
 
 # Configuration
 PROJECT_ROOT="/work/dlclarge2/ferreira-oellm/open-instruct"
 VENV_PYTHON="$PROJECT_ROOT/.venv/bin/python"
-SCRIPT_DIR="$PROJECT_ROOT/oellm/evaluations/manual"
+SCRIPT_DIR="$PROJECT_ROOT/oellm/baseline_repro/evaluations/manual"
 VLLM_PORT=8000
 UI_PORT=7860
 
@@ -46,7 +46,7 @@ fi
 if [ ! -d "$MODEL_PATH" ]; then
     echo "Error: Model not found at $MODEL_PATH"
     if [ "$MODEL_TYPE" == "baseline" ]; then
-        echo "Run: sbatch $PROJECT_ROOT/oellm/evaluations/download_baseline.sh"
+        echo "Run: sbatch $PROJECT_ROOT/oellm/baseline_repro/evaluations/download_instruct_baseline.sh"
     fi
     exit 1
 fi

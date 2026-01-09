@@ -1,26 +1,25 @@
 #!/bin/bash
-#SBATCH --job-name=download-olmo3-think-sft
+#SBATCH --job-name=download-olmo3-think-sft-32b
 #SBATCH --partition=bosch_cpu-cascadelake
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --cpus-per-task=4
-#SBATCH --time=01:00:00
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/logs/download_think_baseline_%j.log
+#SBATCH --cpus-per-task=8
+#SBATCH --time=03:00:00
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/baseline_repro/logs/download_think_baseline_32b_%j.log
 
-# Download the official OLMo-3-7B-Think-SFT baseline model from HuggingFace
-# This is the SFT-only checkpoint (before DPO/RLVR), matching our training stage.
-# See: https://huggingface.co/allenai/Olmo-3-7B-Think-SFT
+# Download the OLMo-3-32B-Think-SFT baseline model from HuggingFace
+# See: https://huggingface.co/allenai/Olmo-3-32B-Think-SFT
 
-set -e
+set -euo pipefail
 
 # Use absolute paths (relative paths break on compute nodes)
 PROJECT_ROOT="/work/dlclarge2/ferreira-oellm/open-instruct"
 
 # Model to download
-MODEL_ID="allenai/Olmo-3-7B-Think-SFT"
+MODEL_ID="allenai/Olmo-3-32B-Think-SFT"
 
 # Clean directory name (no nested HF cache structure)
-TARGET_DIR="$PROJECT_ROOT/models/baselines/Olmo-3-7B-Think-SFT"
+TARGET_DIR="$PROJECT_ROOT/models/baselines/Olmo-3-32B-Think-SFT"
 
 # Use project cache instead of home directory
 export HF_HOME="$PROJECT_ROOT/.cache/huggingface"
@@ -57,12 +56,9 @@ echo "=== Download Complete ==="
 echo "Model saved to: $TARGET_DIR"
 echo ""
 echo "Next steps:"
-echo "  1. Update symlinks for Think evaluation:"
-echo "     cd $PROJECT_ROOT/models"
-echo "     rm -f baseline ours"
-echo "     ln -s baselines/Olmo-3-7B-Think-SFT baseline"
-echo "     ln -s ../checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-hf ours"
+echo "  1) Run think evaluation with the 32B baseline (override BASELINE path):"
+echo "     BASELINE=$TARGET_DIR \\"
+echo "     TRAINED=$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-hf \\"
+echo "     sbatch oellm/baseline_repro/evaluations/benchmarks/run_evaluation.sh think all"
 echo ""
-echo "  2. Run evaluation:"
-echo "     sbatch oellm/evaluations/benchmarks/run_evaluation.sh all"
 

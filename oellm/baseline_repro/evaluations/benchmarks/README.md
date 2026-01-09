@@ -14,7 +14,7 @@ This folder contains tools for automated benchmark evaluation using LLM judges. 
 Run the setup script on the cluster:
 
 ```bash
-cd /work/dlclarge2/ferreira-oellm/open-instruct/oellm/evaluations/benchmarks
+cd /work/dlclarge2/ferreira-oellm/open-instruct/oellm/baseline_repro/evaluations/benchmarks
 bash setup.sh
 ```
 
@@ -31,20 +31,20 @@ This will:
 cd /work/dlclarge2/ferreira-oellm/open-instruct
 
 # Run with defaults (alpaca-eval, 100 instructions)
-sbatch oellm/evaluations/benchmarks/run_evaluation.sh
+sbatch oellm/baseline_repro/evaluations/benchmarks/run_evaluation.sh
 
 # Specify dataset
-sbatch oellm/evaluations/benchmarks/run_evaluation.sh alpaca-eval
+sbatch oellm/baseline_repro/evaluations/benchmarks/run_evaluation.sh alpaca-eval
 
 # Specify dataset and number of instructions
-sbatch oellm/evaluations/benchmarks/run_evaluation.sh arena-hard 500
+sbatch oellm/baseline_repro/evaluations/benchmarks/run_evaluation.sh arena-hard 500
 ```
 
 ### Check Results
 
 ```bash
 # Watch the log
-tail -f oellm/logs/eval_*.log
+tail -f oellm/baseline_repro/logs/eval_*.log
 ```
 
 Output shows winrates:
@@ -104,7 +104,7 @@ Choose based on your needs:
 ### Job Failed
 Check logs:
 ```bash
-cat oellm/logs/eval_<jobid>.log
+cat oellm/baseline_repro/logs/eval_<jobid>.log
 ```
 
 ### Model Not Found

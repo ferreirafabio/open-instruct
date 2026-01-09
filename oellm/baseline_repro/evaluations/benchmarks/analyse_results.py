@@ -27,7 +27,7 @@ MODEL_CONFIGS = {
 }
 
 DEFAULT_RESULTS_ROOT = Path(
-    "/work/dlclarge2/ferreira-oellm/open-instruct/oellm/evaluations/benchmarks/OpenJury/results"
+    "/work/dlclarge2/ferreira-oellm/open-instruct/oellm/baseline_repro/evaluations/benchmarks/OpenJury/results"
 ).expanduser()
 TIMESTAMP_PATTERN = re.compile(r"^\d{8}_\d{6}$")
 

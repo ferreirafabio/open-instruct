@@ -31,7 +31,7 @@ evaluations/
 
 ```bash
 cd /work/dlclarge2/ferreira-oellm/open-instruct
-sbatch oellm/evaluations/download_baseline.sh
+sbatch oellm/baseline_repro/evaluations/download_baseline.sh
 ```
 
 ### 2. Manual Evaluation
@@ -39,7 +39,7 @@ sbatch oellm/evaluations/download_baseline.sh
 Interactive testing through a chat interface:
 
 ```bash
-sbatch oellm/evaluations/manual/serve_model.sh instruct
+sbatch oellm/baseline_repro/evaluations/manual/serve_model.sh instruct
 # Check log for Gradio URL
 ```
 
@@ -50,7 +50,7 @@ See [manual/README.md](manual/README.md) for details.
 Automated comparison using LLM judges:
 
 ```bash
-cd oellm/evaluations/benchmarks
+cd oellm/baseline_repro/evaluations/benchmarks
 python launch_evaluation.py  # From local machine with slurmpilot
 python analyse_results.py    # After jobs complete
 ```

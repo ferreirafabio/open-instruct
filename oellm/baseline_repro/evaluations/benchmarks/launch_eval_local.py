@@ -14,7 +14,7 @@ from pathlib import Path
 
 # Paths
 PROJECT_ROOT = Path("/work/dlclarge2/ferreira-oellm/open-instruct")
-OPENJURY_DIR = PROJECT_ROOT / "oellm/evaluations/benchmarks/OpenJury"
+OPENJURY_DIR = PROJECT_ROOT / "oellm/baseline_repro/evaluations/benchmarks/OpenJury"
 PYTHON_BINARY = str(PROJECT_ROOT / ".venv/bin/python")
 SYMLINK_DIR = PROJECT_ROOT / "models/eval"
 
@@ -77,7 +77,7 @@ for i, config in enumerate(job_configs):
 #SBATCH --partition=alldlc2_gpu-h200
 #SBATCH --gpus=1
 #SBATCH --time=4:00:00
-#SBATCH --output={PROJECT_ROOT}/oellm/logs/eval_%j.log
+#SBATCH --output={PROJECT_ROOT}/oellm/baseline_repro/logs/eval_%j.log
 
 cd {OPENJURY_DIR}
 export PYTHONPATH="{OPENJURY_DIR}:$PYTHONPATH"

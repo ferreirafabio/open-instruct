@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=4
 #SBATCH --time=02:00:00
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/logs/download_judge_%j.log
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/baseline_repro/logs/download_judge_%j.log
 
 # Download the Qwen3-30B judge model for LLM evaluation
 

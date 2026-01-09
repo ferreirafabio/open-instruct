@@ -22,13 +22,13 @@ For comprehensive model evaluation, see the [evaluations/](evaluations/) directo
 
 ```bash
 # Download the baseline model for comparison
-sbatch oellm/evaluations/download_baseline.sh
+sbatch oellm/baseline_repro/evaluations/download_baseline.sh
 
 # Manual: Serve model with chat UI
-sbatch oellm/evaluations/manual/serve_model.sh instruct
+sbatch oellm/baseline_repro/evaluations/manual/serve_model.sh instruct
 
 # Benchmarks: Run automated evaluation (requires slurmpilot setup)
-cd oellm/evaluations/benchmarks
+cd oellm/baseline_repro/evaluations/benchmarks
 python launch_evaluation.py
 ```
 
@@ -42,19 +42,19 @@ cd /work/dlclarge2/ferreira-oellm/open-instruct
 # Test instruct model
 srun -p alldlc2_gpu-h200 --gpus=1 --time=1:00:00 \
   /work/dlclarge2/ferreira-oellm/open-instruct/.venv/bin/python \
-  oellm/test_model.py \
+  oellm/baseline_repro/test_model.py \
   checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft/step3394 \
   --max-new-tokens 256 --name instruct
 
 # Test think model (use longer generation for reasoning)
 srun -p alldlc2_gpu-h200 --gpus=1 --time=1:00:00 \
   /work/dlclarge2/ferreira-oellm/open-instruct/.venv/bin/python \
-  oellm/test_model.py \
+  oellm/baseline_repro/test_model.py \
   checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft/step43376 \
   --max-new-tokens 512 --name think
 ```
 
-Output files are saved to `oellm/test_output_*.txt`.
+Output files are saved to `oellm/baseline_repro/test_output_*.txt`.
 
 ## Option 2: HuggingFace Format (for vLLM/transformers)
 
@@ -66,10 +66,10 @@ Run the conversion script:
 cd /work/dlclarge2/ferreira-oellm/open-instruct
 
 # Convert instruct model
-sbatch oellm/convert_to_hf.sh instruct
+sbatch oellm/baseline_repro/convert_to_hf.sh instruct
 
 # Convert think model
-sbatch oellm/convert_to_hf.sh think
+sbatch oellm/baseline_repro/convert_to_hf.sh think
 ```
 
 Converted models are saved to:
@@ -124,19 +124,19 @@ Serve the model with vLLM and a browser-based chat interface.
 cd /work/dlclarge2/ferreira-oellm/open-instruct
 
 # Serve instruct model
-sbatch oellm/evaluations/manual/serve_model.sh instruct
+sbatch oellm/baseline_repro/evaluations/manual/serve_model.sh instruct
 
 # Serve think model
-sbatch oellm/evaluations/manual/serve_model.sh think
+sbatch oellm/baseline_repro/evaluations/manual/serve_model.sh think
 
 # Serve baseline for comparison
-sbatch oellm/evaluations/manual/serve_model.sh baseline
+sbatch oellm/baseline_repro/evaluations/manual/serve_model.sh baseline
 ```
 
 Check the log for connection instructions:
 
 ```bash
-tail -f oellm/logs/serve_*.log
+tail -f oellm/baseline_repro/logs/serve_*.log
 ```
 
 ### Manual Setup (separate terminals)
@@ -155,7 +155,7 @@ srun -p alldlc2_gpu-h200 --gpus=1 --time=4:00:00 \
   --port 8000
 
 # Terminal 2: Start Chat UI (on same node or with port forward)
-python oellm/evaluations/manual/chat_ui.py --api-base http://localhost:8000 --model dolci-instruct --share
+python oellm/baseline_repro/evaluations/manual/chat_ui.py --api-base http://localhost:8000 --model dolci-instruct --share
 ```
 
 ## Model Configuration

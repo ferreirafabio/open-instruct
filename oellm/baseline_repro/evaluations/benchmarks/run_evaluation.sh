@@ -3,7 +3,7 @@
 #SBATCH --partition=alldlc2_gpu-h200
 #SBATCH --gpus=1
 #SBATCH --time=4:00:00
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/logs/eval_%j.log
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/baseline_repro/logs/eval_%j.log
 
 # LLM-Judge evaluation using OpenJury
 # Compares trained model against baseline using automated judges
@@ -20,7 +20,7 @@ set -euo pipefail
 
 # Configuration
 PROJECT_ROOT="/work/dlclarge2/ferreira-oellm/open-instruct"
-OPENJURY_DIR="$PROJECT_ROOT/oellm/evaluations/benchmarks/OpenJury"
+OPENJURY_DIR="$PROJECT_ROOT/oellm/baseline_repro/evaluations/benchmarks/OpenJury"
 VENV_PYTHON="$PROJECT_ROOT/.venv/bin/python"
 
 # Arguments
@@ -54,7 +54,7 @@ RESULTS_ROOT="$OPENJURY_DIR/results/${EXPERIMENT_NAME}-${BASELINE_NAME}-${RESULT
 # Verify models exist
 if [ ! -d "$BASELINE" ]; then
     echo "Error: Baseline model not found: $BASELINE"
-    echo "Download it first: sbatch oellm/evaluations/download_${MODEL_TYPE}_baseline.sh"
+    echo "Download it first: sbatch oellm/baseline_repro/evaluations/download_${MODEL_TYPE}_baseline.sh"
     exit 1
 fi
 if [ ! -d "$TRAINED" ]; then
@@ -123,6 +123,7 @@ run_eval() {
         --judge_model "VLLM/$JUDGE_MODEL" \
         --n_instructions "$N_INSTRUCTIONS" \
         --result_folder "$RESULTS_ROOT" \
+        --max_out_tokens_models 8192 \
         $EXTRA_FLAGS
 }
 
@@ -158,19 +159,19 @@ echo "Generating summary file: $SUMMARY_FILE"
     echo "=============================================="
     echo "PREFERENCE SUMMARY (summarize_preferences.py)"
     echo "=============================================="
-    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/summarize_preferences.py" --results-dir "$RESULTS_ROOT"
+    $VENV_PYTHON "$PROJECT_ROOT/oellm/baseline_repro/evaluations/benchmarks/summarize_preferences.py" --results-dir "$RESULTS_ROOT"
     echo ""
     
     echo "=============================================="
     echo "WINRATE TABLE (analyse_results.py)"
     echo "=============================================="
-    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/analyse_results.py" --results-dir "$RESULTS_ROOT"
+    $VENV_PYTHON "$PROJECT_ROOT/oellm/baseline_repro/evaluations/benchmarks/analyse_results.py" --results-dir "$RESULTS_ROOT"
     echo ""
     
     echo "=============================================="
     echo "ORIGINAL FORMAT (analyse_results_original.py)"
     echo "=============================================="
-    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/analyse_results_original.py" --results-dir "$RESULTS_ROOT" 2>/dev/null || echo "(skipped - may not support --results-dir)"
+    $VENV_PYTHON "$PROJECT_ROOT/oellm/baseline_repro/evaluations/benchmarks/analyse_results_original.py" --results-dir "$RESULTS_ROOT" 2>/dev/null || echo "(skipped - may not support --results-dir)"
     echo ""
     
 } > "$SUMMARY_FILE" 2>&1

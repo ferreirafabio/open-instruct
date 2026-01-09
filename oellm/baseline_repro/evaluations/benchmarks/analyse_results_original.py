@@ -10,7 +10,7 @@ TODOs:
 * plot winrates
 """
 
-DEFAULT_ROOT = Path("/work/dlclarge2/ferreira-oellm/open-instruct/oellm/evaluations/benchmarks/OpenJury/results")
+DEFAULT_ROOT = Path("/work/dlclarge2/ferreira-oellm/open-instruct/oellm/baseline_repro/evaluations/benchmarks/OpenJury/results")
 
 parser = argparse.ArgumentParser()
 parser.add_argument(

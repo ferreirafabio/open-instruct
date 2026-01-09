@@ -23,20 +23,20 @@ This folder contains tools for manually testing and comparing models through an 
 
 ```bash
 cd /work/dlclarge2/ferreira-oellm/open-instruct
-sbatch oellm/evaluations/download_baseline.sh
+sbatch oellm/baseline_repro/evaluations/download_baseline.sh
 ```
 
 ### 2. Serve a Model
 
 ```bash
 # Serve trained instruct model
-sbatch oellm/evaluations/manual/serve_model.sh instruct
+sbatch oellm/baseline_repro/evaluations/manual/serve_model.sh instruct
 
 # Serve trained think model
-sbatch oellm/evaluations/manual/serve_model.sh think
+sbatch oellm/baseline_repro/evaluations/manual/serve_model.sh think
 
 # Serve baseline for comparison
-sbatch oellm/evaluations/manual/serve_model.sh baseline
+sbatch oellm/baseline_repro/evaluations/manual/serve_model.sh baseline
 ```
 
 ### 3. Access the Chat UI
@@ -44,7 +44,7 @@ sbatch oellm/evaluations/manual/serve_model.sh baseline
 Check the log for connection instructions:
 
 ```bash
-tail -f oellm/logs/serve_*.log
+tail -f oellm/baseline_repro/logs/serve_*.log
 ```
 
 The log will show an SSH command like:
@@ -77,7 +77,7 @@ srun -p alldlc2_gpu-h200 --gpus=1 --time=4:00:00 \
   --port 8000
 
 # Terminal 2: Start Chat UI (on same node or with port forward)
-python oellm/evaluations/manual/chat_ui.py \
+python oellm/baseline_repro/evaluations/manual/chat_ui.py \
   --api-base http://localhost:8000 \
   --model dolci-instruct \
   --share
