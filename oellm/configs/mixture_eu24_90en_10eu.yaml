@@ -1,0 +1,39 @@
+# 90% English, 10% EU languages configuration
+# Good for maintaining strong English performance while adding multilingual capability
+
+english_ratio: 0.90
+
+languages:
+  # Major EU languages with explicit ratios
+  de: 0.02   # German: 2%
+  fr: 0.015  # French: 1.5%
+  es: 0.015  # Spanish: 1.5%
+  it: 0.01   # Italian: 1%
+  nl: 0.01   # Dutch: 1%
+  pl: 0.01   # Polish: 1%
+
+  # Remaining 2% distributed among other 17 EU languages (0.12% each)
+  others: 0.02
+
+datasets:
+  - nvidia-Nemotron-Post-Training-Dataset-v2.parquet
+  - HuggingFaceTB-smoltalk2.parquet
+  - mlabonne-open-perfectblend.parquet
+  - microsoft-orca-agentinstruct-1M-v1.parquet
+  - lmsys-lmsys-chat-1m.parquet
+  - Anthropic-hh-rlhf.parquet
+  - stanfordnlp-SHP.parquet
+  - berkeley-nest-Nectar.parquet
+  - lmsys-lmsys-arena-human-preference-55k.parquet
+  - allenai-comparia-preference-data-with-votes.parquet
+  - openbmb-UltraFeedback.parquet
+  - nvidia-Aegis-AI-Content-Safety-Dataset-2.0.parquet
+  - nvidia-HelpSteer2.parquet
+  - Intel-orca_dpo_pairs.parquet
+  - HumanLLMs-Human-Like-DPO-Dataset.parquet
+  - lmsys-mt_bench_human_judgments.parquet
+  - argilla-distilabel-math-preference-dpo.parquet
+  - jondurbin-truthy-dpo-v0.1.parquet
+
+seed: 42
+translation_model: facebook/nllb-200-distilled-600M

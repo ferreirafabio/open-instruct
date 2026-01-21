@@ -68,7 +68,7 @@ import time
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Any, Dict, List, Literal, Optional
+from typing import Any, Dict, List, Literal, Optional, Tuple
 
 import numpy as np
 from tqdm import tqdm
@@ -109,6 +109,107 @@ def append_debug_log(
     }
     with open(DEBUG_LOG_PATH, "a") as log_file:
         log_file.write(json.dumps(log_entry) + "\n")
+
+
+def save_checkpoint(output_dir: str, checkpoint_data: Dict[str, Any]) -> None:
+    """Save lightweight checkpoint to disk atomically."""
+    checkpoint_path = os.path.join(output_dir, "_checkpoint.json")
+    tmp_path = checkpoint_path + ".tmp"
+    with open(tmp_path, "w") as f:
+        json.dump(checkpoint_data, f, indent=2)
+    os.rename(tmp_path, checkpoint_path)  # Atomic on POSIX
+    print(f"Checkpoint saved: {checkpoint_data['samples_processed']} samples, {checkpoint_data['chunks_written']} chunks")
+
+
+def load_checkpoint(output_dir: str) -> Optional[Dict[str, Any]]:
+    """Load checkpoint from disk if it exists."""
+    checkpoint_path = os.path.join(output_dir, "_checkpoint.json")
+    if os.path.exists(checkpoint_path):
+        with open(checkpoint_path) as f:
+            return json.load(f)
+    return None
+
+
+def remove_checkpoint(output_dir: str) -> None:
+    """Remove checkpoint file after successful completion."""
+    checkpoint_path = os.path.join(output_dir, "_checkpoint.json")
+    if os.path.exists(checkpoint_path):
+        os.remove(checkpoint_path)
+        print(f"Removed checkpoint file: {checkpoint_path}")
+
+
+class PairedStreamingMemmapWriter:
+    """Write token_ids and labels_mask to memmap files with aligned chunks.
+
+    Both arrays are flushed together to ensure chunk boundaries match.
+    This prevents OOM by keeping only a buffer in memory instead of all tokens.
+    """
+
+    def __init__(
+        self,
+        output_dir: str,
+        token_dtype,
+        max_tokens_per_chunk: int = 500_000_000,  # ~1GB for uint16
+        start_chunk_idx: int = 0,
+        start_total_written: int = 0,
+    ):
+        self.output_dir = output_dir
+        self.token_dtype = token_dtype
+        self.max_tokens_per_chunk = max_tokens_per_chunk
+        self.token_buffer: List[int] = []
+        self.labels_buffer: List[int] = []
+        self.chunk_idx = start_chunk_idx
+        self.total_written = start_total_written
+        self.chunk_boundaries: List[Tuple[int, int]] = []
+
+    def write(self, tokens: List[int], labels: List[int]) -> None:
+        """Add tokens and labels to buffer, flush if threshold exceeded."""
+        assert len(tokens) == len(labels), f"Token/label length mismatch: {len(tokens)} vs {len(labels)}"
+        self.token_buffer.extend(tokens)
+        self.labels_buffer.extend(labels)
+
+        if len(self.token_buffer) >= self.max_tokens_per_chunk:
+            self._flush_buffer()
+
+    def _flush_buffer(self) -> None:
+        """Write both buffers to disk as new memmap chunks."""
+        if not self.token_buffer:
+            return
+
+        # Write token_ids
+        token_filename = f"{self.output_dir}/token_ids_part_{self.chunk_idx:04d}.npy"
+        token_arr = np.array(self.token_buffer, dtype=self.token_dtype)
+        token_mmap = np.memmap(token_filename, mode="w+", dtype=self.token_dtype, shape=(len(token_arr),))
+        token_mmap[:] = token_arr
+        token_mmap.flush()
+        del token_mmap
+
+        # Write labels_mask (same chunk boundary)
+        labels_filename = f"{self.output_dir}/labels_mask_part_{self.chunk_idx:04d}.npy"
+        labels_arr = np.array(self.labels_buffer, dtype=np.bool_)
+        labels_mmap = np.memmap(labels_filename, mode="w+", dtype=np.bool_, shape=(len(labels_arr),))
+        labels_mmap[:] = labels_arr
+        labels_mmap.flush()
+        del labels_mmap
+
+        chunk_start = self.total_written
+        chunk_end = self.total_written + len(self.token_buffer)
+        self.chunk_boundaries.append((chunk_start, chunk_end))
+
+        token_size_mb = len(self.token_buffer) * np.dtype(self.token_dtype).itemsize / 1024**2
+        labels_size_mb = len(self.labels_buffer) * np.dtype(np.bool_).itemsize / 1024**2
+        print(f"Written chunk {self.chunk_idx:04d}: {len(self.token_buffer):,} tokens "
+              f"(tokens: {token_size_mb:.1f} MB, labels: {labels_size_mb:.1f} MB)")
+
+        self.total_written += len(self.token_buffer)
+        self.token_buffer = []
+        self.labels_buffer = []
+        self.chunk_idx += 1
+
+    def finalize(self) -> List[Tuple[int, int]]:
+        """Flush remaining buffer and return chunk boundaries."""
+        self._flush_buffer()
+        return self.chunk_boundaries
 
 
 @dataclass
@@ -164,6 +265,18 @@ class ConvertSFTDataArguments:
     """Only write the tokenizer config to the output directory"""
     tokenizer_config_only: bool = field(default=False)
 
+    """Maximum chunk size in MB for streaming writes (default 1024 = 1GB)"""
+    max_chunk_size_mb: int = field(default=1024)
+
+    """Shuffle seed for reproducible dataset ordering"""
+    shuffle_seed: int = field(default=42)
+
+    """Resume from checkpoint if available"""
+    resume: bool = field(default=False)
+
+    """Save checkpoint every N samples (0 = no checkpoints)"""
+    checkpoint_interval: int = field(default=50000)
+
 
 def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
     args.dataset_local_cache_dir = os.path.abspath(args.dataset_local_cache_dir)
@@ -194,6 +307,20 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
     print(f"Tokenizer chat_template: {tc.tokenizer.chat_template}")
 
     output_dir = args.output_dir
+
+    # Check if tokenization already completed
+    stats_file = os.path.join(output_dir, "dataset_statistics.json")
+    if os.path.exists(stats_file):
+        print("=" * 50)
+        print("TOKENIZATION ALREADY COMPLETE")
+        print("=" * 50)
+        print(f"Found completion marker: {stats_file}")
+        print(f"Output directory: {output_dir}")
+        print()
+        print("To re-run tokenization, delete the output directory first:")
+        print(f"  rm -rf {output_dir}")
+        return
+
     os.makedirs(output_dir, exist_ok=True)
 
     tokenizer_output_dir = os.path.join(output_dir, "tokenizer")
@@ -269,7 +396,8 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
     )
     # endregion agent log
 
-    train_dataset = train_dataset.shuffle()
+    train_dataset = train_dataset.shuffle(seed=args.shuffle_seed)
+    print(f"Shuffled dataset with seed={args.shuffle_seed}")
 
     if args.visualize:
         print("Visualizing first example...")
@@ -281,19 +409,73 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
         print(f"Selecting {args.num_examples} examples for debugging")
         train_dataset = train_dataset.select(range(args.num_examples))
 
-    print("Collecting tokens from dataset...")
-    token_ids = []
-    labels_mask = []
+    total_samples = len(train_dataset)
+
+    # Choose dtype based on vocab size - Olmo-core does the
+    # same operation to infer the dtype of the token_ids array.
+    vocab_size = tc.tokenizer.vocab_size
+    token_dtype = None
+    for dtype in (np.uint8, np.uint16, np.uint32, np.uint64):
+        if (vocab_size - 1) <= np.iinfo(dtype).max:
+            token_dtype = dtype
+            print(f"Using dtype '{dtype}' for token_ids based on vocab size {vocab_size}")
+            break
+    if token_dtype is None:
+        raise ValueError(f"Vocab size {vocab_size} is too big for any numpy integer dtype!")
+
+    # Load checkpoint if resuming
+    checkpoint = load_checkpoint(output_dir) if args.resume else None
+    start_idx = 0
+    start_chunk_idx = 0
+    start_total_written = 0
+
+    if checkpoint:
+        start_idx = checkpoint["samples_processed"]
+        start_chunk_idx = checkpoint["chunks_written"]
+        start_total_written = checkpoint["total_tokens_written"]
+        print(f"Resuming from checkpoint: {start_idx:,} samples processed, {start_chunk_idx} chunks written")
+
+        if start_idx >= total_samples:
+            print("All samples already processed. Nothing to do.")
+            return
+
+        # Efficiently skip already-processed samples
+        train_dataset = train_dataset.select(range(start_idx, total_samples))
+        print(f"Skipped to sample {start_idx:,}, processing remaining {len(train_dataset):,}")
+
+    # Initialize paired streaming writer for incremental disk writes
+    # Calculate max tokens per chunk based on token dtype size
+    token_size = np.dtype(token_dtype).itemsize
+    max_tokens_per_chunk = (args.max_chunk_size_mb * 1024**2) // token_size
+    print(f"Streaming writes: max {max_tokens_per_chunk:,} tokens per chunk (~{args.max_chunk_size_mb} MB)")
+
+    writer = PairedStreamingMemmapWriter(
+        output_dir, token_dtype, max_tokens_per_chunk,
+        start_chunk_idx=start_chunk_idx,
+        start_total_written=start_total_written,
+    )
+
+    print("Collecting and streaming tokens from dataset...")
     sample: Mapping[str, Any]
     num_samples_skipped = 0
-    document_boundaries = []
-    current_position = 0
+    # Load document_boundaries from checkpoint or start fresh
+    document_boundaries = checkpoint.get("document_boundaries", []) if checkpoint else []
+    # Convert from lists back to tuples if loaded from JSON
+    document_boundaries = [tuple(b) for b in document_boundaries]
+    if document_boundaries:
+        print(f"Loaded {len(document_boundaries)} document boundaries from checkpoint")
+    current_position = start_total_written  # Continue from checkpoint position
+
+    # Running totals (since we no longer keep all tokens in memory)
+    total_tokens = start_total_written
+    total_trainable_tokens = checkpoint.get("total_trainable_tokens", 0) if checkpoint else 0
 
     # Track per-dataset statistics using dataset_source field
-    per_dataset_counts = {}
-    per_dataset_tokens = {}
-    per_dataset_trainable_tokens = {}
-    per_dataset_filtered = {}
+    per_dataset_counts = checkpoint.get("per_dataset_counts", {}) if checkpoint else {}
+    per_dataset_tokens = checkpoint.get("per_dataset_tokens", {}) if checkpoint else {}
+    per_dataset_trainable_tokens = checkpoint.get("per_dataset_trainable_tokens", {}) if checkpoint else {}
+    per_dataset_filtered = checkpoint.get("per_dataset_filtered", {}) if checkpoint else {}
+    num_samples_skipped = checkpoint.get("num_samples_skipped", 0) if checkpoint else 0
 
     for idx, sample in enumerate(
         tqdm(  # type: ignore
@@ -302,6 +484,8 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
             file=sys.stdout,
             bar_format="{l_bar}{bar}{r_bar}\n",  # better printing in beaker
             mininterval=10.0,
+            initial=start_idx,  # Start progress bar at checkpoint position (global)
+            total=total_samples,  # Always show total samples for consistent display
         )
     ):
         sample_length = len(sample[INPUT_IDS_KEY])
@@ -322,8 +506,15 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
         trainable_tokens_in_sample = sum(1 for label in sample_labels if label != -100)
         per_dataset_trainable_tokens[dataset_source] += trainable_tokens_in_sample
 
-        token_ids.extend(sample_tokens)
-        labels_mask.extend([1 if label != -100 else 0 for label in sample_labels])
+        # Stream tokens and labels to disk (writes chunk when buffer is full)
+        writer.write(
+            list(sample_tokens),
+            [1 if label != -100 else 0 for label in sample_labels]
+        )
+
+        # Update running totals
+        total_tokens += sample_length
+        total_trainable_tokens += trainable_tokens_in_sample
 
         # Record document boundary (start, end)
         document_boundaries.append((current_position, current_position + sample_length))
@@ -348,57 +539,45 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
                 message="collection progress",
                 data={
                     "idx": idx,
-                    "token_ids_length": len(token_ids),
-                    "labels_mask_length": len(labels_mask),
+                    "total_tokens": total_tokens,
+                    "chunks_written": writer.chunk_idx,
                 },
             )
             # endregion agent log
 
+        # Save checkpoint periodically (idx is local after select, so add start_idx for global)
+        global_samples_processed = start_idx + idx + 1
+        if args.checkpoint_interval > 0 and global_samples_processed % args.checkpoint_interval == 0:
+            save_checkpoint(output_dir, {
+                "samples_processed": global_samples_processed,
+                "chunks_written": writer.chunk_idx,
+                "total_tokens_written": total_tokens,
+                "total_trainable_tokens": total_trainable_tokens,
+                "num_samples_skipped": num_samples_skipped,
+                "per_dataset_counts": per_dataset_counts,
+                "per_dataset_tokens": per_dataset_tokens,
+                "per_dataset_trainable_tokens": per_dataset_trainable_tokens,
+                "per_dataset_filtered": per_dataset_filtered,
+                "document_boundaries": document_boundaries,
+            })
+
     train_dataset = remove_dataset_source_field(train_dataset)
 
-    # Calculate final statistics
-    total_instances = len(train_dataset)
-    total_tokens = len(token_ids)
-    total_trainable_tokens = sum(labels_mask)
+    # Finalize streaming writer (flush remaining buffer)
+    print("Finalizing streaming writes...")
+    chunk_boundaries = writer.finalize()
 
+    # Verify consistency
+    assert writer.total_written == total_tokens, (
+        f"Token count mismatch: {writer.total_written} vs {total_tokens}"
+    )
+
+    total_instances = len(train_dataset)
     print(f"Total sequences: {total_instances}")
     print(f"Total tokens: {total_tokens}")
-    print(f"Maximum token ID: {max(token_ids)}")
-    print(f"Labels mask sum (trainable tokens): {total_trainable_tokens}")
-    print("Writing data to numpy files...")
-    print(f"Number of samples that should be skipped: {num_samples_skipped}")
-
-    def write_memmap_chunked(base_filename, data, dtype, max_size_gb=1):
-        """Write data to multiple memmap files if size exceeds max_size_gb."""
-        # Calculate size in bytes
-        item_size = np.dtype(dtype).itemsize
-        max_size_bytes = max_size_gb * 1024**3
-
-        chunk_size = max_size_bytes // item_size
-        # region agent log
-        append_debug_log(
-            session_id="debug-session",
-            run_id="run1",
-            hypothesis_id="H3",
-            location="convert_sft_data_for_olmocore.py:chunk_size_calculated",
-            message="chunk size computed",
-            data={"chunk_size": chunk_size, "max_size_gb": max_size_gb},
-        )
-        # endregion agent log
-        chunks = []
-        chunk_boundaries = []
-
-        for i in range(0, len(data), chunk_size):
-            chunk_data = data[i : i + chunk_size]
-            filename = f"{base_filename}_part_{i // chunk_size:04d}.npy"
-            mmap = np.memmap(filename, mode="w+", dtype=dtype, shape=(len(chunk_data),))
-            mmap[:] = chunk_data
-            mmap.flush()
-            chunks.append(mmap)
-            chunk_boundaries.append((i, i + len(chunk_data)))
-            print(f"Written {filename} ({len(chunk_data) * item_size / 1024**3:.2f} GB)")
-
-        return chunks, chunk_boundaries
+    print(f"Trainable tokens: {total_trainable_tokens}")
+    print(f"Chunks written: {len(chunk_boundaries)}")
+    print(f"Number of samples with no labels (skipped): {num_samples_skipped}")
 
     def write_metadata_for_chunks(base_filename, document_boundaries, chunk_boundaries):
         """Write metadata files for each chunk with document boundaries."""
@@ -421,30 +600,8 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
 
             print(f"Written metadata {metadata_filename}")
 
-    # Choose dtype based on vocab size - Olmo-core does the
-    # same operation to infer the dtype of the token_ids array.
-    vocab_size = tc.tokenizer.vocab_size
-    token_dtype = None
-    for dtype in (np.uint8, np.uint16, np.uint32, np.uint64):
-        if (vocab_size - 1) <= np.iinfo(dtype).max:
-            token_dtype = dtype
-            print(f"Using `dtype '{dtype}' for token_ids based on vocab size {vocab_size}")
-            break
-    if token_dtype is None:
-        raise ValueError(f"Vocab size {vocab_size} is too big for any numpy integer dtype!")
-
-    print(f"Writing converted data to {output_dir}")
-    _, token_chunk_boundaries = write_memmap_chunked(f"{output_dir}/token_ids", token_ids, token_dtype)
-    write_metadata_for_chunks(f"{output_dir}/token_ids", document_boundaries, token_chunk_boundaries)
-
-    # Write labels_mask using the same chunk boundaries as token_ids
-    for i, (start, end) in enumerate(token_chunk_boundaries):
-        chunk_data = labels_mask[start:end]
-        filename = f"{output_dir}/labels_mask_part_{i:04d}.npy"
-        mmap = np.memmap(filename, mode="w+", dtype=np.bool_, shape=(len(chunk_data),))
-        mmap[:] = chunk_data
-        mmap.flush()
-        print(f"Written {filename} ({len(chunk_data) * np.dtype(np.bool_).itemsize / 1024**3:.2f} GB)")
+    # Write document boundary metadata for each chunk
+    write_metadata_for_chunks(f"{output_dir}/token_ids", document_boundaries, chunk_boundaries)
 
     print("Data conversion completed successfully!")
 
@@ -464,6 +621,10 @@ def main(args: ConvertSFTDataArguments, tc: TokenizerConfig):
         per_dataset_trainable_tokens=per_dataset_trainable_tokens,
         per_dataset_filtered=per_dataset_filtered,
     )
+
+    # Remove checkpoint after successful completion
+    remove_checkpoint(output_dir)
+    print("All processing completed successfully!")
 
 
 def write_dataset_statistics(

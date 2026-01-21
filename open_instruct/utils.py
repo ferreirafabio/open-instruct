@@ -116,6 +116,9 @@ class MetricsTracker:
 
 def max_num_processes() -> int:
     """Returns a reasonable default number of processes to run for multiprocessing."""
+    # Check BEAKER_ASSIGNED_CPU_COUNT first (used to limit workers on shared clusters)
+    if "BEAKER_ASSIGNED_CPU_COUNT" in os.environ:
+        return int(float(os.environ["BEAKER_ASSIGNED_CPU_COUNT"]))
     if hasattr(os, "sched_getaffinity"):
         return len(os.sched_getaffinity(0))
     else:

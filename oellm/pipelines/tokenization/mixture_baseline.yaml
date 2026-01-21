@@ -1,0 +1,58 @@
+# Baseline Dataset Mixture for OLMo-core SFT Training (100% English)
+#
+# This config includes all preprocessed English datasets for baseline reproduction.
+# Weights control sampling ratio during tokenization.
+#
+# Usage:
+#   sbatch oellm/pipelines/tokenization/tokenize_baseline.sh
+
+datasets:
+  # Large general-purpose datasets
+  - name: nvidia-Nemotron-Post-Training-Dataset-v2.parquet
+    weight: 1.0
+  - name: HuggingFaceTB-smoltalk2.parquet
+    weight: 1.0
+  - name: mlabonne-open-perfectblend.parquet
+    weight: 1.0
+
+  # Instruction-following
+  - name: microsoft-orca-agentinstruct-1M-v1.parquet
+    weight: 1.0
+
+  # Chat data
+  - name: lmsys-lmsys-chat-1m.parquet
+    weight: 1.0
+
+  # Preference/RLHF datasets (using chosen responses)
+  - name: Anthropic-hh-rlhf.parquet
+    weight: 1.0
+  - name: stanfordnlp-SHP.parquet
+    weight: 1.0
+  - name: berkeley-nest-Nectar.parquet
+    weight: 1.0
+  - name: lmarena-ai-arena-human-preference-55k.parquet
+    weight: 1.0
+  - name: ministere-culture-comparia-votes.parquet
+    weight: 1.0
+  - name: argilla-ultrafeedback-binarized-preferences-cleaned.parquet
+    weight: 1.0
+  - name: nvidia-HelpSteer2.parquet
+    weight: 1.0
+  - name: argilla-distilabel-intel-orca-dpo-pairs.parquet
+    weight: 1.0
+  - name: HumanLLMs-Human-Like-DPO-Dataset.parquet
+    weight: 1.0
+  - name: argilla-distilabel-capybara-dpo-7k-binarized.parquet
+    weight: 1.0
+  - name: lmsys-mt_bench_human_judgments.parquet
+    weight: 1.0
+  - name: jondurbin-truthy-dpo-v0.1.parquet
+    weight: 1.0
+
+  # Math and reasoning
+  - name: argilla-distilabel-math-preference-dpo.parquet
+    weight: 1.0
+
+  # Safety
+  - name: nvidia-Aegis-AI-Content-Safety-Dataset-2.0.parquet
+    weight: 1.0

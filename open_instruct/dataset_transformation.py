@@ -1571,6 +1571,7 @@ def get_dataset_v1(dc: DatasetConfig, tc: TokenizerConfig):
     )
     # beaker specific logic; we may get assigned 15.5 CPU, so we convert it to float then int
     num_proc = int(float(os.environ.get("BEAKER_ASSIGNED_CPU_COUNT", multiprocessing.cpu_count())))
+    print(f"Using num_proc={num_proc} for dataset processing")
 
     tokenizer = tc.tokenizer
     dataset = dc.dataset

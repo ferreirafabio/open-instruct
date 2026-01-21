@@ -160,3 +160,7 @@ cache/
 local_dataset_cache/
 scratch/
 .nfs*
+
+# SLURM logs
+oellm/train/logs/
+oellm/evaluations/logs/

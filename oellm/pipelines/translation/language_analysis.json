@@ -1,0 +1,180 @@
+{
+  "Anthropic-hh-rlhf.parquet": {
+    "total_rows": 169352,
+    "samples": 200,
+    "languages": {
+      "en": 196,
+      "?": 2,
+      "af": 1,
+      "es": 1
+    }
+  },
+  "HuggingFaceTB-smoltalk2.parquet": {
+    "total_rows": 2062987,
+    "samples": 200,
+    "languages": {
+      "en": 168,
+      "fr": 11,
+      "es": 5,
+      "de": 5,
+      "ca": 3,
+      "it": 3,
+      "pt": 2,
+      "id": 1,
+      "zh-cn": 1,
+      "sv": 1
+    }
+  },
+  "HumanLLMs-Human-Like-DPO-Dataset.parquet": {
+    "total_rows": 10884,
+    "samples": 200,
+    "languages": {
+      "en": 198,
+      "hr": 1,
+      "af": 1
+    }
+  },
+  "argilla-distilabel-capybara-dpo-7k-binarized.parquet": {
+    "total_rows": 7563,
+    "samples": 200,
+    "languages": {
+      "en": 200
+    }
+  },
+  "argilla-distilabel-intel-orca-dpo-pairs.parquet": {
+    "total_rows": 12859,
+    "samples": 200,
+    "languages": {
+      "en": 200
+    }
+  },
+  "argilla-distilabel-math-preference-dpo.parquet": {
+    "total_rows": 2418,
+    "samples": 200,
+    "languages": {
+      "en": 200
+    }
+  },
+  "argilla-ultrafeedback-binarized-preferences-cleaned.parquet": {
+    "total_rows": 60917,
+    "samples": 200,
+    "languages": {
+      "en": 199,
+      "fr": 1
+    }
+  },
+  "berkeley-nest-Nectar.parquet": {
+    "total_rows": 182954,
+    "samples": 200,
+    "languages": {
+      "en": 195,
+      "?": 1,
+      "af": 1,
+      "da": 1,
+      "ca": 1,
+      "nl": 1
+    }
+  },
+  "jondurbin-truthy-dpo-v0.1.parquet": {
+    "total_rows": 1016,
+    "samples": 200,
+    "languages": {
+      "en": 200
+    }
+  },
+  "lmarena-ai-arena-human-preference-55k.parquet": {
+    "total_rows": 57477,
+    "samples": 200,
+    "languages": {
+      "en": 191,
+      "it": 3,
+      "fr": 3,
+      "af": 1,
+      "nl": 1,
+      "pt": 1
+    }
+  },
+  "lmsys-lmsys-chat-1m.parquet": {
+    "total_rows": 1000000,
+    "samples": 200,
+    "languages": {
+      "en": 152,
+      "pt": 10,
+      "es": 7,
+      "?": 7,
+      "ru": 6,
+      "it": 6,
+      "de": 6,
+      "he": 1,
+      "ca": 1,
+      "ro": 1
+    }
+  },
+  "lmsys-mt_bench_human_judgments.parquet": {
+    "total_rows": 1282,
+    "samples": 200,
+    "languages": {
+      "en": 200
+    }
+  },
+  "microsoft-orca-agentinstruct-1M-v1.parquet": {
+    "total_rows": 1046410,
+    "samples": 200,
+    "languages": {
+      "en": 200
+    }
+  },
+  "ministere-culture-comparia-votes.parquet": {
+    "total_rows": 25542,
+    "samples": 200,
+    "languages": {
+      "fr": 190,
+      "en": 6,
+      "es": 2,
+      "da": 1,
+      "it": 1
+    }
+  },
+  "mlabonne-open-perfectblend.parquet": {
+    "total_rows": 1420909,
+    "samples": 200,
+    "languages": {
+      "en": 197,
+      "ml": 1,
+      "it": 1,
+      "da": 1
+    }
+  },
+  "nvidia-Aegis-AI-Content-Safety-Dataset-2.0.parquet": {
+    "total_rows": 12628,
+    "samples": 200,
+    "languages": {
+      "en": 197,
+      "?": 2,
+      "pt": 1
+    }
+  },
+  "nvidia-HelpSteer2.parquet": {
+    "total_rows": 9125,
+    "samples": 200,
+    "languages": {
+      "en": 198,
+      "fr": 1,
+      "pt": 1
+    }
+  },
+  "nvidia-Nemotron-Post-Training-Dataset-v2.parquet": {
+    "total_rows": 6341414,
+    "samples": 200,
+    "languages": {
+      "en": 200
+    }
+  },
+  "stanfordnlp-SHP.parquet": {
+    "total_rows": 385563,
+    "samples": 200,
+    "languages": {
+      "en": 200
+    }
+  }
+}
