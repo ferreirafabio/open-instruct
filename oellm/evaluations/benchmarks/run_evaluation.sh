@@ -15,6 +15,8 @@
 #   sbatch oellm/evaluations/benchmarks/run_evaluation.sh think arena-hard
 #   sbatch oellm/evaluations/benchmarks/run_evaluation.sh think all 100
 #   sbatch oellm/evaluations/benchmarks/run_evaluation.sh instruct all 50000 my-experiment
+#   sbatch oellm/evaluations/benchmarks/run_evaluation.sh think all 8000 my-exp /path/to/trained/model
+#   EVAL_MODE=rubric sbatch oellm/evaluations/benchmarks/run_evaluation.sh instruct alpaca-eval
 
 set -euo pipefail
 
@@ -28,12 +30,14 @@ MODEL_TYPE="${1:-instruct}"       # instruct or think
 DATASET="${2:-alpaca-eval}"       # alpaca-eval, arena-hard, m-arena-hard-EU, or all
 N_INSTRUCTIONS="${3:-50000}"      # High number = use all available instructions
 EXPERIMENT_NAME="${4:-quick-fix-65k-config}"
+TRAINED_OVERRIDE="${5:-}"         # Optional: path to trained model (overrides default)
 
 # Generation hyperparameters
 MAX_OUT_TOKENS="${MAX_OUT_TOKENS:-32768}"
 MAX_OUT_TOKENS_JUDGE="${MAX_OUT_TOKENS_JUDGE:-32768}"
 TRUNCATE_CHARS="${TRUNCATE_CHARS:-32768}"
 SWAP_MODE="${SWAP_MODE:-fixed}"  # "fixed" or "both" (both corrects position bias, 2x compute)
+EVAL_MODE="${EVAL_MODE:-winrate}"  # "winrate" or "rubric" (rubric: independent 1-7 Likert on 4 criteria)
 PROVIDE_EXPLANATION="${PROVIDE_EXPLANATION:-true}"  # Judge explains reasoning before verdict
 #EXPERIMENT_NAME="${4:-baseline-repro}"  # Old experiment name
 
@@ -41,18 +45,19 @@ PROVIDE_EXPLANATION="${PROVIDE_EXPLANATION:-true}"  # Judge explains reasoning b
 if [ "$MODEL_TYPE" == "instruct" ]; then
     BASELINE="$PROJECT_ROOT/models/baselines/Olmo-3-7B-Instruct-SFT"
     TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf-65k-config-fix"
-    #TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf"  # Original (32k config)
-    #TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf-correct-instruct-tokenizer-without-training"
 elif [ "$MODEL_TYPE" == "think" ]; then
-    # Default to stronger 32B think baseline; keep old 7B baseline noted for reference
     BASELINE="$PROJECT_ROOT/models/baselines/Olmo-3-7B-Think-SFT"
-    #BASELINE="$PROJECT_ROOT/models/baselines/Olmo-3-32B-Think-SFT"
-    TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-hf-65k-config-fix"
-    #TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-hf"  # Original (32k config)
+    TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-v2-horeka-hf"
+    #TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-hf-65k-config-fix"  # Previous (65k config fix)
 else
     echo "Error: MODEL_TYPE must be 'instruct' or 'think', got: $MODEL_TYPE"
-    echo "Usage: sbatch run_evaluation.sh [instruct|think] [dataset] [n_instructions]"
+    echo "Usage: sbatch run_evaluation.sh [instruct|think] [dataset] [n_instructions] [experiment_name] [trained_model_path]"
     exit 1
+fi
+
+# Override trained model if 5th argument provided
+if [ -n "$TRAINED_OVERRIDE" ]; then
+    TRAINED="$TRAINED_OVERRIDE"
 fi
 
 # Timestamped, informative results root to keep runs organized
@@ -104,6 +109,7 @@ echo "  Judge:          $JUDGE_MODEL"
 echo ""
 echo "Hyperparameters:"
 echo "  IGNORE_CACHE:       $IGNORE_CACHE"
+echo "  eval_mode:          $EVAL_MODE"
 echo "  max_out_tokens:     $MAX_OUT_TOKENS"
 echo "  max_out_tokens_judge: $MAX_OUT_TOKENS_JUDGE"
 echo "  truncate_chars:     $TRUNCATE_CHARS"
@@ -169,6 +175,7 @@ run_eval() {
         --max_out_tokens_judge $MAX_OUT_TOKENS_JUDGE \
         --truncate_all_input_chars $TRUNCATE_CHARS \
         --swap_mode $SWAP_MODE \
+        --eval_mode $EVAL_MODE \
         $EXPLAIN_FLAG \
         $EXTRA_FLAGS
 }
@@ -198,10 +205,12 @@ echo "Generating summary file: $SUMMARY_FILE"
     echo "=============================================="
     echo "Job ID: ${SLURM_JOB_ID:-local}"
     echo "Model Type: $MODEL_TYPE"
+    echo "Eval Mode: $EVAL_MODE"
     echo "Results Dir: $RESULTS_ROOT"
     echo "Date: $(date)"
     echo ""
     echo "--- Hyperparameters ---"
+    echo "eval_mode: $EVAL_MODE"
     echo "max_out_tokens_models: $MAX_OUT_TOKENS"
     echo "max_out_tokens_judge: $MAX_OUT_TOKENS_JUDGE"
     echo "truncate_all_input_chars: $TRUNCATE_CHARS"
@@ -217,24 +226,60 @@ echo "Generating summary file: $SUMMARY_FILE"
     echo "tokenizer: (from model, via vllm.LLM.chat())"
     echo ""
 
-    echo "=============================================="
-    echo "PREFERENCE SUMMARY (summarize_preferences.py)"
-    echo "=============================================="
-    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/summarize_preferences.py" --results-dir "$RESULTS_ROOT"
-    echo ""
-    
-    echo "=============================================="
-    echo "WINRATE TABLE (analyse_results.py)"
-    echo "=============================================="
-    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/analyse_results.py" --results-dir "$RESULTS_ROOT"
-    echo ""
-    
-    echo "=============================================="
-    echo "ORIGINAL FORMAT (analyse_results_original.py)"
-    echo "=============================================="
-    $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/analyse_results_original.py" --results-dir "$RESULTS_ROOT" 2>/dev/null || echo "(skipped - may not support --results-dir)"
-    echo ""
-    
+    if [ "$EVAL_MODE" == "rubric" ]; then
+        echo "=============================================="
+        echo "RUBRIC RESULTS"
+        echo "=============================================="
+        for results_json in "$RESULTS_ROOT"/*/results-*.json; do
+            [ -f "$results_json" ] || continue
+            echo ""
+            $VENV_PYTHON -c "
+import json, sys
+with open('$results_json') as f:
+    r = json.load(f)
+print(f\"Dataset: {r['dataset']}\")
+print(f\"Judge:   {r['judge_model']}\")
+print(f\"Model A: {r['model_A']}\")
+print(f\"Model B: {r['model_B']}\")
+print()
+print(f\"  {'Criterion':<25s} {'Model A':>10s} {'Model B':>10s}\")
+print('  ' + '-' * 47)
+for c in r['criteria']:
+    label = c.replace('_', ' ').title()
+    sa = r['model_A_scores'].get(f'{c}_score', 0)
+    sb = r['model_B_scores'].get(f'{c}_score', 0)
+    print(f'  {label:<25s} {sa:>10.2f} {sb:>10.2f}')
+print('  ' + '-' * 47)
+ca = r['model_A_scores'].get('composite_score', 0)
+cb = r['model_B_scores'].get('composite_score', 0)
+print(f\"  {'Composite (0-1)':<25s} {ca:>10.3f} {cb:>10.3f}\")
+fa = r.get('model_A_parse_failures', 0)
+fb = r.get('model_B_parse_failures', 0)
+print(f\"  Evaluations: {r['num_instructions']} | Parse failures: A={fa}, B={fb}\")
+print()
+"
+        done
+        echo ""
+    else
+        echo "=============================================="
+        echo "PREFERENCE SUMMARY (summarize_preferences.py)"
+        echo "=============================================="
+        $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/summarize_preferences.py" --results-dir "$RESULTS_ROOT"
+        echo ""
+
+        echo "=============================================="
+        echo "WINRATE TABLE (analyse_results.py)"
+        echo "=============================================="
+        $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/analyse_results.py" --results-dir "$RESULTS_ROOT"
+        echo ""
+
+        echo "=============================================="
+        echo "ORIGINAL FORMAT (analyse_results_original.py)"
+        echo "=============================================="
+        $VENV_PYTHON "$PROJECT_ROOT/oellm/evaluations/benchmarks/analyse_results_original.py" --results-dir "$RESULTS_ROOT" 2>/dev/null || echo "(skipped - may not support --results-dir)"
+        echo ""
+    fi
+
 } > "$SUMMARY_FILE" 2>&1
 
 echo ""

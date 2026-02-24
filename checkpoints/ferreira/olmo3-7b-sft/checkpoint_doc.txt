@@ -1,0 +1,10 @@
+dolci-instruct-sft: OLMo-core format, first instruct SFT run (Dec 2025), LR=8e-5, final step3394; config had wrong 32k max_position_embeddings (should be 65k).
+dolci-instruct-sft-hf: HF conversion of dolci-instruct-sft/step3394 (Dec 30 2025); inherits wrong 32k config.
+dolci-instruct-sft-hf-65k-config-fix: Same weights as dolci-instruct-sft-hf but config.json patched to 65k max_position_embeddings (Jan 12 2026).
+dolci-instruct-sft-hf-correct-instruct-tokenizer-without-training: HF checkpoint with Olmo-3-7B-Instruct-SFT tokenizer swapped in (no retraining), created to test tokenizer impact (Jan 7 2026).
+dolci-think-sft: OLMo-core format, first think SFT run (Dec 2025), LR=5e-5, final step43376; config had wrong 32k max_position_embeddings.
+dolci-think-sft-hf: HF conversion of dolci-think-sft/step43376 (Jan 10 2026); inherits wrong 32k config.
+dolci-think-sft-hf-65k-config-fix: Same weights as dolci-think-sft-hf but config.json patched to 65k max_position_embeddings (Jan 12 2026).
+dolci-think-sft-v2: OLMo-core format, second think SFT run with correct think tokenizer (v1 used base tokenizer), trained on kislurm 1x8 H200, LR=5e-5, steps 0-36450 (Jan-Feb 2026).
+dolci-think-sft-v2-horeka: Continuation of v2 on HoreKa 2x4 H200, resumed from kislurm step35250 to completion at step42856 (Feb 23 2026); hyperparameters identical to kislurm.
+dolci-think-sft-v2-horeka-hf: HF conversion of dolci-think-sft-v2-horeka final checkpoint step42856 (Feb 23 2026).
