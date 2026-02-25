@@ -94,7 +94,6 @@ show_winrate(
 | **Judge** | `Qwen/Qwen3-30B-A3B-Instruct-2507` (rubric mode) |
 | **Results** | `oellm/evaluations/benchmarks/OpenJury/results/horeka-rubric-Olmo-3-7B-Think-SFT-20260224_161039` |
 | **Date** | 2026-02-24 |
-| **Status** | Partial — missing m-arena-hard-EU (rerun in progress as job 27246732) |
 
 ### alpaca-eval
 
@@ -120,7 +119,14 @@ show_winrate(
 
 ### m-arena-hard-EU
 
-*Pending — will be available when job 27246732 completes.*
+| Criterion | Baseline | Ours | Delta |
+|---|---|---|---|
+| Instruction Following | 0.497 | 0.502 | +0.006 |
+| Naturalness | 0.603 | 0.608 | +0.005 |
+| Coherence | 0.562 | 0.569 | +0.008 |
+| Accuracy | 0.506 | 0.513 | +0.008 |
+| | | | |
+| **Average ¹** | **0.736** | **0.747** | **+0.011** |
 
 <details><summary>Code</summary>
 
