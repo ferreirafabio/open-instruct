@@ -145,4 +145,4 @@ show_rubric(
 
 ---
 
-<sup>1</sup> Rubric "Average" is OpenJury's `composite_score`: mean of the 4 criterion scores (1–7 Likert), min-max normalized to 0–1 as `(mean - 1) / 6`. See `openjury/evaluate.py`.
+<sup>1</sup> Average (0–1) is a min-max normalization of the mean of the 4 criterion scores.
