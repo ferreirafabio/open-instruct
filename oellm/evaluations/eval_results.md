@@ -53,10 +53,13 @@ def load_rubric(results_dir):
 
 Baseline is fixed at 50.0% as reference. Values > 50% = better than baseline. *(from `analyse_results.py`)*
 
-| Model | alpaca-eval | arena-hard | m-arena-hard-EU | Average | Delta |
-|---|---|---|---|---|---|
-| baselines/Olmo-3-7B-Think-SFT | 0.500 | 0.500 | 0.500 | 0.500 | — |
-| **olmo3-7b-sft/dolci-think-sft-v2-horeka-hf** | **0.511** | **0.505** | **0.512** | **0.509** | **+0.009** |
+| Benchmark | Baseline | Ours | Delta |
+|---|---|---|---|
+| alpaca-eval | 0.500 | 0.511 | +0.011 |
+| arena-hard | 0.500 | 0.505 | +0.005 |
+| m-arena-hard-EU | 0.500 | 0.512 | +0.012 |
+| | | | |
+| **Average** | **0.500** | **0.509** | **+0.009** |
 
 ### Detailed battle counts
 
