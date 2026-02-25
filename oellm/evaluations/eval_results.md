@@ -57,18 +57,19 @@ Baseline is fixed at 50.0% as reference. Values > 50% = better than baseline. *(
 |---|---|---|---|---|
 | baselines/Olmo-3-7B-Think-SFT | 0.500 | 0.500 | 0.500 | 0.500 |
 | **olmo3-7b-sft/dolci-think-sft-v2-horeka-hf** | **0.511** | **0.505** | **0.512** | **0.509** |
+| **Delta** | **+0.011** | **+0.005** | **+0.012** | **+0.009** |
 
 ### Detailed battle counts
 
 Head-to-head comparison with per-benchmark win/loss/tie counts. *(from `summarize_preferences.py`)*
 
-| Benchmark | Baseline WR% | Ours WR% | Battles | Wins | Losses | Ties |
-|---|---|---|---|---|---|---|
-| alpaca-eval | 48.9 | 51.1 | 1610 | 819 | 783 | 8 |
-| arena-hard | 49.5 | 50.5 | 1000 | 503 | 493 | 4 |
-| m-arena-hard-EU | 48.8 | 51.2 | 12000 | 6129 | 5838 | 33 |
-| | | | | | | |
-| **Average** | **49.1** | **50.9** | **14610** | **7451** | **7114** | **45** |
+| Benchmark | Baseline WR% | Ours WR% | Delta | Battles | Wins | Losses | Ties |
+|---|---|---|---|---|---|---|---|
+| alpaca-eval | 48.9 | 51.1 | +2.2 | 1610 | 819 | 783 | 8 |
+| arena-hard | 49.5 | 50.5 | +1.0 | 1000 | 503 | 493 | 4 |
+| m-arena-hard-EU | 48.8 | 51.2 | +2.4 | 12000 | 6129 | 5838 | 33 |
+| | | | | | | | |
+| **Average** | **49.1** | **50.9** | **+1.9** | **14610** | **7451** | **7114** | **45** |
 
 <details><summary>Code</summary>
 
