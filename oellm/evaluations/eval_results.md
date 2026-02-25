@@ -96,8 +96,6 @@ show_winrate(
 | **Date** | 2026-02-24 |
 | **Status** | Partial — missing m-arena-hard-EU (rerun in progress as job 27246732) |
 
-All scores normalized to 0–1. Criterion scores are raw judge scores (1–10) divided by 10. Average<sup>1</sup> is OpenJury's pre-computed composite score.
-
 ### alpaca-eval
 
 | Criterion | Baseline | Ours | Delta |
