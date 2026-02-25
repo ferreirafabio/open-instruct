@@ -53,25 +53,22 @@ def load_rubric(results_dir):
 
 Baseline is fixed at 50.0% as reference. Values > 50% = better than baseline. *(from `analyse_results.py`)*
 
-<table style="font-size:1.1em">
-<thead><tr><th>Model</th><th>alpaca-eval</th><th>arena-hard</th><th>m-arena-hard-EU</th><th>Average</th></tr></thead>
-<tbody>
-<tr><td>baselines/Olmo-3-7B-Think-SFT</td><td>0.500</td><td>0.500</td><td>0.500</td><td>0.500</td></tr>
-<tr style="font-weight:bold; background:#f0f0f0"><td>olmo3-7b-sft/dolci-think-sft-v2-horeka-hf</td><td>0.511</td><td>0.505</td><td>0.512</td><td>0.509</td></tr>
-</tbody></table>
+| Model | alpaca-eval | arena-hard | m-arena-hard-EU | Average |
+|---|---|---|---|---|
+| baselines/Olmo-3-7B-Think-SFT | 0.500 | 0.500 | 0.500 | 0.500 |
+| **olmo3-7b-sft/dolci-think-sft-v2-horeka-hf** | **0.511** | **0.505** | **0.512** | **0.509** |
 
 ### Detailed battle counts
 
 Head-to-head comparison with per-benchmark win/loss/tie counts. *(from `summarize_preferences.py`)*
 
-<table style="font-size:1.1em">
-<thead><tr><th>Benchmark</th><th>Baseline WR%</th><th>Ours WR%</th><th>Battles</th><th>Wins</th><th>Losses</th><th>Ties</th></tr></thead>
-<tbody>
-<tr><td>alpaca-eval</td><td>48.9</td><td>51.1</td><td>1610</td><td>819</td><td>783</td><td>8</td></tr>
-<tr><td>arena-hard</td><td>49.5</td><td>50.5</td><td>1000</td><td>503</td><td>493</td><td>4</td></tr>
-<tr><td>m-arena-hard-EU</td><td>48.8</td><td>51.2</td><td>12000</td><td>6129</td><td>5838</td><td>33</td></tr>
-<tr style="font-weight:bold; background:#f0f0f0"><td>Average</td><td>49.1</td><td>50.9</td><td>14610</td><td>7451</td><td>7114</td><td>45</td></tr>
-</tbody></table>
+| Benchmark | Baseline WR% | Ours WR% | Battles | Wins | Losses | Ties |
+|---|---|---|---|---|---|---|
+| alpaca-eval | 48.9 | 51.1 | 1610 | 819 | 783 | 8 |
+| arena-hard | 49.5 | 50.5 | 1000 | 503 | 493 | 4 |
+| m-arena-hard-EU | 48.8 | 51.2 | 12000 | 6129 | 5838 | 33 |
+| | | | | | | |
+| **Average** | **49.1** | **50.9** | **14610** | **7451** | **7114** | **45** |
 
 <details><summary>Code</summary>
 
@@ -103,27 +100,25 @@ All scores normalized to 0–1. Criterion scores are raw judge scores (1–10) d
 
 ### alpaca-eval
 
-<table>
-<thead><tr><th>Criterion</th><th>Baseline</th><th>Ours</th><th>Delta</th></tr></thead>
-<tbody>
-<tr><td>Instruction Following</td><td>0.636</td><td>0.641</td><td>+0.005</td></tr>
-<tr><td>Naturalness</td><td>0.681</td><td>0.677</td><td>-0.005</td></tr>
-<tr><td>Coherence</td><td>0.670</td><td>0.666</td><td>-0.004</td></tr>
-<tr><td>Accuracy</td><td>0.648</td><td>0.647</td><td>-0.001</td></tr>
-<tr style="font-weight:bold; background:#f0f0f0"><td>Average ¹</td><td>0.931</td><td>0.930</td><td>-0.002</td></tr>
-</tbody></table>
+| Criterion | Baseline | Ours | Delta |
+|---|---|---|---|
+| Instruction Following | 0.636 | 0.641 | +0.005 |
+| Naturalness | 0.681 | 0.677 | -0.005 |
+| Coherence | 0.670 | 0.666 | -0.004 |
+| Accuracy | 0.648 | 0.647 | -0.001 |
+| | | | |
+| **Average ¹** | **0.931** | **0.930** | **-0.002** |
 
 ### arena-hard
 
-<table>
-<thead><tr><th>Criterion</th><th>Baseline</th><th>Ours</th><th>Delta</th></tr></thead>
-<tbody>
-<tr><td>Instruction Following</td><td>0.580</td><td>0.582</td><td>+0.003</td></tr>
-<tr><td>Naturalness</td><td>0.652</td><td>0.650</td><td>-0.002</td></tr>
-<tr><td>Coherence</td><td>0.627</td><td>0.631</td><td>+0.003</td></tr>
-<tr><td>Accuracy</td><td>0.589</td><td>0.595</td><td>+0.006</td></tr>
-<tr style="font-weight:bold; background:#f0f0f0"><td>Average ¹</td><td>0.853</td><td>0.857</td><td>+0.004</td></tr>
-</tbody></table>
+| Criterion | Baseline | Ours | Delta |
+|---|---|---|---|
+| Instruction Following | 0.580 | 0.582 | +0.003 |
+| Naturalness | 0.652 | 0.650 | -0.002 |
+| Coherence | 0.627 | 0.631 | +0.003 |
+| Accuracy | 0.589 | 0.595 | +0.006 |
+| | | | |
+| **Average ¹** | **0.853** | **0.857** | **+0.004** |
 
 ### m-arena-hard-EU
 
