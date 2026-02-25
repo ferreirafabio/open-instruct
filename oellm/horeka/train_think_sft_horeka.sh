@@ -72,19 +72,22 @@ export NCCL_IB_HCA=mlx5              # Use Mellanox ConnectX HCA
 # NOTE: Do NOT set NCCL_SOCKET_IFNAME - interface names differ between login/compute nodes
 export NCCL_DEBUG="${NCCL_DEBUG:-INFO}"  # INFO for first run to diagnose issues
 
-# === Smoke test support ===
+# === Duration & smoke test support ===
 TEST_RUN="${TEST_RUN:-false}"
 TEST_STEPS="${TEST_STEPS:-20}"
 EXTRA_ARGS=()
 if [[ "${TEST_RUN}" == "true" ]]; then
   echo "TEST_RUN=true: limiting this submission to ${TEST_STEPS} steps."
   EPHEMERAL_INTERVAL=$((TEST_STEPS / 2))
+  MAX_DURATION_VALUE="${TEST_STEPS}"
+  MAX_DURATION_UNIT="steps"
   EXTRA_ARGS+=(
-    "--trainer.max_duration.value=${TEST_STEPS}"
-    "--trainer.max_duration.unit=steps"
     "--trainer.callbacks.checkpointer.save_interval=${TEST_STEPS}"
     "--trainer.callbacks.checkpointer.ephemeral_save_interval=${EPHEMERAL_INTERVAL}"
   )
+else
+  MAX_DURATION_VALUE="2"
+  MAX_DURATION_UNIT="epochs"
 fi
 
 # === W&B ===
@@ -154,8 +157,8 @@ srun bash -c "accelerate launch \
     --model_name=olmo3-7b \
     --dataset_path=$DATASET_PATH \
     --train_module.optim.lr=$LEARNING_RATE \
-    --trainer.max_duration.value=2 \
-    --trainer.max_duration.unit=epochs \
+    --trainer.max_duration.value=$MAX_DURATION_VALUE \
+    --trainer.max_duration.unit=$MAX_DURATION_UNIT \
     --trainer.callbacks.wandb.enabled=$WANDB_ENABLED \
     --trainer.callbacks.wandb.project=$WANDB_PROJECT \
     --trainer.callbacks.wandb.entity=$WANDB_ENTITY \
