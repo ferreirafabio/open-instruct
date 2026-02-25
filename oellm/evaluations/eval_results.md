@@ -88,6 +88,58 @@ show_winrate(
 
 </details>
 
+## Think SFT v2 (HoreKa) — Rubric
+
+| | |
+|---|---|
+| **Ours** | `checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-v2-horeka-hf` |
+| **Baseline** | `models/baselines/Olmo-3-7B-Think-SFT` |
+| **Judge** | `Qwen/Qwen3-30B-A3B-Instruct-2507` (rubric mode) |
+| **Results** | `oellm/evaluations/benchmarks/OpenJury/results/horeka-rubric-Olmo-3-7B-Think-SFT-20260224_161039` |
+| **Date** | 2026-02-24 |
+| **Status** | Partial — missing m-arena-hard-EU (rerun in progress as job 27246702) |
+
+All scores normalized to 0–1. Criterion scores are raw judge scores (1–10) divided by 10. Composite is the pre-computed normalized score from OpenJury.
+
+### alpaca-eval
+
+| Criterion | Baseline | Ours | Delta |
+|---|---|---|---|
+| Instruction Following | 0.636 | 0.641 | +0.005 |
+| Naturalness | 0.681 | 0.677 | -0.005 |
+| Coherence | 0.670 | 0.666 | -0.004 |
+| Accuracy | 0.648 | 0.647 | -0.001 |
+| **Composite** | **0.931** | **0.930** | **-0.002** |
+
+### arena-hard
+
+| Criterion | Baseline | Ours | Delta |
+|---|---|---|---|
+| Instruction Following | 0.580 | 0.582 | +0.003 |
+| Naturalness | 0.652 | 0.650 | -0.002 |
+| Coherence | 0.627 | 0.631 | +0.003 |
+| Accuracy | 0.589 | 0.595 | +0.006 |
+| **Composite** | **0.853** | **0.857** | **+0.004** |
+
+### m-arena-hard-EU
+
+*Pending — will be available when job 27246702 completes.*
+
+<details><summary>Code</summary>
+
+```python
+show_rubric(
+    title="Think SFT v2 (HoreKa) — Rubric",
+    results_dir="horeka-rubric-Olmo-3-7B-Think-SFT-20260224_161039",
+    ours_path="checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-v2-horeka-hf",
+    baseline_path="models/baselines/Olmo-3-7B-Think-SFT",
+    judge="Qwen/Qwen3-30B-A3B-Instruct-2507 (rubric)",
+    date="2026-02-24",
+)
+```
+
+</details>
+
 ---
 
 *Add new experiments below following the same pattern.*
