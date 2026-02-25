@@ -53,21 +53,25 @@ def load_rubric(results_dir):
 
 Baseline is fixed at 50.0% as reference. Values > 50% = better than baseline. *(from `analyse_results.py`)*
 
-| Model | alpaca-eval | arena-hard | m-arena-hard-EU | Average |
-|---|---|---|---|---|
-| baselines/Olmo-3-7B-Think-SFT | 0.500 | 0.500 | 0.500 | 0.500 |
-| **olmo3-7b-sft/dolci-think-sft-v2-horeka-hf** | **0.511** | **0.505** | **0.512** | **0.509** |
+<table style="font-size:1.1em">
+<thead><tr><th>Model</th><th>alpaca-eval</th><th>arena-hard</th><th>m-arena-hard-EU</th><th>Average</th></tr></thead>
+<tbody>
+<tr><td>baselines/Olmo-3-7B-Think-SFT</td><td>0.500</td><td>0.500</td><td>0.500</td><td>0.500</td></tr>
+<tr style="font-weight:bold"><td>olmo3-7b-sft/dolci-think-sft-v2-horeka-hf</td><td>0.511</td><td>0.505</td><td>0.512</td><td>0.509</td></tr>
+</tbody></table>
 
 ### Detailed battle counts
 
 Head-to-head comparison with per-benchmark win/loss/tie counts. *(from `summarize_preferences.py`)*
 
-| Benchmark | Baseline WR% | Ours WR% | Battles | Wins | Losses | Ties |
-|---|---|---|---|---|---|---|
-| alpaca-eval | 48.9 | 51.1 | 1610 | 819 | 783 | 8 |
-| arena-hard | 49.5 | 50.5 | 1000 | 503 | 493 | 4 |
-| m-arena-hard-EU | 48.8 | 51.2 | 12000 | 6129 | 5838 | 33 |
-| **Average** | **49.1** | **50.9** | **14610** | **7451** | **7114** | **45** |
+<table style="font-size:1.1em">
+<thead><tr><th>Benchmark</th><th>Baseline WR%</th><th>Ours WR%</th><th>Battles</th><th>Wins</th><th>Losses</th><th>Ties</th></tr></thead>
+<tbody>
+<tr><td>alpaca-eval</td><td>48.9</td><td>51.1</td><td>1610</td><td>819</td><td>783</td><td>8</td></tr>
+<tr><td>arena-hard</td><td>49.5</td><td>50.5</td><td>1000</td><td>503</td><td>493</td><td>4</td></tr>
+<tr><td>m-arena-hard-EU</td><td>48.8</td><td>51.2</td><td>12000</td><td>6129</td><td>5838</td><td>33</td></tr>
+<tr style="font-weight:bold"><td>Average</td><td>49.1</td><td>50.9</td><td>14610</td><td>7451</td><td>7114</td><td>45</td></tr>
+</tbody></table>
 
 <details><summary>Code</summary>
 
