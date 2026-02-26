@@ -39,7 +39,7 @@ def load_rubric(results_dir):
 
 # Reproducing OLMo-3-7B-SFT
 
-## Think SFT v2 (HoreKa) — Winrate
+## Think SFT v2 — Winrate
 
 | | |
 |---|---|
@@ -88,7 +88,7 @@ show_winrate(
 
 </details>
 
-## Think SFT v2 (HoreKa) — Rubric
+## Think SFT v2 — Rubric
 
 | | |
 |---|---|
