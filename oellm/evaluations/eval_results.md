@@ -165,9 +165,9 @@ show_rubric(
 
 ![Training curve evaluation overview](figures/training_curve_eval.png)
 
-![Per-criterion rubric deltas](figures/rubric_criteria_eval.png)
+![Per-criterion rubric scores](figures/rubric_criteria_eval.png)
 
-### Winrate — both orderings (position-bias corrected)
+### Winrate (swap_mode=both)
 
 Our model win% vs baseline. 50% = parity. Both orderings (A-B and B-A) averaged.
 
@@ -193,9 +193,9 @@ Our model win% vs baseline. 50% = parity. Both orderings (A-B and B-A) averaged.
 | 34000 | 49.0% | 1610 battles | 51.4% | 1000 battles |
 | 38000 | 49.4% | 1610 battles | 48.5% | 1000 battles |
 
-### Winrate — fixed ordering
+### Winrate (swap_mode=fixed)
 
-Single ordering only (baseline=A, ours=B). Shows strong position bias (~35-40pp gap vs both-ordering results).
+Single ordering only (baseline=A, ours=B). ~35-40pp gap vs swap_mode=both results.
 
 | Step | alpaca-eval | | arena-hard | |
 |---:|---:|---:|---:|---:|
