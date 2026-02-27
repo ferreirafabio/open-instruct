@@ -163,9 +163,9 @@ show_rubric(
 
 ### Overview plots
 
-![Training curve evaluation overview](figures/training_curve_eval.png)
+![Training curve evaluation overview](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/training_curve_eval.png)
 
-![Per-criterion rubric scores](figures/rubric_criteria_eval.png)
+![Per-criterion rubric scores](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/rubric_criteria_eval.png)
 
 ### Winrate (swap_mode=both)
 
