@@ -169,60 +169,60 @@ show_rubric(
 
 ### Winrate (swap_mode=both)
 
-Our model win% vs baseline. 50% = parity. Both orderings (A-B and B-A) averaged.
+Our model win% vs baseline. 50% = parity. Both orderings (A-B and B-A) averaged. Battles per step: 1610 (alpaca-eval), 1000 (arena-hard).
 
-| Step | alpaca-eval | | arena-hard | |
-|---:|---:|---:|---:|---:|
-| 500 | 40.8% | 1610 battles | 32.5% | 1000 battles |
-| 1000 | 36.6% | 1610 battles | 31.1% | 1000 battles |
-| 2000 | 35.3% | 1610 battles | 32.0% | 1000 battles |
-| 3000 | 38.7% | 1610 battles | 31.3% | 1000 battles |
-| 4000 | 41.4% | 1610 battles | 35.2% | 1000 battles |
-| 5000 | 38.2% | 1610 battles | 35.3% | 1000 battles |
-| 7000 | 43.5% | 1610 battles | 39.1% | 1000 battles |
-| 8000 | 38.0% | 1610 battles | 34.7% | 1000 battles |
-| 11000 | 40.7% | 1610 battles | 37.4% | 1000 battles |
-| 13000 | 41.9% | 1610 battles | 36.1% | 1000 battles |
-| 15000 | 42.7% | 1610 battles | 38.8% | 1000 battles |
-| 17000 | 40.8% | 1610 battles | 38.8% | 1000 battles |
-| 19000 | 44.0% | 1610 battles | 42.9% | 1000 battles |
-| 21000 | 43.9% | 1610 battles | 41.1% | 1000 battles |
-| 24000 | 48.8% | 1610 battles | 47.5% | 1000 battles |
-| 27000 | 48.9% | 1610 battles | 44.6% | 1000 battles |
-| 31000 | 49.6% | 1610 battles | 48.6% | 1000 battles |
-| 34000 | 49.0% | 1610 battles | 51.4% | 1000 battles |
-| 38000 | 49.4% | 1610 battles | 48.5% | 1000 battles |
+| Step | alpaca-eval | arena-hard |
+|---:|---:|---:|
+| 500 | 40.8% | 32.5% |
+| 1000 | 36.6% | 31.1% |
+| 2000 | 35.3% | 32.0% |
+| 3000 | 38.7% | 31.3% |
+| 4000 | 41.4% | 35.2% |
+| 5000 | 38.2% | 35.3% |
+| 7000 | 43.5% | 39.1% |
+| 8000 | 38.0% | 34.7% |
+| 11000 | 40.7% | 37.4% |
+| 13000 | 41.9% | 36.1% |
+| 15000 | 42.7% | 38.8% |
+| 17000 | 40.8% | 38.8% |
+| 19000 | 44.0% | 42.9% |
+| 21000 | 43.9% | 41.1% |
+| 24000 | 48.8% | 47.5% |
+| 27000 | 48.9% | 44.6% |
+| 31000 | 49.6% | 48.6% |
+| 34000 | 49.0% | 51.4% |
+| 38000 | 49.4% | 48.5% |
 
 ### Winrate (swap_mode=fixed)
 
-Single ordering only (baseline=A, ours=B). ~35-40pp gap vs swap_mode=both results.
+Single ordering only (baseline=A, ours=B). ~35-40pp gap vs swap_mode=both results. Battles per step: 805 (alpaca-eval), 500 (arena-hard).
 
-| Step | alpaca-eval | | arena-hard | |
-|---:|---:|---:|---:|---:|
-| 500 | 9.9% | 805 battles | 13.4% | 500 battles |
-| 1000 | 8.1% | 805 battles | 14.7% | 500 battles |
-| 2000 | 8.6% | 805 battles | 13.2% | 500 battles |
-| 3000 | 10.7% | 805 battles | 14.4% | 500 battles |
-| 4000 | 9.6% | 805 battles | 16.9% | 500 battles |
-| 5000 | 7.0% | 805 battles | 15.5% | 500 battles |
-| 7000 | 12.0% | 805 battles | 15.7% | 500 battles |
-| 8000 | 8.6% | 805 battles | 13.9% | 500 battles |
-| 11000 | 9.4% | 805 battles | 15.0% | 500 battles |
-| 13000 | 10.0% | 805 battles | 17.8% | 500 battles |
-| 15000 | 10.1% | 805 battles | 17.9% | 500 battles |
-| 17000 | 10.0% | 805 battles | 18.1% | 500 battles |
-| 19000 | 10.5% | 805 battles | 20.6% | 500 battles |
-| 21000 | 9.8% | 805 battles | 19.1% | 500 battles |
-| 24000 | 12.8% | 805 battles | 21.1% | 500 battles |
-| 27000 | 13.5% | 805 battles | 22.5% | 500 battles |
-| 31000 | 14.5% | 805 battles | 25.0% | 500 battles |
-| 34000 | 14.8% | 805 battles | 21.9% | 500 battles |
-| 38000 | 15.4% | 805 battles | 26.8% | 500 battles |
-| 42856 | 13.8% | 805 battles | 24.3% | 500 battles |
+| Step | alpaca-eval | arena-hard |
+|---:|---:|---:|
+| 500 | 9.9% | 13.4% |
+| 1000 | 8.1% | 14.7% |
+| 2000 | 8.6% | 13.2% |
+| 3000 | 10.7% | 14.4% |
+| 4000 | 9.6% | 16.9% |
+| 5000 | 7.0% | 15.5% |
+| 7000 | 12.0% | 15.7% |
+| 8000 | 8.6% | 13.9% |
+| 11000 | 9.4% | 15.0% |
+| 13000 | 10.0% | 17.8% |
+| 15000 | 10.1% | 17.9% |
+| 17000 | 10.0% | 18.1% |
+| 19000 | 10.5% | 20.6% |
+| 21000 | 9.8% | 19.1% |
+| 24000 | 12.8% | 21.1% |
+| 27000 | 13.5% | 22.5% |
+| 31000 | 14.5% | 25.0% |
+| 34000 | 14.8% | 21.9% |
+| 38000 | 15.4% | 26.8% |
+| 42856 | 13.8% | 24.3% |
 
-### Rubric: composite scores
+### Rubric: Average ¹ scores
 
-Composite score (0–1 scale, higher = better). Delta = Ours - Baseline.
+Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 
 | Step | alpaca-eval Baseline | alpaca-eval Ours | Delta | arena-hard Baseline | arena-hard Ours | Delta |
 |---:|---:|---:|---:|---:|---:|---:|
