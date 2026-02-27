@@ -148,7 +148,7 @@ show_rubric(
 
 ---
 
-## OLMo-3-7B Think SFT: Training Curve Evaluation
+## OLMo-3-7B Think SFT Performance over Training Time: Reproduction vs. Baseline
 
 | | |
 |---|---|
