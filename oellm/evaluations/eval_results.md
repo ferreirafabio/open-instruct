@@ -39,7 +39,7 @@ def load_rubric(results_dir):
 
 # Reproducing OLMo-3-7B-SFT
 
-## Think SFT — Winrate
+## Think SFT: Winrate
 
 | | |
 |---|---|
@@ -77,7 +77,7 @@ Head-to-head comparison with per-benchmark win/loss/tie counts. *(from `summariz
 
 ```python
 show_winrate(
-    title="Think SFT (HoreKa) — Winrate",
+    title="Think SFT (HoreKa): Winrate",
     results_dir="horeka-winrate-Olmo-3-7B-Think-SFT-20260224_141545",
     ours_path="checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-v2-horeka-hf",
     baseline_path="models/baselines/Olmo-3-7B-Think-SFT",
@@ -88,7 +88,7 @@ show_winrate(
 
 </details>
 
-## Think SFT — Rubric
+## Think SFT: Rubric
 
 | | |
 |---|---|
@@ -135,7 +135,7 @@ show_winrate(
 
 ```python
 show_rubric(
-    title="Think SFT (HoreKa) — Rubric",
+    title="Think SFT (HoreKa): Rubric",
     results_dir="horeka-rubric-Olmo-3-7B-Think-SFT-20260224_161039",
     ours_path="checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-v2-horeka-hf",
     baseline_path="models/baselines/Olmo-3-7B-Think-SFT",
@@ -148,7 +148,7 @@ show_rubric(
 
 ---
 
-## Think SFT — Training Curve Evaluation
+## Think SFT: Training Curve Evaluation
 
 | | |
 |---|---|
@@ -220,7 +220,7 @@ Single ordering only (baseline=A, ours=B). ~35-40pp gap vs swap_mode=both result
 | 38000 | 15.4% | 805 battles | 26.8% | 500 battles |
 | 42856 | 13.8% | 805 battles | 24.3% | 500 battles |
 
-### Rubric — composite scores
+### Rubric: composite scores
 
 Composite score (0–1 scale, higher = better). Delta = Ours - Baseline.
 
