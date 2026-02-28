@@ -132,12 +132,12 @@ def plot_training_curve_eval(rows: list[dict], output_dir: Path):
     ax_rubric_mean.legend(fontsize=8, loc="lower right")
     ax_rubric_mean.grid(True, alpha=0.3)
 
-    # --- Bottom-center: Per-Criterion Scores: alpaca-eval ---
-    _plot_per_criterion(ax_rubric_alpaca, rows, "alpaca-eval")
+    # --- Bottom-center: Per-Criterion Scores: alpaca-eval (0-1 normalized) ---
+    _plot_per_criterion(ax_rubric_alpaca, rows, "alpaca-eval", normalize=True)
     ax_rubric_alpaca.set_title("Per-Criterion Scores: alpaca-eval", fontsize=11)
 
-    # --- Bottom-right: Per-Criterion Scores: arena-hard ---
-    _plot_per_criterion(ax_rubric_arena, rows, "arena-hard")
+    # --- Bottom-right: Per-Criterion Scores: arena-hard (0-1 normalized) ---
+    _plot_per_criterion(ax_rubric_arena, rows, "arena-hard", normalize=True)
     ax_rubric_arena.set_title("Per-Criterion Scores: arena-hard", fontsize=11)
 
     path = output_dir / "training_curve_eval.png"
@@ -146,10 +146,15 @@ def plot_training_curve_eval(rows: list[dict], output_dir: Path):
     plt.close()
 
 
-def _plot_per_criterion(ax, rows: list[dict], dataset: str):
-    """Plot 4 criteria lines + baselines on a single axis for one dataset."""
+def _plot_per_criterion(ax, rows: list[dict], dataset: str, normalize: bool = False):
+    """Plot 4 criteria lines + baselines on a single axis for one dataset.
+
+    Args:
+        normalize: If True, divide raw Likert scores by 7 to get 0-1 scale.
+    """
     colors = ["#1f77b4", "#2ca02c", "#ff7f0e", "#d62728"]
     baseline_colors = ["#aec7e8", "#98df8a", "#ffbb78", "#ff9896"]
+    scale = 7.0 if normalize else 1.0
 
     for criterion, color, bl_color in zip(CRITERIA, colors, baseline_colors):
         metric = f"rubric_{criterion}"
@@ -157,14 +162,14 @@ def _plot_per_criterion(ax, rows: list[dict], dataset: str):
         if len(steps) == 0:
             continue
         label = CRITERIA_LABELS[criterion]
-        ax.plot(steps, values, "o-", color=color, linewidth=1.8, markersize=5,
+        ax.plot(steps, values / scale, "o-", color=color, linewidth=1.8, markersize=5,
                 label=f"{label} (Ours)", alpha=0.9)
-        bl_val = np.mean(baselines)
+        bl_val = np.mean(baselines) / scale
         ax.axhline(y=bl_val, color=bl_color, linestyle="--", linewidth=1.2, alpha=0.8,
                     label=f"{label} (Baseline): {bl_val:.2f}")
 
     ax.set_xlabel("Training Step")
-    ax.set_ylabel("Score (1-7 Likert)")
+    ax.set_ylabel("Score (0-1)" if normalize else "Score (1-7 Likert)")
     ax.legend(fontsize=6, loc="lower right", ncol=1)
     ax.grid(True, alpha=0.3)
 
