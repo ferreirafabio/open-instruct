@@ -248,6 +248,154 @@ Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 | 38000 | 0.926 | 0.931 | +0.006 | 0.861 | 0.862 | +0.001 |
 | 42856 | 0.931 | 0.930 | -0.002 | 0.853 | 0.857 | +0.004 |
 
+## OLMo-3-7B Instruct SFT: Winrate
+
+| | |
+|---|---|
+| **Ours** | `checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-v2-horeka-hf` |
+| **Baseline** | `models/baselines/Olmo-3-7B-Instruct-SFT` |
+| **Judge** | `Qwen/Qwen3-30B-A3B-Instruct-2507` (winrate mode, both orderings) |
+| **Results** | `oellm/evaluations/benchmarks/OpenJury/results/instruct-v2-horeka-Olmo-3-7B-Instruct-SFT-20260228_192129` |
+| **Date** | 2026-02-28 |
+
+### Winrate summary
+
+Baseline is fixed at 50.0% as reference. Values > 50% = better than baseline.
+
+| Benchmark | Baseline | Ours | Delta |
+|---|---|---|---|
+| alpaca-eval | 0.500 | 0.488 | -0.012 |
+| arena-hard | 0.500 | 0.528 | +0.028 |
+| | | | |
+| **Average** | **0.500** | **0.508** | **+0.008** |
+
+### Detailed battle counts
+
+Head-to-head comparison with per-benchmark win/loss/tie counts.
+
+| Benchmark | Baseline WR% | Ours WR% | Delta | Battles | Wins | Losses | Ties |
+|---|---|---|---|---|---|---|---|
+| alpaca-eval | 51.2 | 48.8 | -2.4 | 1610 | 756 | 794 | 60 |
+| arena-hard | 47.3 | 52.8 | +5.5 | 1000 | 520 | 465 | 15 |
+| | | | | | | | |
+| **Average** | **49.2** | **50.8** | **+1.5** | **2610** | **1276** | **1259** | **75** |
+
+<details><summary>Code</summary>
+
+```python
+show_winrate(
+    title="OLMo-3-7B Instruct SFT (HoreKa): Winrate",
+    results_dir="instruct-v2-horeka-Olmo-3-7B-Instruct-SFT-20260228_192129",
+    ours_path="checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-v2-horeka-hf",
+    baseline_path="models/baselines/Olmo-3-7B-Instruct-SFT",
+    judge="Qwen/Qwen3-30B-A3B-Instruct-2507 (winrate, both orderings)",
+    date="2026-02-28",
+)
+```
+
+</details>
+
+## OLMo-3-7B Instruct SFT: Rubric
+
+| | |
+|---|---|
+| **Ours** | `checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-v2-horeka-hf` |
+| **Baseline** | `models/baselines/Olmo-3-7B-Instruct-SFT` |
+| **Judge** | `Qwen/Qwen3-30B-A3B-Instruct-2507` (rubric mode) |
+| **Results** | `oellm/evaluations/benchmarks/OpenJury/results/instruct-v2-horeka-Olmo-3-7B-Instruct-SFT-20260227_205048` |
+| **Date** | 2026-02-28 |
+
+### alpaca-eval
+
+| Criterion | Baseline | Ours | Delta |
+|---|---|---|---|
+| Instruction Following | 0.594 | 0.594 | +0.001 |
+| Naturalness | 0.693 | 0.697 | +0.004 |
+| Coherence | 0.652 | 0.657 | +0.006 |
+| Accuracy | 0.589 | 0.589 | 0.000 |
+| | | | |
+| **Average ¹** | **0.887** | **0.891** | **+0.004** |
+
+### arena-hard
+
+| Criterion | Baseline | Ours | Delta |
+|---|---|---|---|
+| Instruction Following | 0.540 | 0.550 | +0.009 |
+| Naturalness | 0.692 | 0.690 | -0.001 |
+| Coherence | 0.616 | 0.632 | +0.016 |
+| Accuracy | 0.509 | 0.512 | +0.004 |
+| | | | |
+| **Average ¹** | **0.815** | **0.827** | **+0.012** |
+
+<details><summary>Code</summary>
+
+```python
+show_rubric(
+    title="OLMo-3-7B Instruct SFT (HoreKa): Rubric",
+    results_dir="instruct-v2-horeka-Olmo-3-7B-Instruct-SFT-20260227_205048",
+    ours_path="checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-v2-horeka-hf",
+    baseline_path="models/baselines/Olmo-3-7B-Instruct-SFT",
+    judge="Qwen/Qwen3-30B-A3B-Instruct-2507 (rubric)",
+    date="2026-02-28",
+)
+```
+
+</details>
+
+---
+
+## OLMo-3-7B Instruct SFT Performance over Training Time: Reproduction vs. Baseline
+
+| | |
+|---|---|
+| **Checkpoints** | `checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-v2-horeka-hf-all/step{N}` (4 steps: 1000–3252) |
+| **Baseline** | `models/baselines/Olmo-3-7B-Instruct-SFT` |
+| **Judge** | `Qwen/Qwen3-30B-A3B-Instruct-2507` |
+| **Benchmarks** | alpaca-eval (805 prompts), arena-hard (500 prompts) |
+| **Eval modes** | winrate (fixed + both orderings), rubric (1-7 Likert, 4 criteria) |
+| **Results** | `oellm/evaluations/benchmarks/OpenJury/results/instruct-v2-curve-*` |
+| **Data** | `oellm/experiments/instruct_v2_checkpoint_eval/results.csv` |
+| **Date** | 2026-02-28 |
+
+### Overview plots
+
+![Instruct training curve: alpaca-eval](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/instruct_alpaca-eval_training_curve.png)
+
+![Instruct training curve: arena-hard](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/instruct_arena-hard_training_curve.png)
+
+### Winrate (swap_mode=both)
+
+Our model win% vs baseline. 50% = parity. Both orderings (A-B and B-A) averaged. Battles per step: 1610 (alpaca-eval), 1000 (arena-hard).
+
+| Step | alpaca-eval | arena-hard |
+|---:|---:|---:|
+| 1000 | 42.6% | 35.3% |
+| 2000 | 47.1% | 50.3% |
+| 3000 | 47.5% | 55.5% |
+| 3252 | 48.8% | 52.8% |
+
+### Winrate (swap_mode=fixed)
+
+Single ordering only (baseline=A, ours=B). Battles per step: 805 (alpaca-eval), 500 (arena-hard).
+
+| Step | alpaca-eval | arena-hard |
+|---:|---:|---:|
+| 1000 | 37.8% | 33.9% |
+| 2000 | 46.2% | 42.5% |
+| 3000 | 45.8% | 46.3% |
+| 3252 | 45.2% | 46.2% |
+
+### Rubric: Average ¹ scores
+
+Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
+
+| Step | alpaca-eval Baseline | alpaca-eval Ours | Delta | arena-hard Baseline | arena-hard Ours | Delta |
+|---:|---:|---:|---:|---:|---:|---:|
+| 1000 | 0.887 | 0.857 | -0.030 | 0.815 | 0.755 | -0.060 |
+| 2000 | 0.886 | 0.884 | -0.002 | 0.821 | 0.815 | -0.005 |
+| 3000 | 0.891 | 0.888 | -0.003 | 0.826 | 0.840 | +0.014 |
+| 3252 | 0.887 | 0.891 | +0.004 | 0.815 | 0.827 | +0.012 |
+
 ---
 
 <sup>1</sup> Average (0–1) is a min-max normalization of the mean of the 4 criterion scores.
