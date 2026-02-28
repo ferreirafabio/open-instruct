@@ -3,9 +3,10 @@
 #SBATCH --partition=alldlc2_gpu-h200
 #SBATCH --nodes=1
 #SBATCH --gpus=8
-#SBATCH --time=24:00:00
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/train/logs/%j.%x.%N.out
-#SBATCH --error=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/train/logs/%j.%x.%N.err
+#SBATCH --time=6:00:00
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/train/logs/%A_%a.%x.%N.out
+#SBATCH --error=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/train/logs/%A_%a.%x.%N.err
+#SBATCH --array=0-9%1
 
 # Generic SFT training script for OLMo-core
 # Configure via environment variables:
@@ -35,11 +36,12 @@ RUN_NAME="${RUN_NAME:-dolci-think-sft}"
 CLUSTER_NAME="slurm"
 GPUS="${GPUS:-8}"
 DATASET_PATH="${DATASET_PATH:-/work/dlclarge2/ferreira-oellm/open-instruct/data/baseline_reproduction/dolci_think_sft_tokenized_v2}"
-BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/models/Olmo-3-1025-7B-olmocore}"
+BASE_CKPT="${BASE_CKPT:-/work/dlclarge2/ferreira-oellm/open-instruct/models/baselines/Olmo-3-1025-7B-olmocore}"
 CACHE_DIR="${CACHE_DIR:-/work/dlclarge2/ferreira-oellm/open-instruct/.cache}"
 LEARNING_RATE="${LEARNING_RATE:-5e-5}"
 SEQ_LEN="${SEQ_LEN:-32768}"
 GLOBAL_BATCH_SIZE="${GLOBAL_BATCH_SIZE:-$((SEQ_LEN * 32))}" # 1M tokens (per baseline paper)
+MAX_RANK_MICROBATCH_SIZE_TOKENS="${MAX_RANK_MICROBATCH_SIZE_TOKENS:-24576}" # 24K default, increase for fewer grad accum steps
 
 export HF_HOME="${HF_HOME:-${CACHE_DIR}}"
 export HF_DATASETS_CACHE="${HF_DATASETS_CACHE:-${HF_HOME}/datasets}"
@@ -78,6 +80,8 @@ if [[ "${WANDB_ENABLED}" == "auto" ]]; then
 fi
 WANDB_PROJECT="${WANDB_PROJECT:-olmo-sft}"
 WANDB_ENTITY="${WANDB_ENTITY:-}"
+# Auto-set WANDB_RUN_ID from RUN_NAME so resumed jobs continue the same W&B run
+export WANDB_RUN_ID="${WANDB_RUN_ID:-$RUN_NAME}"
 # Tags must be a *list* for the OLMo-core config parser. Use a JSON-ish list string.
 WANDB_TAGS_JSON="${WANDB_TAGS_JSON:-[\"dolci\",\"think\",\"sft\",\"7b\"]}"
 # W&B "cancel by tag" checks require W&B API connectivity; disable by default to avoid 30s stalls on clusters w/o egress.
@@ -92,6 +96,7 @@ echo "BASE_CKPT=$BASE_CKPT"
 echo "GPUS=$GPUS"
 echo "SEQ_LEN=$SEQ_LEN"
 echo "GLOBAL_BATCH_SIZE=$GLOBAL_BATCH_SIZE"
+echo "MAX_RANK_MICROBATCH_SIZE_TOKENS=$MAX_RANK_MICROBATCH_SIZE_TOKENS"
 echo "LEARNING_RATE=$LEARNING_RATE"
 
 NUM_GPUS=$GPUS
@@ -117,6 +122,7 @@ srun accelerate launch \
     --seq_len="$SEQ_LEN" \
     --num_nodes=$NUM_MACHINES \
     --global_batch_size="$GLOBAL_BATCH_SIZE" \
+    --max_rank_microbatch_size_tokens="$MAX_RANK_MICROBATCH_SIZE_TOKENS" \
     --model_name="olmo3-7b" \
     --dataset_path="$DATASET_PATH" \
     --train_module.optim.lr="$LEARNING_RATE" \
@@ -129,6 +135,7 @@ srun accelerate launch \
     --trainer.callbacks.wandb.tags="$WANDB_TAGS_JSON" \
     --trainer.callbacks.wandb.cancel_check_interval="$WANDB_CANCEL_CHECK_INTERVAL" \
     --trainer.callbacks.wandb.cancel_tags="$WANDB_CANCEL_TAGS_JSON" \
+    --trainer.callbacks.checkpointer.ephemeral_save_interval=150 \
     --save_tokenizer=True \
     --budget=unused \
     --workspace=unused \

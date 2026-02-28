@@ -44,7 +44,7 @@ PROVIDE_EXPLANATION="${PROVIDE_EXPLANATION:-true}"  # Judge explains reasoning b
 # Set models based on type
 if [ "$MODEL_TYPE" == "instruct" ]; then
     BASELINE="$PROJECT_ROOT/models/baselines/Olmo-3-7B-Instruct-SFT"
-    TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-hf-65k-config-fix"
+    TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-v2-horeka-hf"
 elif [ "$MODEL_TYPE" == "think" ]; then
     BASELINE="$PROJECT_ROOT/models/baselines/Olmo-3-7B-Think-SFT"
     TRAINED="$PROJECT_ROOT/checkpoints/ferreira/olmo3-7b-sft/dolci-think-sft-v2-horeka-hf"
@@ -87,9 +87,8 @@ export HF_DATASETS_CACHE="$PROJECT_ROOT/data/huggingface"
 
 # Debug file (debug_examples.txt) is always created in the results directory by OpenJury
 
-# Ignore cache - set IGNORE_CACHE=1 to force fresh generation (avoids stale cached outputs)
-# Usage: IGNORE_CACHE=1 sbatch run_evaluation.sh ...
-IGNORE_CACHE="${IGNORE_CACHE:-0}"
+# Always ignore cache to ensure fresh generation and avoid stale/corrupted cached outputs
+IGNORE_CACHE="1"
 
 # Print configuration summary at start
 echo ""

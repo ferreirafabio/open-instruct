@@ -1,6 +1,6 @@
 # Translation Status
 
-Generated: 2026-01-21 16:57:42
+Generated: 2026-02-11 21:57:52
 
 Legend: ✅ translated | 🟡 in progress | 🔹 legacy copy | ⬜ not started
 
