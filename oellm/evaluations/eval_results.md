@@ -359,9 +359,9 @@ show_rubric(
 
 ### Overview plots
 
-![Instruct training curve: alpaca-eval](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/instruct_alpaca-eval_training_curve.png)
+![Training curve evaluation overview](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/instruct_training_curve_eval.png)
 
-![Instruct training curve: arena-hard](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/instruct_arena-hard_training_curve.png)
+![Per-criterion rubric scores](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/instruct_rubric_criteria_eval.png)
 
 ### Winrate (swap_mode=both)
 
