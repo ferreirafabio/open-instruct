@@ -364,7 +364,7 @@ show_rubric(
 | **Checkpoints** | `checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-v2-horeka-hf-all/step{N}` (4 steps: 1000–3252) |
 | **Baseline** | `models/baselines/Olmo-3-7B-Instruct-SFT` |
 | **Judge** | `Qwen/Qwen3-30B-A3B-Instruct-2507` |
-| **Benchmarks** | alpaca-eval (805 prompts), arena-hard (500 prompts) |
+| **Benchmarks** | alpaca-eval (805 prompts), arena-hard (500 prompts), m-arena-hard-EU (6000 prompts) |
 | **Eval modes** | winrate (fixed + both orderings), rubric (1-7 Likert, 4 criteria) |
 | **Results** | `oellm/evaluations/benchmarks/OpenJury/results/instruct-v2-curve-*` |
 | **Data** | `oellm/experiments/instruct_v2_checkpoint_eval/results.csv` |
@@ -378,36 +378,36 @@ show_rubric(
 
 ### Winrate (swap_mode=both)
 
-Our model win% vs baseline. 50% = parity. Both orderings (A-B and B-A) averaged. Battles per step: 1610 (alpaca-eval), 1000 (arena-hard).
+Our model win% vs baseline. 50% = parity. Both orderings (A-B and B-A) averaged. Battles per step: 1610 (alpaca-eval), 1000 (arena-hard), 12000 (m-arena-hard-EU).
 
-| Step | alpaca-eval | arena-hard |
-|---:|---:|---:|
-| 1000 | 42.6% | 35.3% |
-| 2000 | 47.1% | 50.3% |
-| 3000 | 47.5% | 55.5% |
-| 3252 | 48.8% | 52.8% |
+| Step | alpaca-eval | arena-hard | m-arena-hard-EU |
+|---:|---:|---:|---:|
+| 1000 | 42.6% | 35.3% | 35.8% |
+| 2000 | 47.1% | 50.3% | 48.4% |
+| 3000 | 47.5% | 55.5% | 52.3% |
+| 3252 | 48.8% | 52.8% | 54.5% |
 
 ### Winrate (swap_mode=fixed)
 
-Single ordering only (baseline=A, ours=B). Battles per step: 805 (alpaca-eval), 500 (arena-hard).
+Single ordering only (baseline=A, ours=B). Battles per step: 805 (alpaca-eval), 500 (arena-hard), 6000 (m-arena-hard-EU).
 
-| Step | alpaca-eval | arena-hard |
-|---:|---:|---:|
-| 1000 | 37.8% | 33.9% |
-| 2000 | 46.2% | 42.5% |
-| 3000 | 45.8% | 46.3% |
-| 3252 | 45.2% | 46.2% |
+| Step | alpaca-eval | arena-hard | m-arena-hard-EU |
+|---:|---:|---:|---:|
+| 1000 | 37.8% | 33.9% | 38.3% |
+| 2000 | 46.2% | 42.5% | 50.9% |
+| 3000 | 45.8% | 46.3% | 55.4% |
+| 3252 | 45.2% | 46.2% | 54.9% |
 
 ### Rubric: Average ¹ scores
 
 Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 
-| Step | alpaca-eval Baseline | alpaca-eval Ours | Delta | arena-hard Baseline | arena-hard Ours | Delta |
-|---:|---:|---:|---:|---:|---:|---:|
-| 1000 | 0.887 | 0.857 | -0.030 | 0.815 | 0.755 | -0.060 |
-| 2000 | 0.886 | 0.884 | -0.002 | 0.821 | 0.815 | -0.005 |
-| 3000 | 0.891 | 0.888 | -0.003 | 0.826 | 0.840 | +0.014 |
-| 3252 | 0.887 | 0.891 | +0.004 | 0.815 | 0.827 | +0.012 |
+| Step | alpaca-eval Baseline | alpaca-eval Ours | Delta | arena-hard Baseline | arena-hard Ours | Delta | m-arena-hard-EU Baseline | m-arena-hard-EU Ours | Delta |
+|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| 1000 | 0.887 | 0.857 | -0.030 | 0.815 | 0.755 | -0.060 | 0.489 | 0.419 | -0.071 |
+| 2000 | 0.886 | 0.884 | -0.002 | 0.821 | 0.815 | -0.005 | 0.487 | 0.488 | +0.001 |
+| 3000 | 0.891 | 0.888 | -0.003 | 0.826 | 0.840 | +0.014 | 0.487 | 0.511 | +0.024 |
+| 3252 | 0.887 | 0.891 | +0.004 | 0.815 | 0.827 | +0.012 | 0.489 | 0.510 | +0.021 |
 
 ---
 
