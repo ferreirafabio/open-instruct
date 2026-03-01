@@ -266,8 +266,9 @@ Baseline is fixed at 50.0% as reference. Values > 50% = better than baseline.
 |---|---|---|---|
 | alpaca-eval | 0.500 | 0.488 | -0.012 |
 | arena-hard | 0.500 | 0.528 | +0.028 |
+| m-arena-hard-EU | 0.500 | 0.527 | +0.027 |
 | | | | |
-| **Average** | **0.500** | **0.508** | **+0.008** |
+| **Average** | **0.500** | **0.514** | **+0.014** |
 
 ### Detailed battle counts
 
@@ -277,8 +278,9 @@ Head-to-head comparison with per-benchmark win/loss/tie counts.
 |---|---|---|---|---|---|---|---|
 | alpaca-eval | 51.2 | 48.8 | -2.4 | 1610 | 756 | 794 | 60 |
 | arena-hard | 47.3 | 52.8 | +5.5 | 1000 | 520 | 465 | 15 |
+| m-arena-hard-EU | 47.0 | 52.3 | +5.3 | 12000 | 6281 | 5641 | 78 |
 | | | | | | | | |
-| **Average** | **49.2** | **50.8** | **+1.5** | **2610** | **1276** | **1259** | **75** |
+| **Average** | **48.5** | **51.3** | **+2.8** | **14610** | **7557** | **6900** | **153** |
 
 <details><summary>Code</summary>
 
@@ -326,6 +328,17 @@ show_winrate(
 | Accuracy | 0.509 | 0.512 | +0.004 |
 | | | | |
 | **Average ¹** | **0.815** | **0.827** | **+0.012** |
+
+### m-arena-hard-EU
+
+| Criterion | Baseline | Ours | Delta |
+|---|---|---|---|
+| Instruction Following | 0.305 | 0.318 | +0.013 |
+| Naturalness | 0.572 | 0.587 | +0.015 |
+| Coherence | 0.413 | 0.425 | +0.012 |
+| Accuracy | 0.280 | 0.293 | +0.013 |
+| | | | |
+| **Average ¹** | **0.488** | **0.510** | **+0.022** |
 
 <details><summary>Code</summary>
 
