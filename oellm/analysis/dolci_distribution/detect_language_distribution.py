@@ -260,17 +260,26 @@ def plot_language_distribution(
             all_lang_counts[lang] += count
 
     top_langs = [lang for lang, _ in all_lang_counts.most_common(TOP_N_LANGUAGES)]
-    non_en_langs = [l for l in top_langs if l != "en"]
+    # Add "other" to aggregate remaining languages
+    display_langs = top_langs + ["other"]
+    non_en_langs = [l for l in display_langs if l != "en"]
 
     dataset_names = list(results.keys())
     width = 0.35
 
+    # Pre-compute "other" percentage per dataset
+    def get_pcts_with_other(result, langs):
+        pcts = [result["language_percentages"].get(lang, 0) for lang in langs[:-1]]
+        other_pct = round(100.0 - sum(result["language_percentages"].get(l, 0) for l in top_langs), 4)
+        pcts.append(max(other_pct, 0))
+        return pcts
+
     fig, (ax_all, ax_zoom) = plt.subplots(2, 1, figsize=(16, 10))
 
-    # --- Top panel: all languages ---
-    x = np.arange(len(top_langs))
+    # --- Top panel: all languages + other ---
+    x = np.arange(len(display_langs))
     for i, name in enumerate(dataset_names):
-        pcts = [results[name]["language_percentages"].get(lang, 0) for lang in top_langs]
+        pcts = get_pcts_with_other(results[name], display_langs)
         offset = (i - (len(dataset_names) - 1) / 2) * width
         bars = ax_all.bar(x + offset, pcts, width, label=name)
         _add_bar_labels(ax_all, bars, pcts)
@@ -278,14 +287,15 @@ def plot_language_distribution(
     ax_all.set_ylabel("Percentage (%)")
     ax_all.set_title("Language Distribution in Dolci Datasets")
     ax_all.set_xticks(x)
-    ax_all.set_xticklabels(top_langs, rotation=45, ha="right")
+    ax_all.set_xticklabels(display_langs, rotation=45, ha="right")
     ax_all.legend()
     ax_all.grid(axis="y", alpha=0.3)
 
-    # --- Bottom panel: non-English zoom ---
+    # --- Bottom panel: non-English + other zoom ---
     x2 = np.arange(len(non_en_langs))
     for i, name in enumerate(dataset_names):
-        pcts = [results[name]["language_percentages"].get(lang, 0) for lang in non_en_langs]
+        all_pcts = get_pcts_with_other(results[name], display_langs)
+        pcts = [p for p, l in zip(all_pcts, display_langs) if l != "en"]
         offset = (i - (len(dataset_names) - 1) / 2) * width
         bars = ax_zoom.bar(x2 + offset, pcts, width, label=name)
         _add_bar_labels(ax_zoom, bars, pcts)
