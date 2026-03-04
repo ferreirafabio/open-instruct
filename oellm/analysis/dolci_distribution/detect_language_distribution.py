@@ -30,6 +30,39 @@ DATASET_NAMES = {
 # Top N languages to show in plots; rest grouped as "other"
 TOP_N_LANGUAGES = 30
 
+# ISO 639-1 code to full language name (for plot labels)
+LANG_NAMES = {
+    "af": "Afrikaans", "am": "Amharic", "ar": "Arabic", "az": "Azerbaijani",
+    "be": "Belarusian", "bg": "Bulgarian", "bn": "Bengali", "bs": "Bosnian",
+    "ca": "Catalan", "cs": "Czech", "cy": "Welsh", "da": "Danish",
+    "de": "German", "el": "Greek", "en": "English", "es": "Spanish",
+    "et": "Estonian", "eu": "Basque", "fa": "Persian", "fi": "Finnish",
+    "fr": "French", "ga": "Irish", "gl": "Galician", "gu": "Gujarati",
+    "ha": "Hausa", "he": "Hebrew", "hi": "Hindi", "hr": "Croatian",
+    "hu": "Hungarian", "hy": "Armenian", "id": "Indonesian", "is": "Icelandic",
+    "it": "Italian", "ja": "Japanese", "jv": "Javanese", "ka": "Georgian",
+    "kk": "Kazakh", "km": "Khmer", "kn": "Kannada", "ko": "Korean",
+    "la": "Latin", "lt": "Lithuanian", "lv": "Latvian", "mg": "Malagasy",
+    "mk": "Macedonian", "ml": "Malayalam", "mn": "Mongolian", "mr": "Marathi",
+    "ms": "Malay", "mt": "Maltese", "my": "Burmese", "ne": "Nepali",
+    "nl": "Dutch", "no": "Norwegian", "pa": "Punjabi", "pl": "Polish",
+    "pt": "Portuguese", "ro": "Romanian", "ru": "Russian", "si": "Sinhala",
+    "sk": "Slovak", "sl": "Slovenian", "so": "Somali", "sq": "Albanian",
+    "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil",
+    "te": "Telugu", "tg": "Tajik", "th": "Thai", "tl": "Tagalog",
+    "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek",
+    "vi": "Vietnamese", "yo": "Yoruba", "zh": "Chinese",
+    "unknown": "unknown",
+}
+
+
+def lang_label(code: str) -> str:
+    """Convert ISO 639-1 code to 'Name (code)' for plot labels."""
+    name = LANG_NAMES.get(code, code)
+    if name == code:
+        return code
+    return f"{name} ({code})"
+
 
 def extract_user_text(example: dict) -> dict:
     """Concatenate all user messages for language detection."""
@@ -287,7 +320,7 @@ def plot_language_distribution(
     ax_all.set_ylabel("Percentage (%)")
     ax_all.set_title("Language Distribution in Dolci Datasets")
     ax_all.set_xticks(x)
-    ax_all.set_xticklabels(display_langs, rotation=45, ha="right")
+    ax_all.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right")
     ax_all.legend()
     ax_all.grid(axis="y", alpha=0.3)
 
@@ -304,7 +337,7 @@ def plot_language_distribution(
     ax_zoom.set_ylabel("Percentage (%)")
     ax_zoom.set_title("Non-English Languages (zoomed)")
     ax_zoom.set_xticks(x2)
-    ax_zoom.set_xticklabels(non_en_langs, rotation=45, ha="right")
+    ax_zoom.set_xticklabels([lang_label(l) for l in non_en_langs], rotation=45, ha="right")
     ax_zoom.legend()
     ax_zoom.grid(axis="y", alpha=0.3)
 
@@ -370,7 +403,7 @@ def plot_per_group_distribution(
         ax.set_xlabel("Language")
         ax.set_ylabel("Percentage (%)")
         ax.set_xticks(range(len(langs)))
-        ax.set_xticklabels(langs, rotation=45, ha="right")
+        ax.set_xticklabels([lang_label(l) for l in langs], rotation=45, ha="right")
         ax.grid(axis="y", alpha=0.3)
         plt.tight_layout()
         fig.savefig(
