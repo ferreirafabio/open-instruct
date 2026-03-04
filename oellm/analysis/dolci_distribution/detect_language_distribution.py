@@ -28,7 +28,7 @@ DATASET_NAMES = {
 }
 
 # Top N languages to show in plots; rest grouped as "other"
-TOP_N_LANGUAGES = 15
+TOP_N_LANGUAGES = 30
 
 
 def extract_user_text(example: dict) -> dict:
