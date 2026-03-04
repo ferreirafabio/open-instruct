@@ -240,10 +240,11 @@ def _add_bar_labels(ax, bars, pcts):
                 bar.get_x() + bar.get_width() / 2,
                 bar.get_height(),
                 label,
-                ha="center",
+                ha="left",
                 va="bottom",
                 fontsize=8,
                 fontweight="bold",
+                rotation=45,
             )
 
 
