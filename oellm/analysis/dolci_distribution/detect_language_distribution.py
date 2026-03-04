@@ -307,39 +307,24 @@ def plot_language_distribution(
         pcts.append(max(other_pct, 0))
         return pcts
 
-    fig, (ax_all, ax_zoom) = plt.subplots(2, 1, figsize=(16, 10))
+    fig, ax = plt.subplots(figsize=(18, 7))
 
-    # --- Top panel: all languages + other ---
     x = np.arange(len(display_langs))
     for i, name in enumerate(dataset_names):
         pcts = get_pcts_with_other(results[name], display_langs)
         offset = (i - (len(dataset_names) - 1) / 2) * width
-        bars = ax_all.bar(x + offset, pcts, width, label=name)
-        _add_bar_labels(ax_all, bars, pcts)
+        bars = ax.bar(x + offset, pcts, width, label=name)
+        _add_bar_labels(ax, bars, pcts)
 
-    ax_all.set_ylabel("Percentage (%)")
-    ax_all.set_title("Language Distribution in Dolci Datasets")
-    ax_all.set_xticks(x)
-    ax_all.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right")
-    ax_all.legend()
-    ax_all.grid(axis="y", alpha=0.3)
-
-    # --- Bottom panel: non-English + other zoom ---
-    x2 = np.arange(len(non_en_langs))
-    for i, name in enumerate(dataset_names):
-        all_pcts = get_pcts_with_other(results[name], display_langs)
-        pcts = [p for p, l in zip(all_pcts, display_langs) if l != "en"]
-        offset = (i - (len(dataset_names) - 1) / 2) * width
-        bars = ax_zoom.bar(x2 + offset, pcts, width, label=name)
-        _add_bar_labels(ax_zoom, bars, pcts)
-
-    ax_zoom.set_xlabel("Language")
-    ax_zoom.set_ylabel("Percentage (%)")
-    ax_zoom.set_title("Non-English Languages (zoomed)")
-    ax_zoom.set_xticks(x2)
-    ax_zoom.set_xticklabels([lang_label(l) for l in non_en_langs], rotation=45, ha="right")
-    ax_zoom.legend()
-    ax_zoom.grid(axis="y", alpha=0.3)
+    ax.set_yscale("log")
+    ax.set_xlabel("Language")
+    ax.set_ylabel("Percentage (%, log scale)")
+    ax.set_title("Language Distribution in Dolci Datasets")
+    ax.set_xticks(x)
+    ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right")
+    ax.legend()
+    ax.grid(axis="y", alpha=0.3, which="both")
+    ax.set_ylim(bottom=0.05)
 
     plt.tight_layout()
     fig.savefig(output_dir / "dolci_language_distribution.png", dpi=150)
