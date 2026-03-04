@@ -255,14 +255,16 @@ def plot_language_distribution(
         offset = (i - (len(dataset_names) - 1) / 2) * width
         bars = ax.bar(x + offset, pcts, width, label=name)
         for bar, pct in zip(bars, pcts):
-            if pct > 1:
+            if pct > 0:
+                label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
                 ax.text(
                     bar.get_x() + bar.get_width() / 2,
                     bar.get_height(),
-                    f"{pct:.1f}%",
+                    label,
                     ha="center",
                     va="bottom",
                     fontsize=7,
+                    rotation=90 if pct < 1 else 0,
                 )
 
     ax.set_xlabel("Language")
@@ -328,8 +330,12 @@ def plot_per_group_distribution(
         fig, ax = plt.subplots(figsize=(10, 5))
         ax.bar(langs, pcts, color="steelblue")
         for i, (lang, pct) in enumerate(zip(langs, pcts)):
-            if pct > 1:
-                ax.text(i, pct, f"{pct:.1f}%", ha="center", va="bottom", fontsize=7)
+            if pct > 0:
+                label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
+                ax.text(
+                    i, pct, label, ha="center", va="bottom", fontsize=7,
+                    rotation=90 if pct < 1 else 0,
+                )
 
         safe_name = group_name.replace("/", "_").replace(" ", "_")
         ax.set_title(f"Language Distribution - {dataset_name} - {group_type}: {group_name}")
