@@ -53,8 +53,10 @@ def detect_languages_batch(batch: dict) -> dict:
             scores.append(0.0)
         else:
             try:
-                results = detect(text)
-                # detect() returns a list of dicts: [{"lang": "en", "score": 0.99}]
+                # model="lite" uses bundled lid.176.ftz (938KB, no download).
+                # "auto" (default) tries the 125MB model first, which fails
+                # in multiprocess workers that all try to download it at once.
+                results = detect(text, model="lite")
                 top = results[0]
                 langs.append(top["lang"])
                 scores.append(top["score"])
