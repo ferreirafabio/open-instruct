@@ -288,14 +288,17 @@ def merge_shard_results(shard_results: list[dict]) -> dict:
     }
 
 
-def _add_bar_labels(ax, bars, pcts):
-    """Add percentage labels on top of bars."""
+def _add_bar_labels(ax, bars, pcts, min_y=None):
+    """Add percentage labels on top of bars. Skip labels below min_y."""
     for bar, pct in zip(bars, pcts):
         if pct > 0:
+            top = bar.get_y() + bar.get_height()
+            if min_y is not None and top < min_y:
+                continue
             label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
             ax.text(
                 bar.get_x() + bar.get_width() / 2,
-                bar.get_y() + bar.get_height(),
+                top,
                 label,
                 ha="left",
                 va="bottom",
@@ -473,16 +476,17 @@ def plot_per_group_distribution(
         langs = [item[0] for item in top_items]
         pcts = [item[1] / total * 100 for item in top_items]
 
+        min_y = 0.005
         fig, ax = plt.subplots(figsize=(14, 5))
         bars = ax.bar(langs, pcts, color="steelblue")
-        _add_bar_labels(ax, bars, pcts)
+        _add_bar_labels(ax, bars, pcts, min_y=min_y)
 
         safe_name = group_name.replace("/", "_").replace(" ", "_")
         ax.set_title(f"Language Distribution - {dataset_name} - {group_type}: {group_name}")
         ax.set_xlabel("Language")
         ax.set_ylabel("Percentage (%, log scale)")
         ax.set_yscale("log")
-        ax.set_ylim(bottom=0.005)
+        ax.set_ylim(bottom=min_y)
         ax.set_xticks(range(len(langs)))
         ax.set_xticklabels([lang_label(l) for l in langs], rotation=45, ha="right", fontsize=7)
         ax.grid(axis="y", alpha=0.3, which="both")
