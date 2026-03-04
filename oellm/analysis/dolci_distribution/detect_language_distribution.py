@@ -351,6 +351,56 @@ def plot_language_distribution(
     plt.close(fig)
     logger.info("Saved dolci_language_distribution.png")
 
+    # --- Counts plot (same layout, absolute counts instead of percentages) ---
+    dataset_counts = {}
+    for name, result in results.items():
+        counts = [result["language_counts"].get(lang, 0) for lang in top_langs]
+        other_count = sum(
+            c for lang, c in result["language_counts"].items() if lang not in top_langs
+        )
+        counts.append(other_count)
+        dataset_counts[name] = counts
+
+    fig, ax = plt.subplots(figsize=(22, 7))
+    bottom = np.zeros(len(display_langs))
+    for i, name in enumerate(dataset_names):
+        counts = np.array(dataset_counts[name], dtype=float)
+        bars = ax.bar(
+            x, counts, width,
+            bottom=bottom,
+            label=name,
+            color=colors[i % len(colors)],
+        )
+        for bar, cnt, bot in zip(bars, counts, bottom):
+            if cnt > 0:
+                if cnt >= 1000:
+                    label = f"{cnt / 1000:.0f}k" if cnt < 1_000_000 else f"{cnt / 1_000_000:.1f}M"
+                else:
+                    label = f"{int(cnt)}"
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2,
+                    bot + cnt,
+                    label,
+                    ha="left", va="bottom",
+                    fontsize=6, fontweight="bold", rotation=45,
+                )
+        bottom += counts
+
+    ax.set_yscale("log")
+    ax.set_xlabel("Language")
+    ax.set_ylabel("Sample count (log scale)")
+    ax.set_title("Language Counts in Dolci Datasets (stacked by dataset)")
+    ax.set_xticks(x)
+    ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=7)
+    ax.legend()
+    ax.grid(axis="y", alpha=0.3, which="both")
+    ax.set_ylim(bottom=1)
+
+    plt.tight_layout()
+    fig.savefig(output_dir / "dolci_language_counts.png", dpi=150)
+    plt.close(fig)
+    logger.info("Saved dolci_language_counts.png")
+
 
 def plot_confidence_distribution(
     results: dict[str, dict],
