@@ -28,7 +28,7 @@ DATASET_NAMES = {
 }
 
 # Top N languages to show in plots; rest grouped as "other"
-TOP_N_LANGUAGES = 30
+TOP_N_LANGUAGES = 50
 
 # ISO 639-1 code to full language name (for plot labels)
 LANG_NAMES = {
@@ -51,7 +51,7 @@ LANG_NAMES = {
     "sr": "Serbian", "sv": "Swedish", "sw": "Swahili", "ta": "Tamil",
     "te": "Telugu", "tg": "Tajik", "th": "Thai", "tl": "Tagalog",
     "tr": "Turkish", "uk": "Ukrainian", "ur": "Urdu", "uz": "Uzbek",
-    "vi": "Vietnamese", "yo": "Yoruba", "zh": "Chinese",
+    "vi": "Vietnamese", "yo": "Yoruba", "zh": "Chinese", "ky": "Kyrgyz",
     "unknown": "unknown",
 }
 
@@ -285,46 +285,66 @@ def plot_language_distribution(
     results: dict[str, dict],
     output_dir: Path,
 ) -> None:
-    """Generate language distribution with two panels: all languages + zoomed non-English."""
-    # Collect all languages across datasets, sorted by total count
+    """Generate language distribution as stacked bars (one bar per language, color = dataset)."""
+    # Merge counts across datasets to rank languages
     all_lang_counts: Counter = Counter()
-    for name, result in results.items():
+    total_all = 0
+    for result in results.values():
         for lang, count in result["language_counts"].items():
             all_lang_counts[lang] += count
+        total_all += result["total_samples"]
 
     top_langs = [lang for lang, _ in all_lang_counts.most_common(TOP_N_LANGUAGES)]
-    # Add "other" to aggregate remaining languages
     display_langs = top_langs + ["other"]
-    non_en_langs = [l for l in display_langs if l != "en"]
 
     dataset_names = list(results.keys())
-    width = 0.35
+    colors = ["steelblue", "darkorange", "seagreen", "firebrick"]
 
-    # Pre-compute "other" percentage per dataset
-    def get_pcts_with_other(result, langs):
-        pcts = [result["language_percentages"].get(lang, 0) for lang in langs[:-1]]
-        other_pct = round(100.0 - sum(result["language_percentages"].get(l, 0) for l in top_langs), 4)
-        pcts.append(max(other_pct, 0))
-        return pcts
+    # Compute per-dataset contribution as % of combined total
+    dataset_pcts = {}
+    for name, result in results.items():
+        pcts = [result["language_counts"].get(lang, 0) / total_all * 100 for lang in top_langs]
+        other_count = sum(
+            count for lang, count in result["language_counts"].items() if lang not in top_langs
+        )
+        pcts.append(other_count / total_all * 100)
+        dataset_pcts[name] = pcts
 
-    fig, ax = plt.subplots(figsize=(18, 7))
-
+    fig, ax = plt.subplots(figsize=(22, 7))
     x = np.arange(len(display_langs))
+    width = 0.7
+
+    bottom = np.zeros(len(display_langs))
     for i, name in enumerate(dataset_names):
-        pcts = get_pcts_with_other(results[name], display_langs)
-        offset = (i - (len(dataset_names) - 1) / 2) * width
-        bars = ax.bar(x + offset, pcts, width, label=name)
-        _add_bar_labels(ax, bars, pcts)
+        pcts = np.array(dataset_pcts[name])
+        bars = ax.bar(
+            x, pcts, width,
+            bottom=bottom,
+            label=name,
+            color=colors[i % len(colors)],
+        )
+        # Label each segment with its percentage
+        for bar, pct, bot in zip(bars, pcts, bottom):
+            if pct > 0:
+                label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2,
+                    bot + pct,
+                    label,
+                    ha="left", va="bottom",
+                    fontsize=6, fontweight="bold", rotation=45,
+                )
+        bottom += pcts
 
     ax.set_yscale("log")
     ax.set_xlabel("Language")
-    ax.set_ylabel("Percentage (%, log scale)")
-    ax.set_title("Language Distribution in Dolci Datasets")
+    ax.set_ylabel("Percentage of combined dataset (%, log scale)")
+    ax.set_title("Language Distribution in Dolci Datasets (stacked by dataset)")
     ax.set_xticks(x)
-    ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right")
+    ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=7)
     ax.legend()
     ax.grid(axis="y", alpha=0.3, which="both")
-    ax.set_ylim(bottom=0.05)
+    ax.set_ylim(bottom=0.005)
 
     plt.tight_layout()
     fig.savefig(output_dir / "dolci_language_distribution.png", dpi=150)
@@ -379,17 +399,19 @@ def plot_per_group_distribution(
         langs = [item[0] for item in top_items]
         pcts = [item[1] / total * 100 for item in top_items]
 
-        fig, ax = plt.subplots(figsize=(10, 5))
+        fig, ax = plt.subplots(figsize=(14, 5))
         bars = ax.bar(langs, pcts, color="steelblue")
         _add_bar_labels(ax, bars, pcts)
 
         safe_name = group_name.replace("/", "_").replace(" ", "_")
         ax.set_title(f"Language Distribution - {dataset_name} - {group_type}: {group_name}")
         ax.set_xlabel("Language")
-        ax.set_ylabel("Percentage (%)")
+        ax.set_ylabel("Percentage (%, log scale)")
+        ax.set_yscale("log")
+        ax.set_ylim(bottom=0.005)
         ax.set_xticks(range(len(langs)))
-        ax.set_xticklabels([lang_label(l) for l in langs], rotation=45, ha="right")
-        ax.grid(axis="y", alpha=0.3)
+        ax.set_xticklabels([lang_label(l) for l in langs], rotation=45, ha="right", fontsize=7)
+        ax.grid(axis="y", alpha=0.3, which="both")
         plt.tight_layout()
         fig.savefig(
             output_dir / f"dolci_lang_dist_{group_type}_{safe_name}.png",
