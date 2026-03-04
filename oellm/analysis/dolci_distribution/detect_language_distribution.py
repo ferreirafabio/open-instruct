@@ -231,13 +231,27 @@ def merge_shard_results(shard_results: list[dict]) -> dict:
     }
 
 
+def _add_bar_labels(ax, bars, pcts):
+    """Add percentage labels on top of bars."""
+    for bar, pct in zip(bars, pcts):
+        if pct > 0:
+            label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
+            ax.text(
+                bar.get_x() + bar.get_width() / 2,
+                bar.get_height(),
+                label,
+                ha="center",
+                va="bottom",
+                fontsize=8,
+                fontweight="bold",
+            )
+
+
 def plot_language_distribution(
     results: dict[str, dict],
     output_dir: Path,
 ) -> None:
-    """Generate overall language distribution bar chart comparing datasets."""
-    fig, ax = plt.subplots(figsize=(14, 6))
-
+    """Generate language distribution with two panels: all languages + zoomed non-English."""
     # Collect all languages across datasets, sorted by total count
     all_lang_counts: Counter = Counter()
     for name, result in results.items():
@@ -245,35 +259,44 @@ def plot_language_distribution(
             all_lang_counts[lang] += count
 
     top_langs = [lang for lang, _ in all_lang_counts.most_common(TOP_N_LANGUAGES)]
+    non_en_langs = [l for l in top_langs if l != "en"]
 
-    x = np.arange(len(top_langs))
-    width = 0.35
     dataset_names = list(results.keys())
+    width = 0.35
 
+    fig, (ax_all, ax_zoom) = plt.subplots(2, 1, figsize=(16, 10))
+
+    # --- Top panel: all languages ---
+    x = np.arange(len(top_langs))
     for i, name in enumerate(dataset_names):
         pcts = [results[name]["language_percentages"].get(lang, 0) for lang in top_langs]
         offset = (i - (len(dataset_names) - 1) / 2) * width
-        bars = ax.bar(x + offset, pcts, width, label=name)
-        for bar, pct in zip(bars, pcts):
-            if pct > 0:
-                label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
-                ax.text(
-                    bar.get_x() + bar.get_width() / 2,
-                    bar.get_height(),
-                    label,
-                    ha="center",
-                    va="bottom",
-                    fontsize=7,
-                    rotation=90 if pct < 1 else 0,
-                )
+        bars = ax_all.bar(x + offset, pcts, width, label=name)
+        _add_bar_labels(ax_all, bars, pcts)
 
-    ax.set_xlabel("Language")
-    ax.set_ylabel("Percentage (%)")
-    ax.set_title("Language Distribution in Dolci Datasets")
-    ax.set_xticks(x)
-    ax.set_xticklabels(top_langs, rotation=45, ha="right")
-    ax.legend()
-    ax.grid(axis="y", alpha=0.3)
+    ax_all.set_ylabel("Percentage (%)")
+    ax_all.set_title("Language Distribution in Dolci Datasets")
+    ax_all.set_xticks(x)
+    ax_all.set_xticklabels(top_langs, rotation=45, ha="right")
+    ax_all.legend()
+    ax_all.grid(axis="y", alpha=0.3)
+
+    # --- Bottom panel: non-English zoom ---
+    x2 = np.arange(len(non_en_langs))
+    for i, name in enumerate(dataset_names):
+        pcts = [results[name]["language_percentages"].get(lang, 0) for lang in non_en_langs]
+        offset = (i - (len(dataset_names) - 1) / 2) * width
+        bars = ax_zoom.bar(x2 + offset, pcts, width, label=name)
+        _add_bar_labels(ax_zoom, bars, pcts)
+
+    ax_zoom.set_xlabel("Language")
+    ax_zoom.set_ylabel("Percentage (%)")
+    ax_zoom.set_title("Non-English Languages (zoomed)")
+    ax_zoom.set_xticks(x2)
+    ax_zoom.set_xticklabels(non_en_langs, rotation=45, ha="right")
+    ax_zoom.legend()
+    ax_zoom.grid(axis="y", alpha=0.3)
+
     plt.tight_layout()
     fig.savefig(output_dir / "dolci_language_distribution.png", dpi=150)
     plt.close(fig)
@@ -328,14 +351,8 @@ def plot_per_group_distribution(
         pcts = [item[1] / total * 100 for item in top_items]
 
         fig, ax = plt.subplots(figsize=(10, 5))
-        ax.bar(langs, pcts, color="steelblue")
-        for i, (lang, pct) in enumerate(zip(langs, pcts)):
-            if pct > 0:
-                label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
-                ax.text(
-                    i, pct, label, ha="center", va="bottom", fontsize=7,
-                    rotation=90 if pct < 1 else 0,
-                )
+        bars = ax.bar(langs, pcts, color="steelblue")
+        _add_bar_labels(ax, bars, pcts)
 
         safe_name = group_name.replace("/", "_").replace(" ", "_")
         ax.set_title(f"Language Distribution - {dataset_name} - {group_type}: {group_name}")
