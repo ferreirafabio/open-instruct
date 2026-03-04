@@ -275,7 +275,7 @@ def _add_bar_labels(ax, bars, pcts):
                 label,
                 ha="left",
                 va="bottom",
-                fontsize=8,
+                fontsize=7,
                 fontweight="bold",
                 rotation=45,
             )
