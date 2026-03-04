@@ -271,7 +271,7 @@ def _add_bar_labels(ax, bars, pcts):
             label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
             ax.text(
                 bar.get_x() + bar.get_width() / 2,
-                bar.get_height(),
+                bar.get_y() + bar.get_height(),
                 label,
                 ha="left",
                 va="bottom",
