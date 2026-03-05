@@ -373,6 +373,198 @@ def transform_identity(example):
     return {"messages": example["messages"]}
 
 
+def transform_fusion_synth(example) -> dict:
+    """
+    Transforms CohereLabs/fusion-synth-data-ufb examples for multilingual SFT.
+    Uses the 'Fusion' completion (combined output from 5 teachers).
+    Preserves 'language_code' as 'language'.
+    """
+    prompt = example.get("prompt", "")
+    fusion = example.get("Fusion")
+    if not fusion or not isinstance(fusion, dict):
+        return {"messages": [], "language": ""}
+
+    completion = fusion.get("completion", "")
+    if not prompt or not completion:
+        return {"messages": [], "language": ""}
+
+    language = example.get("language_code", "")
+
+    return {
+        "messages": [
+            {"role": "user", "content": prompt},
+            {"role": "assistant", "content": completion},
+        ],
+        "language": language,
+    }
+
+
+# Map full language names (used by WildChat, lmsys-chat) to ISO 639-1 codes
+LANGUAGE_NAME_TO_ISO = {
+    "English": "en", "German": "de", "French": "fr", "Spanish": "es",
+    "Italian": "it", "Portuguese": "pt", "Dutch": "nl", "Polish": "pl",
+    "Czech": "cs", "Romanian": "ro", "Greek": "el", "Ukrainian": "uk",
+    "Russian": "ru", "Chinese": "zh", "Japanese": "ja", "Korean": "ko",
+    "Arabic": "ar", "Turkish": "tr", "Vietnamese": "vi", "Indonesian": "id",
+    "Thai": "th", "Hindi": "hi", "Swedish": "sv", "Danish": "da",
+    "Finnish": "fi", "Norwegian": "no", "Hungarian": "hu", "Bulgarian": "bg",
+    "Croatian": "hr", "Slovak": "sk", "Slovenian": "sl", "Estonian": "et",
+    "Latvian": "lv", "Lithuanian": "lt", "Serbian": "sr", "Hebrew": "he",
+    "Persian": "fa", "Catalan": "ca", "Bangla": "bn", "Tamil": "ta",
+    "Urdu": "ur", "Malay": "ms", "Tagalog": "tl", "Swahili": "sw",
+    "Albanian": "sq", "Icelandic": "is", "Irish": "ga", "Maltese": "mt",
+    "Welsh": "cy", "Basque": "eu", "Galician": "gl", "Afrikaans": "af",
+    "Georgian": "ka", "Armenian": "hy", "Azerbaijani": "az", "Kazakh": "kk",
+    "Belarusian": "be", "Macedonian": "mk", "Bosnian": "bs", "Latin": "la",
+}
+
+
+def transform_wildchat(example) -> dict:
+    """
+    Transforms allenai/WildChat-1M examples for multilingual SFT.
+    Filters toxic conversations, requires >=2 turns and >=50 chars.
+    Preserves 'language' column.
+    """
+    # Filter toxic conversations
+    if example.get("toxic", False):
+        return {"messages": [], "language": ""}
+
+    conversation = example.get("conversation", [])
+    if not conversation or not isinstance(conversation, list):
+        return {"messages": [], "language": ""}
+
+    # Require at least 2 turns (user + assistant)
+    if len(conversation) < 2:
+        return {"messages": [], "language": ""}
+
+    # Build messages
+    messages = []
+    for turn in conversation:
+        if not isinstance(turn, dict):
+            continue
+        role = turn.get("role", "")
+        content = turn.get("content", "")
+        if role and content:
+            messages.append({"role": role, "content": content})
+
+    # Require minimum content length
+    total_chars = sum(len(m["content"]) for m in messages)
+    if total_chars < 50:
+        return {"messages": [], "language": ""}
+
+    # Map full name to ISO code (WildChat uses "English", "German", etc.)
+    raw_language = example.get("language", "")
+    language = LANGUAGE_NAME_TO_ISO.get(raw_language, raw_language.lower()[:2] if raw_language else "")
+
+    return {"messages": messages, "language": language}
+
+
+def transform_lmsys_chat_multilingual(example) -> dict:
+    """
+    Transforms lmsys/lmsys-chat-1m examples preserving the 'language' column.
+    Unlike the existing transform_rename_conversation_to_messages, this keeps language.
+    Maps full language names (e.g., "English") to ISO codes (e.g., "en").
+    """
+    conversation = example.get("conversation", [])
+    if not conversation or not isinstance(conversation, list):
+        return {"messages": [], "language": ""}
+
+    # Require at least 2 turns
+    if len(conversation) < 2:
+        return {"messages": [], "language": ""}
+
+    # Require minimum content length
+    total_chars = sum(len(t.get("content", "")) for t in conversation if isinstance(t, dict))
+    if total_chars < 50:
+        return {"messages": [], "language": ""}
+
+    messages = []
+    for turn in conversation:
+        if isinstance(turn, dict) and turn.get("role") and turn.get("content"):
+            messages.append({"role": turn["role"], "content": turn["content"]})
+
+    # Map full name to ISO code
+    raw_language = example.get("language", "")
+    language = LANGUAGE_NAME_TO_ISO.get(raw_language, raw_language.lower()[:2] if raw_language else "")
+
+    return {"messages": messages, "language": language}
+
+
+def transform_oasst2_dataset(ds) -> list[dict]:
+    """
+    Process OpenAssistant/oasst2 dataset into conversations.
+
+    Unlike row-level transforms, this processes the entire dataset at once
+    because oasst2 uses a tree structure (message_id/parent_id) that requires
+    reconstructing conversation paths.
+
+    Returns list of dicts with 'messages' and 'language' keys.
+    """
+    import pandas as pd
+
+    df = ds.to_pandas()
+
+    # Build parent->children index
+    children: dict[str, list[str]] = {}
+    msg_lookup: dict[str, dict] = {}
+    roots: list[str] = []
+
+    for _, row in df.iterrows():
+        msg_id = row["message_id"]
+        parent_id = row.get("parent_id")
+        msg_lookup[msg_id] = row
+
+        if parent_id is None or (isinstance(parent_id, float) and pd.isna(parent_id)):
+            roots.append(msg_id)
+        else:
+            children.setdefault(parent_id, []).append(msg_id)
+
+    def get_best_child(parent_id: str) -> str | None:
+        """Get highest-ranked child message."""
+        kids = children.get(parent_id, [])
+        if not kids:
+            return None
+        # Sort by rank (lower = better), break ties by label count
+        kids_with_rank = []
+        for kid_id in kids:
+            kid = msg_lookup[kid_id]
+            rank = kid.get("rank")
+            if rank is None or (isinstance(rank, float) and pd.isna(rank)):
+                rank = 999
+            labels = kid.get("labels", {})
+            label_count = len(labels) if isinstance(labels, dict) else 0
+            kids_with_rank.append((rank, -label_count, kid_id))
+        kids_with_rank.sort()
+        return kids_with_rank[0][2]
+
+    conversations = []
+    for root_id in roots:
+        root = msg_lookup[root_id]
+        # Only use prompter-initiated conversations
+        if root.get("role") != "prompter":
+            continue
+
+        # Follow best-ranked path from root to leaf
+        path = []
+        current_id = root_id
+        while current_id is not None:
+            msg = msg_lookup[current_id]
+            role_map = {"prompter": "user", "assistant": "assistant"}
+            role = role_map.get(msg.get("role", ""), "user")
+            text = msg.get("text", "")
+            if text:
+                path.append({"role": role, "content": text})
+            current_id = get_best_child(current_id)
+
+        if len(path) >= 2:
+            # Normalize language codes: pt-BR -> pt, uk-UA -> uk, etc.
+            raw_lang = root.get("lang", "")
+            language = raw_lang.split("-")[0] if raw_lang else ""
+            conversations.append({"messages": path, "language": language})
+
+    return conversations
+
+
 ################################################################################
 # Dataset mixture definitions
 ################################################################################
@@ -398,6 +590,10 @@ TRANSFORMS: Dict[str, Callable] = {
     "transform_rename_chosen_to_messages": transform_rename_chosen_to_messages,
     "transform_rename_conversation_to_messages": transform_rename_conversation_to_messages,
     "transform_identity": transform_identity,
+    "transform_fusion_synth": transform_fusion_synth,
+    "transform_wildchat": transform_wildchat,
+    "transform_lmsys_chat_multilingual": transform_lmsys_chat_multilingual,
+    # Note: oasst2 uses transform_oasst2_dataset (batch transform, not row-level)
 }
 
 
@@ -620,6 +816,55 @@ DATA_MIXTURES: List[Dict[str, Any]] = [
             },
         ],
     },
+    # --- Multilingual datasets (for EU language fine-tuning) ---
+    {
+        "name": "CohereLabs-fusion-synth-data-ufb",
+        "datasets": [
+            {
+                "id": "CohereLabs/fusion-synth-data-ufb",
+                "config": "default",
+                "split": "train",
+                "transform": "transform_fusion_synth",
+            },
+        ],
+        "keep_columns": ["messages", "language"],
+    },
+    {
+        "name": "allenai-WildChat-1M",
+        "datasets": [
+            {
+                "id": "allenai/WildChat-1M",
+                "config": "default",
+                "split": "train",
+                "transform": "transform_wildchat",
+            },
+        ],
+        "keep_columns": ["messages", "language"],
+    },
+    {
+        "name": "lmsys-lmsys-chat-1m-multilingual",
+        "datasets": [
+            {
+                "id": "lmsys/lmsys-chat-1m",
+                "config": "default",
+                "split": "train",
+                "transform": "transform_lmsys_chat_multilingual",
+            },
+        ],
+        "keep_columns": ["messages", "language"],
+    },
+    {
+        "name": "OpenAssistant-oasst2",
+        "custom_process": "oasst2",
+        "datasets": [
+            {
+                "id": "OpenAssistant/oasst2",
+                "config": "default",
+                "split": "train+validation",
+            },
+        ],
+        "keep_columns": ["messages", "language"],
+    },
 ]
 
 
@@ -635,6 +880,7 @@ def load_and_transform_dataset(
     transform_name: str,
     data_dir: Optional[str] = None,
     rename_columns: Optional[Dict[str, str]] = None,
+    keep_columns: Optional[List[str]] = None,
     num_proc: int = 8,
 ) -> Dataset:
     """Load a dataset and apply transformation."""
@@ -652,6 +898,14 @@ def load_and_transform_dataset(
 
     try:
         ds = load_dataset(**load_kwargs)
+    except (TypeError, ValueError) as e:
+        if "trust_remote_code" in str(e):
+            # Newer HF datasets versions don't support trust_remote_code
+            load_kwargs.pop("trust_remote_code", None)
+            ds = load_dataset(**load_kwargs)
+        else:
+            print(f"  ERROR loading dataset: {e}")
+            return None
     except Exception as e:
         print(f"  ERROR loading dataset: {e}")
         return None
@@ -670,13 +924,18 @@ def load_and_transform_dataset(
     if transform_fn is None:
         raise ValueError(f"Unknown transform: {transform_name}")
 
+    # Determine which columns to keep after transform
+    if keep_columns is None:
+        keep_columns = ["messages"]
+    columns_to_remove = [c for c in ds.column_names if c not in keep_columns]
+
     print(f"  Applying transform: {transform_name}...")
     # Use num_proc=1 to avoid Arrow schema inference issues when multiprocessing
     # encounters empty messages [] in some processes and valid messages in others
     ds = ds.map(
         transform_fn,
         num_proc=1,  # Single process avoids schema conflicts across workers
-        remove_columns=[c for c in ds.column_names if c != "messages"],
+        remove_columns=columns_to_remove,
         desc=f"Transforming {dataset_id}",
     )
 
@@ -736,31 +995,63 @@ def process_mixture(
     print(f"Processing mixture: {mixture_name}")
     print(f"{'='*60}")
 
-    all_datasets = []
+    keep_columns = mixture.get("keep_columns")
 
-    for ds_config in mixture["datasets"]:
-        ds = load_and_transform_dataset(
-            dataset_id=ds_config["id"],
-            config=ds_config.get("config", "default"),
-            split=ds_config["split"],
-            transform_name=ds_config["transform"],
-            data_dir=ds_config.get("data_dir"),
-            rename_columns=ds_config.get("rename_columns"),
-            num_proc=num_proc,
-        )
-        if ds is not None and len(ds) > 0:
-            all_datasets.append(ds)
+    # Handle custom processing (e.g., oasst2 tree reconstruction)
+    if mixture.get("custom_process") == "oasst2":
+        ds_config = mixture["datasets"][0]
+        print(f"  Loading {ds_config['id']} for tree reconstruction...")
+        load_kwargs = {
+            "path": ds_config["id"],
+            "split": ds_config["split"],
+            "trust_remote_code": True,
+        }
+        config_name = ds_config.get("config", "default")
+        if config_name and config_name != "default":
+            load_kwargs["name"] = config_name
 
-    if not all_datasets:
-        print(f"  No data loaded for mixture {mixture_name}")
-        return None
+        try:
+            raw_ds = load_dataset(**load_kwargs)
+        except Exception as e:
+            print(f"  ERROR loading dataset: {e}")
+            return None
 
-    # Concatenate all datasets
-    if len(all_datasets) > 1:
-        print(f"  Concatenating {len(all_datasets)} datasets...")
-        combined = concatenate_datasets(all_datasets)
+        print(f"  Loaded {len(raw_ds)} messages, reconstructing conversation trees...")
+        conversations = transform_oasst2_dataset(raw_ds)
+        print(f"  Reconstructed {len(conversations)} conversations")
+
+        if not conversations:
+            print(f"  No conversations extracted for {mixture_name}")
+            return None
+
+        combined = Dataset.from_list(conversations)
     else:
-        combined = all_datasets[0]
+        all_datasets = []
+
+        for ds_config in mixture["datasets"]:
+            ds = load_and_transform_dataset(
+                dataset_id=ds_config["id"],
+                config=ds_config.get("config", "default"),
+                split=ds_config["split"],
+                transform_name=ds_config["transform"],
+                data_dir=ds_config.get("data_dir"),
+                rename_columns=ds_config.get("rename_columns"),
+                keep_columns=keep_columns,
+                num_proc=num_proc,
+            )
+            if ds is not None and len(ds) > 0:
+                all_datasets.append(ds)
+
+        if not all_datasets:
+            print(f"  No data loaded for mixture {mixture_name}")
+            return None
+
+        # Concatenate all datasets
+        if len(all_datasets) > 1:
+            print(f"  Concatenating {len(all_datasets)} datasets...")
+            combined = concatenate_datasets(all_datasets)
+        else:
+            combined = all_datasets[0]
 
     print(f"  Total examples: {len(combined)}")
 

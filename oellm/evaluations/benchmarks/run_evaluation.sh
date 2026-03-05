@@ -77,7 +77,9 @@ if [ ! -d "$TRAINED" ]; then
 fi
 
 # Judge model - Qwen3-30B is recommended for quality
-JUDGE_MODEL="Qwen/Qwen3-30B-A3B-Instruct-2507"
+JUDGE_MODEL="Qwen/Qwen3.5-35B-A3B"
+# Previous judge (keep for reproducibility):
+# JUDGE_MODEL="Qwen/Qwen3-30B-A3B-Instruct-2507"
 
 # Environment
 export OPENJURY_DATA="$PROJECT_ROOT/data/openjury-eval-data"

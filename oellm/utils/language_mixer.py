@@ -2,6 +2,13 @@
 
 Computes per-language sample counts based on configurable ratios.
 Supports explicit per-language ratios and "others" pool distribution.
+
+Two modes:
+1. EU24 mode (original): Uses `others` to distribute among remaining EU languages.
+   Used with translated datasets where all 24 EU languages are available.
+2. Multilingual mode (new): Uses only explicit language ratios, no `others`.
+   Used with pre-existing multilingual datasets where specific languages are available.
+   Has additional fields: `name`, `total_samples`, `sources`, `english_source`.
 """
 
 from dataclasses import dataclass, field
@@ -48,9 +55,14 @@ class LanguageMixConfig:
         english_ratio: Ratio of English samples (e.g., 0.9 for 90%)
         explicit_languages: Dict of language code -> ratio (e.g., {"de": 0.02})
         others_ratio: Ratio to distribute among non-explicit EU languages
-        datasets: List of dataset filenames to include
+        datasets: List of dataset filenames to include (EU24 mode)
         seed: Random seed for reproducibility
         translation_model: Translation model used (for metadata)
+        name: Config name (multilingual mode)
+        total_samples: Total number of samples (multilingual mode)
+        sources: List of source dataset names (multilingual mode)
+        english_source: HF dataset ID for English data (multilingual mode)
+        validate_eu: If True, validate languages against EU_LANGUAGES list
     """
 
     english_ratio: float
@@ -59,6 +71,11 @@ class LanguageMixConfig:
     datasets: list[str] = field(default_factory=list)
     seed: int = 42
     translation_model: Optional[str] = None
+    name: Optional[str] = None
+    total_samples: Optional[int] = None
+    sources: list[str] = field(default_factory=list)
+    english_source: Optional[str] = None
+    validate_eu: bool = True
 
 
 class LanguageMixer:
@@ -104,18 +121,22 @@ class LanguageMixer:
             if ratio < 0:
                 raise ValueError(f"Ratio for {lang} cannot be negative")
 
-        # Check that explicit languages are valid EU languages
+        # Check that explicit languages don't include English
         for lang in self.config.explicit_languages:
             if lang == "en":
                 raise ValueError(
                     "English should not be in explicit_languages; "
                     "use english_ratio instead"
                 )
-            if lang not in EU_LANGUAGES:
-                raise ValueError(
-                    f"'{lang}' is not a valid EU language. "
-                    f"Valid languages: {EU_LANGUAGES}"
-                )
+
+        # Only validate against EU_LANGUAGES if in EU24 mode
+        if self.config.validate_eu:
+            for lang in self.config.explicit_languages:
+                if lang not in EU_LANGUAGES:
+                    raise ValueError(
+                        f"'{lang}' is not a valid EU language. "
+                        f"Valid languages: {EU_LANGUAGES}"
+                    )
 
         # Check that ratios sum to 1.0
         total = self.config.english_ratio
@@ -134,7 +155,9 @@ class LanguageMixer:
     def from_yaml(cls, config_path: Path) -> "LanguageMixer":
         """Load configuration from a YAML file.
 
-        YAML format:
+        Supports two YAML formats:
+
+        EU24 mode:
             english_ratio: 0.9
             languages:
               de: 0.05
@@ -142,8 +165,20 @@ class LanguageMixer:
               others: 0.02
             datasets:
               - dataset1.parquet
-              - dataset2.parquet
-            seed: 42  # optional
+            seed: 42
+
+        Multilingual mode:
+            name: trackA-90en
+            total_samples: 100000
+            english_ratio: 0.90
+            languages:
+              de: 0.025
+              fr: 0.020
+            sources:
+              - fusion-synth
+              - wildchat
+            english_source: allenai/Dolci-Instruct-SFT
+            seed: 42
 
         Args:
             config_path: Path to YAML config file
@@ -163,6 +198,10 @@ class LanguageMixer:
         others_ratio = languages.pop("others", 0.0) if isinstance(languages, dict) else 0.0
         explicit_languages = languages if isinstance(languages, dict) else {}
 
+        # Detect mode: multilingual mode has 'sources' field, EU24 has 'datasets'
+        has_sources = "sources" in raw_config
+        validate_eu = not has_sources  # Don't validate EU in multilingual mode
+
         config = LanguageMixConfig(
             english_ratio=raw_config["english_ratio"],
             explicit_languages=explicit_languages,
@@ -170,6 +209,11 @@ class LanguageMixer:
             datasets=raw_config.get("datasets", []),
             seed=raw_config.get("seed", 42),
             translation_model=raw_config.get("translation_model"),
+            name=raw_config.get("name"),
+            total_samples=raw_config.get("total_samples"),
+            sources=raw_config.get("sources", []),
+            english_source=raw_config.get("english_source"),
+            validate_eu=validate_eu,
         )
 
         return cls(config)
@@ -261,6 +305,9 @@ class LanguageMixer:
             f"  English: {self.config.english_ratio * 100:.1f}%",
         ]
 
+        if self.config.name:
+            lines.insert(0, f"  Name: {self.config.name}")
+
         for lang, ratio in sorted(self.config.explicit_languages.items()):
             lines.append(f"  {lang.upper()}: {ratio * 100:.1f}%")
 
@@ -273,7 +320,11 @@ class LanguageMixer:
                 f"({per_other:.2f}% each)"
             )
 
+        if self.config.total_samples:
+            lines.append(f"  Total samples: {self.config.total_samples:,}")
         lines.append(f"  Datasets: {len(self.config.datasets)}")
+        if self.config.sources:
+            lines.append(f"  Sources: {', '.join(self.config.sources)}")
         lines.append(f"  Seed: {self.config.seed}")
 
         return "\n".join(lines)

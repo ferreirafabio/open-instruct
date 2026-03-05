@@ -1,0 +1,26 @@
+# Track B1: 90% English, 10% EU languages (equal distribution)
+# Uses all 4 sources (~500k total samples)
+# Scale test with more diverse data
+
+name: B1-90en
+total_samples: 500000
+english_ratio: 0.90
+
+languages:
+  de: 0.0125   # German: 1.25%
+  fr: 0.0125   # French: 1.25%
+  es: 0.0125   # Spanish: 1.25%
+  it: 0.0125   # Italian: 1.25%
+  pt: 0.0125   # Portuguese: 1.25%
+  pl: 0.0125   # Polish: 1.25%
+  nl: 0.0125   # Dutch: 1.25%
+  cs: 0.0125   # Czech: 1.25%
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+english_source: allenai/Dolci-Instruct-SFT
+seed: 42
