@@ -16,7 +16,7 @@ import re
 from pathlib import Path
 
 PROJECT_ROOT = Path("/work/dlclarge2/ferreira-oellm/open-instruct")
-RESULTS_ROOT = PROJECT_ROOT / "oellm/evaluations/benchmarks/OpenJury/results"
+RESULTS_ROOT = PROJECT_ROOT / "oellm/evaluations/benchmarks/OpenJury/results/multilingual_eu"
 EXPERIMENT_DIR = PROJECT_ROOT / "oellm/experiments/multilingual_eu"
 
 
