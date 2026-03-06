@@ -1,0 +1,7 @@
+experiment,step,dataset,eval_mode,metric,value,baseline_value,num_battles
+A1-90en,238,m-arena-hard-EU,winrate,winrate,0.5722,0.4278,6000
+A1-90en,238,arena-hard,winrate,winrate,0.157,0.843,500
+A2-80en,228,m-arena-hard-EU,winrate,winrate,0.5846,0.4154,6000
+A2-80en,228,arena-hard,winrate,winrate,0.137,0.863,500
+A3-70en,216,m-arena-hard-EU,winrate,winrate,0.5902,0.4098,6000
+A3-70en,216,arena-hard,winrate,winrate,0.143,0.857,500

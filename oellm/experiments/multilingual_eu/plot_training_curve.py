@@ -104,9 +104,8 @@ def plot_winrate(rows: list[dict], output_dir: Path):
             ax.axhline(y=0.5, color="gray", linestyle="--", alpha=0.7, linewidth=1, label="Baseline (0.5)")
             ax.set_xlabel("Training Step")
             ax.set_ylabel("Winrate vs Baseline")
-            ax.set_ylim(0.35, 0.65)
             ax.set_title(dataset, fontsize=12)
-            ax.legend(fontsize=9, loc="upper right")
+            ax.legend(fontsize=9, loc="best")
             ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
@@ -162,6 +161,156 @@ def plot_rubric(rows: list[dict], output_dir: Path):
     plt.close()
 
 
+def load_lang_csv(csv_path: str) -> list[dict]:
+    """Load per-language results CSV."""
+    path = Path(csv_path)
+    if not path.exists():
+        return []
+    with open(path) as f:
+        reader = csv.DictReader(f)
+        rows = []
+        for row in reader:
+            try:
+                row["step"] = int(row["step"])
+            except ValueError:
+                continue
+            row["value"] = float(row["value"])
+            row["num_battles"] = int(row["num_battles"])
+            rows.append(row)
+    return rows
+
+
+# Language categories for coloring
+TRAINED_LANGS = {"de", "es", "fr", "it", "pt", "pl", "nl", "cs"}
+HELDOUT_LANGS = {"ro", "el"}
+# EU language display order
+LANG_ORDER = ["en", "de", "es", "fr", "it", "pt", "pl", "nl", "cs", "ro", "el", "uk"]
+
+
+def plot_per_language(lang_rows: list[dict], output_dir: Path):
+    """Plot per-language winrate bar charts for each experiment."""
+    experiments = sorted(set(r["experiment"] for r in lang_rows))
+
+    for experiment in experiments:
+        exp_rows = [r for r in lang_rows if r["experiment"] == experiment]
+        steps = sorted(set(r["step"] for r in exp_rows))
+
+        for step in steps:
+            step_rows = [r for r in exp_rows if r["step"] == step]
+            # Sort by LANG_ORDER
+            lang_order_map = {l: i for i, l in enumerate(LANG_ORDER)}
+            step_rows.sort(key=lambda x: lang_order_map.get(x["language"], 99))
+
+            langs = [r["language"] for r in step_rows]
+            values = [r["value"] for r in step_rows]
+            n_battles = [r["num_battles"] for r in step_rows]
+
+            fig, ax = plt.subplots(figsize=(12, 6))
+
+            colors = []
+            for lang in langs:
+                if lang in TRAINED_LANGS:
+                    colors.append("#3498db")  # blue = trained
+                elif lang in HELDOUT_LANGS:
+                    colors.append("#e74c3c")  # red = held-out
+                elif lang == "en":
+                    colors.append("#95a5a6")  # gray = english
+                else:
+                    colors.append("#f39c12")  # orange = other
+
+            bars = ax.bar(langs, values, color=colors, edgecolor="white", linewidth=0.5)
+
+            # Add value labels
+            for bar, val, n in zip(bars, values, n_battles):
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2, bar.get_y() + bar.get_height() + 0.005,
+                    f"{val:.2f}", ha="center", va="bottom", fontsize=9, fontweight="bold",
+                )
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2, bar.get_y() + bar.get_height() / 2,
+                    f"n={n}", ha="center", va="center", fontsize=7, color="white",
+                )
+
+            ax.axhline(y=0.5, color="gray", linestyle="--", alpha=0.7, linewidth=1)
+            ax.set_ylabel("Winrate vs Baseline")
+            ax.set_xlabel("Language")
+            ax.set_ylim(0.3, 0.7)
+            ax.set_title(
+                f"{experiment} step{step}: Per-Language Winrate (m-arena-hard-EU)",
+                fontsize=13, fontweight="bold",
+            )
+            ax.grid(True, alpha=0.2, axis="y")
+
+            # Legend
+            from matplotlib.patches import Patch
+            legend_elements = [
+                Patch(facecolor="#3498db", label="Trained language"),
+                Patch(facecolor="#e74c3c", label="Held-out (zero-shot)"),
+                Patch(facecolor="#95a5a6", label="English"),
+                Patch(facecolor="#f39c12", label="Other"),
+            ]
+            ax.legend(handles=legend_elements, fontsize=9, loc="upper right")
+
+            plt.tight_layout()
+            path = output_dir / f"per_language_{experiment}_step{step}.png"
+            plt.savefig(path, dpi=150, bbox_inches="tight")
+            print(f"Saved: {path}")
+            plt.close()
+
+
+def plot_per_language_comparison(lang_rows: list[dict], output_dir: Path):
+    """Compare per-language winrates across experiments (single chart)."""
+    experiments = sorted(set(r["experiment"] for r in lang_rows))
+    if len(experiments) < 2:
+        return
+
+    # Use final step for each experiment
+    exp_data = {}
+    for experiment in experiments:
+        exp_rows = [r for r in lang_rows if r["experiment"] == experiment]
+        max_step = max(r["step"] for r in exp_rows)
+        step_rows = [r for r in exp_rows if r["step"] == max_step]
+        exp_data[experiment] = {r["language"]: r["value"] for r in step_rows}
+
+    # Get all languages
+    all_langs = []
+    for lang in LANG_ORDER:
+        if any(lang in d for d in exp_data.values()):
+            all_langs.append(lang)
+
+    if not all_langs:
+        return
+
+    fig, ax = plt.subplots(figsize=(14, 6))
+    x = np.arange(len(all_langs))
+    width = 0.8 / len(experiments)
+
+    for i, experiment in enumerate(experiments):
+        values = [exp_data[experiment].get(lang, 0) for lang in all_langs]
+        color = COLORS.get(experiment, "gray")
+        offset = (i - len(experiments) / 2 + 0.5) * width
+        ax.bar(x + offset, values, width, label=experiment, color=color, alpha=0.85)
+
+    ax.axhline(y=0.5, color="gray", linestyle="--", alpha=0.7, linewidth=1)
+    ax.set_ylabel("Winrate vs Baseline")
+    ax.set_xlabel("Language")
+    ax.set_xticks(x)
+    ax.set_xticklabels(all_langs)
+    ax.set_ylim(0.3, 0.7)
+    ax.set_title(
+        "Per-Language Winrate Comparison (m-arena-hard-EU, final step)",
+        fontsize=13, fontweight="bold",
+    )
+    ax.legend(fontsize=10)
+    ax.grid(True, alpha=0.2, axis="y")
+
+    plt.tight_layout()
+    path = output_dir / "per_language_comparison.png"
+    plt.savefig(path, dpi=150, bbox_inches="tight")
+    print(f"Saved: {path}")
+    plt.close()
+
+
 def main():
     parser = argparse.ArgumentParser(description="Plot multilingual EU training curves")
     parser.add_argument(
@@ -187,6 +336,14 @@ def main():
         plot_winrate(rows, output_dir)
     if rubric_rows:
         plot_rubric(rows, output_dir)
+
+    # Per-language plots
+    lang_csv = str(Path(args.csv).parent / "results_per_language.csv")
+    lang_rows = load_lang_csv(lang_csv)
+    if lang_rows:
+        print(f"Loaded {len(lang_rows)} per-language rows from {lang_csv}")
+        plot_per_language(lang_rows, output_dir)
+        plot_per_language_comparison(lang_rows, output_dir)
 
     print(f"\nAll plots saved to: {output_dir}")
 
