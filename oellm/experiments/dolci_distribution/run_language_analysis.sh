@@ -5,7 +5,7 @@
 #SBATCH --mem=128G
 #SBATCH --time=4:00:00
 #SBATCH --array=0-63
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/analysis/dolci_distribution/logs/lang_dist_%A_%a.log
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/experiments/dolci_distribution/logs/lang_dist_%A_%a.log
 
 set -euo pipefail
 
@@ -18,8 +18,8 @@ fi
 
 # --- Paths (absolute, since SLURM copies scripts to spool) ---
 PROJECT_ROOT="/work/dlclarge2/ferreira-oellm/open-instruct"
-SCRIPT="$PROJECT_ROOT/oellm/analysis/dolci_distribution/detect_language_distribution.py"
-OUTPUT_DIR="$PROJECT_ROOT/oellm/analysis/dolci_distribution/results"
+SCRIPT="$PROJECT_ROOT/oellm/experiments/dolci_distribution/detect_language_distribution.py"
+OUTPUT_DIR="$PROJECT_ROOT/oellm/experiments/dolci_distribution/results"
 VENV_PYTHON="$PROJECT_ROOT/.venv/bin/python"
 
 # --- HuggingFace cache ---

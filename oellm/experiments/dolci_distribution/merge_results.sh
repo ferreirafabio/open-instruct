@@ -4,7 +4,7 @@
 #SBATCH --cpus-per-task=4
 #SBATCH --mem=16G
 #SBATCH --time=0:30:00
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/analysis/dolci_distribution/logs/lang_dist_merge_%j.log
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/experiments/dolci_distribution/logs/lang_dist_merge_%j.log
 
 # Usage:
 #   sbatch merge_results.sh <instruct|think|both>
@@ -21,8 +21,8 @@ fi
 
 # --- Paths (absolute, since SLURM copies scripts to spool) ---
 PROJECT_ROOT="/work/dlclarge2/ferreira-oellm/open-instruct"
-SCRIPT="$PROJECT_ROOT/oellm/analysis/dolci_distribution/detect_language_distribution.py"
-OUTPUT_DIR="$PROJECT_ROOT/oellm/analysis/dolci_distribution/results"
+SCRIPT="$PROJECT_ROOT/oellm/experiments/dolci_distribution/detect_language_distribution.py"
+OUTPUT_DIR="$PROJECT_ROOT/oellm/experiments/dolci_distribution/results"
 VENV_PYTHON="$PROJECT_ROOT/.venv/bin/python"
 
 # --- HuggingFace cache ---

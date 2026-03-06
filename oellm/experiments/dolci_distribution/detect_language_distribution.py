@@ -675,7 +675,7 @@ def main() -> None:
     detect_parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("oellm/analysis/dolci_distribution/results"),
+        default=Path("oellm/experiments/dolci_distribution/results"),
     )
     detect_parser.add_argument("--num-workers", type=int, default=32)
     detect_parser.add_argument(
@@ -698,7 +698,7 @@ def main() -> None:
     merge_parser.add_argument(
         "--output-dir",
         type=Path,
-        default=Path("oellm/analysis/dolci_distribution/results"),
+        default=Path("oellm/experiments/dolci_distribution/results"),
     )
 
     args = parser.parse_args()
@@ -712,7 +712,7 @@ def main() -> None:
     if args.command is None or args.command == "detect":
         if args.command is None:
             # Set defaults for legacy invocation
-            args.output_dir = Path("oellm/analysis/dolci_distribution/results")
+            args.output_dir = Path("oellm/experiments/dolci_distribution/results")
             args.dataset = "both"
             args.num_workers = 32
             args.sample = 0

@@ -24,6 +24,7 @@ To verify that documentation changes don't alter the generated output:
   - `oellm/evaluations/` - Evaluation scripts, benchmarks, manual testing
   - `oellm/dataset_selection/` - Dataset download and preprocessing
   - `oellm/translation/` - EU multilingual translation pipeline
+  - `oellm/experiments/dolci_distribution/` - Dolci language distribution analysis
   - Logs: `oellm/train/logs/` and `oellm/evaluations/logs/`
 
   # Key Paths
@@ -47,6 +48,14 @@ To verify that documentation changes don't alter the generated output:
   - Includes nvidia-Nemotron (42GB, ~6M samples) - the largest single dataset
   - Key insight: Original tokenization script OOM'd on 12.8M samples; fixed with chunked processing
   - Config: `oellm/dataset_selection/mixture_all.yaml`
+
+  ## dolci language distribution analysis
+  - Script: `oellm/experiments/dolci_distribution/detect_language_distribution.py`
+  - Results: `oellm/experiments/dolci_distribution/results/`
+  - Findings: Both Dolci-Instruct-SFT (2.15M) and Dolci-Think-SFT-7B (2.27M) are ~93-94% English
+  - ~50 non-English languages detected in long tail
+  - Run: `sbatch oellm/experiments/dolci_distribution/run_language_analysis.sh [instruct|think]` (64 array shards)
+  - Merge: `sbatch --dependency=afterok:$JOB_ID oellm/experiments/dolci_distribution/merge_results.sh both`
 
   ## eu24 (multilingual fine-tuning) - IN PROGRESS
   - Path: `data/datasets_eu24_sft_preprocessed/`
@@ -81,6 +90,7 @@ To verify that documentation changes don't alter the generated output:
   # Relevant SLURM Partitions
   - GPU: `alldlc2_gpu-h200` # can also be used for CPU heavy tasks since it has fast CPUs
   - CPU: `bosch_cpu-cascadelake` # for non-gpu tasks, in case h200's are occupied
+  - CPU: `alldlc2_cpu-epyc9655` # fast AMD EPYC CPUs, used for language analysis (48 cores/128G)
 
   # Model Baselines
   - Download instruct baseline: `sbatch oellm/evaluations/download_instruct_baseline.sh`
