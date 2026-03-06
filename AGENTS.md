@@ -20,12 +20,16 @@ To verify that documentation changes don't alter the generated output:
 4. If no output, the docs are identical. If differences exist, review with: `diff -r site-branch /path/to/main/site`
 
 # oellm Project Structure
-  - `oellm/train/` - Training scripts (SFT, fine-tuning)
-  - `oellm/evaluations/` - Evaluation scripts, benchmarks, manual testing
+  - `oellm/experiments/` - All experiments, each with `scripts/` and `results/` subdirs
+    - `baseline_repro/` - Baseline reproduction (Think + Instruct SFT)
+    - `dolci_distribution/` - Dolci language distribution analysis
+    - `multilingual_eu/` - Multilingual EU fine-tuning (Track A/B)
+    - `english_control/` - C0-100en English control experiment
+  - `oellm/evaluations/` - Shared evaluation infrastructure (benchmarks, manual testing)
   - `oellm/dataset_selection/` - Dataset download and preprocessing
   - `oellm/translation/` - EU multilingual translation pipeline
-  - `oellm/experiments/dolci_distribution/` - Dolci language distribution analysis
-  - Logs: `oellm/train/logs/` and `oellm/evaluations/logs/`
+  - `oellm/horeka/` - HoreKa HPC utilities (ssh, transfer, rsync)
+  - Logs: per-experiment `logs/` dirs and `oellm/evaluations/logs/`
 
   # Key Paths
   - Project root: `/work/dlclarge2/ferreira-oellm/open-instruct`
@@ -50,12 +54,12 @@ To verify that documentation changes don't alter the generated output:
   - Config: `oellm/dataset_selection/mixture_all.yaml`
 
   ## dolci language distribution analysis
-  - Script: `oellm/experiments/dolci_distribution/detect_language_distribution.py`
+  - Script: `oellm/experiments/dolci_distribution/scripts/detect_language_distribution.py`
   - Results: `oellm/experiments/dolci_distribution/results/`
   - Findings: Both Dolci-Instruct-SFT (2.15M) and Dolci-Think-SFT-7B (2.27M) are ~93-94% English
   - ~50 non-English languages detected in long tail
-  - Run: `sbatch oellm/experiments/dolci_distribution/run_language_analysis.sh [instruct|think]` (64 array shards)
-  - Merge: `sbatch --dependency=afterok:$JOB_ID oellm/experiments/dolci_distribution/merge_results.sh both`
+  - Run: `sbatch oellm/experiments/dolci_distribution/scripts/run_language_analysis.sh [instruct|think]` (64 array shards)
+  - Merge: `sbatch --dependency=afterok:$JOB_ID oellm/experiments/dolci_distribution/scripts/merge_results.sh both`
 
   ## eu24 (multilingual fine-tuning) - IN PROGRESS
   - Path: `data/datasets_eu24_sft_preprocessed/`

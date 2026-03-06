@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --gpus=8
 #SBATCH --time=12:00:00
-#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/train/logs/%A_%a.%x.%N.out
-#SBATCH --error=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/train/logs/%A_%a.%x.%N.err
+#SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/experiments/multilingual_eu/logs/%A_%a.%x.%N.out
+#SBATCH --error=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/experiments/multilingual_eu/logs/%A_%a.%x.%N.err
 #SBATCH --array=0-9%1
 
 # Multilingual SFT training script for OLMo-core
@@ -17,9 +17,9 @@
 #   SAVE_INTERVAL - Ephemeral checkpoint save interval (default: 50 for Track A, 200 for Track B)
 #
 # Usage:
-#   EXPERIMENT=A1-90en sbatch oellm/train/train_multilingual_sft_slurm.sh
-#   EXPERIMENT=B1-90en SAVE_INTERVAL=200 sbatch oellm/train/train_multilingual_sft_slurm.sh
-#   TEST_RUN=true EXPERIMENT=A1-90en sbatch oellm/train/train_multilingual_sft_slurm.sh
+#   EXPERIMENT=A1-90en sbatch oellm/experiments/multilingual_eu/scripts/train_multilingual_sft_kislurm.sh
+#   EXPERIMENT=B1-90en SAVE_INTERVAL=200 sbatch oellm/experiments/multilingual_eu/scripts/train_multilingual_sft_kislurm.sh
+#   TEST_RUN=true EXPERIMENT=A1-90en sbatch oellm/experiments/multilingual_eu/scripts/train_multilingual_sft_kislurm.sh
 
 set -euo pipefail
 
@@ -36,7 +36,7 @@ OLMOCORE_PATH="/work/dlclarge2/ferreira-oellm/OLMo-core"
 export PYTHONPATH="${OLMOCORE_PATH}/src:${PYTHONPATH:-}"
 
 # Experiment configuration
-EXPERIMENT="${EXPERIMENT:?Usage: EXPERIMENT=A1-90en sbatch train_multilingual_sft_slurm.sh}"
+EXPERIMENT="${EXPERIMENT:?Usage: EXPERIMENT=A1-90en sbatch oellm/experiments/multilingual_eu/scripts/train_multilingual_sft_kislurm.sh}"
 RUN_NAME="dolci-instruct-eu-${EXPERIMENT}"
 CLUSTER_NAME="slurm"
 GPUS="${GPUS:-8}"
@@ -90,7 +90,7 @@ WANDB_TAGS_JSON="${WANDB_TAGS_JSON:-[\"multilingual\",\"eu\",\"instruct\",\"sft\
 WANDB_CANCEL_CHECK_INTERVAL="${WANDB_CANCEL_CHECK_INTERVAL:-1000000000}"
 WANDB_CANCEL_TAGS_JSON="${WANDB_CANCEL_TAGS_JSON:-[]}"
 
-mkdir -p "$PROJECT_ROOT/oellm/train/logs" "$HF_DATASETS_CACHE" "$HF_MODULES_CACHE" "$HF_HUB_CACHE"
+mkdir -p "$PROJECT_ROOT/oellm/experiments/multilingual_eu/logs" "$HF_DATASETS_CACHE" "$HF_MODULES_CACHE" "$HF_HUB_CACHE"
 
 echo ""
 echo "=============================================="

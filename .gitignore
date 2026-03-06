@@ -164,3 +164,4 @@ scratch/
 # SLURM logs
 oellm/train/logs/
 oellm/evaluations/logs/
+oellm/experiments/*/logs/

@@ -1,0 +1,19 @@
+# Control experiment: 100% English, same total samples as Track A
+# Purpose: isolate whether English regression comes from continued training
+# or from the EU data itself.
+# Same sources as Track A but english_ratio=1.0, no EU languages.
+
+name: C0-100en
+total_samples: 94700
+english_ratio: 1.0
+
+languages: {}
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+english_source: same-as-trackA
+seed: 42

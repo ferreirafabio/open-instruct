@@ -9,7 +9,7 @@ import numpy as np
 import pytest
 from datasets import Dataset
 
-from oellm.analysis.dolci_distribution.detect_language_distribution import (
+from oellm.experiments.dolci_distribution.scripts.detect_language_distribution import (
     aggregate_results,
     cmd_merge,
     detect_languages_batch,
