@@ -4,7 +4,7 @@ We're investigating how to add multilingual capabilities to OLMo-3-7B without ca
 
 ### Motivation: Dolci-Instruct-SFT is 93% English
 
-The base checkpoint's training data (2.15M samples) is overwhelmingly English with a long tail of ~160 languages, each below 0.4%. This motivates our experiments: can we improve EU language performance by mixing in translated data during continued SFT?
+The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Think-SFT: 2.27M samples) is ~93-94% English with a long tail of ~160 languages, none exceeding ~0.2%. This motivates our experiments: can we improve EU language performance by mixing in translated data during continued SFT?
 
 ![Dolci-Instruct-SFT language counts](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/dolci_distribution/results/dolci_language_counts.png?raw=true)
 

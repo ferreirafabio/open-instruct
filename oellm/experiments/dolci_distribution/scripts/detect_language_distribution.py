@@ -327,14 +327,15 @@ def plot_language_distribution(
     dataset_names = list(results.keys())
     colors = ["steelblue", "darkorange", "seagreen", "firebrick"]
 
-    # Compute per-dataset contribution as % of combined total
+    # Compute per-dataset contribution as % of each dataset's own total
     dataset_pcts = {}
     for name, result in results.items():
-        pcts = [result["language_counts"].get(lang, 0) / total_all * 100 for lang in top_langs]
+        ds_total = result["total_samples"]
+        pcts = [result["language_counts"].get(lang, 0) / ds_total * 100 for lang in top_langs]
         other_count = sum(
             count for lang, count in result["language_counts"].items() if lang not in top_langs
         )
-        pcts.append(other_count / total_all * 100)
+        pcts.append(other_count / ds_total * 100)
         dataset_pcts[name] = pcts
 
     fig, ax = plt.subplots(figsize=(22, 7))
@@ -365,7 +366,7 @@ def plot_language_distribution(
 
     ax.set_yscale("log")
     ax.set_xlabel("Language")
-    ax.set_ylabel("Percentage of combined dataset (%, log scale)")
+    ax.set_ylabel("Percentage of each dataset (%, log scale)")
     ax.set_title("Language Distribution in Dolci Datasets (stacked by dataset)")
     ax.set_xticks(x)
     ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=7)
