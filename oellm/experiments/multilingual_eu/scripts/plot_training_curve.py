@@ -25,11 +25,11 @@ PLOTS_DIR = EXPERIMENT_DIR / "plots"
 
 # Color palette for experiments
 COLORS = {
-    "A1-90en": "#e74c3c",  # Red
-    "A2-80en": "#3498db",  # Blue
-    "A3-70en": "#2ecc71",  # Green
-    "B1-90en": "#9b59b6",  # Purple
-    "B2-80en": "#f39c12",  # Orange
+    "A1-90en": "#4477AA",  # Blue
+    "A2-80en": "#EE6677",  # Rose/Pink
+    "A3-70en": "#CCBB44",  # Yellow
+    "B1-90en": "#AA3377",  # Purple
+    "B2-80en": "#66CCEE",  # Cyan
 }
 
 MARKERS = {
@@ -272,11 +272,9 @@ def plot_per_language_comparison(lang_rows: list[dict], output_dir: Path):
         step_rows = [r for r in exp_rows if r["step"] == max_step]
         exp_data[experiment] = {r["language"]: r["value"] for r in step_rows}
 
-    # Get all languages (exclude English — different scale, shown separately in arena-hard)
+    # Get all languages
     all_langs = []
     for lang in LANG_ORDER:
-        if lang == "en":
-            continue
         if any(lang in d for d in exp_data.values()):
             all_langs.append(lang)
 
