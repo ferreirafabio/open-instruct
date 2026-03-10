@@ -272,9 +272,11 @@ def plot_per_language_comparison(lang_rows: list[dict], output_dir: Path):
         step_rows = [r for r in exp_rows if r["step"] == max_step]
         exp_data[experiment] = {r["language"]: r["value"] for r in step_rows}
 
-    # Get all languages
+    # Get all languages (exclude English — different scale, shown separately in arena-hard)
     all_langs = []
     for lang in LANG_ORDER:
+        if lang == "en":
+            continue
         if any(lang in d for d in exp_data.values()):
             all_langs.append(lang)
 

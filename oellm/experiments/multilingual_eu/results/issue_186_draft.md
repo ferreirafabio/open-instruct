@@ -6,7 +6,9 @@ We're investigating how to add multilingual capabilities to OLMo-3-7B without ca
 
 The base checkpoint's training data (2.15M samples) is overwhelmingly English with a long tail of ~160 languages, each below 0.4%. This motivates our experiments: can we improve EU language performance by mixing in translated data during continued SFT?
 
-![Dolci-Instruct-SFT language distribution](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/dolci_distribution/results/dolci_instruct_lang_dist_log.png?raw=true)
+![Dolci-Instruct-SFT language counts](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/dolci_distribution/results/dolci_language_counts.png?raw=true)
+
+![Dolci-Instruct-SFT language percentage](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/dolci_distribution/results/dolci_language_distribution.png?raw=true)
 
 ### Setup
 
