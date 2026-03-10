@@ -234,7 +234,7 @@ def plot_per_language(lang_rows: list[dict], output_dir: Path):
             ax.axhline(y=0.5, color="gray", linestyle="--", alpha=0.7, linewidth=1)
             ax.set_ylabel("Winrate vs Baseline")
             ax.set_xlabel("Language")
-            ax.set_ylim(0.3, 0.7)
+            ax.set_ylim(0.0, 0.85)
             ax.set_title(
                 f"{experiment} step{step}: Per-Language Winrate (m-arena-hard-EU)",
                 fontsize=13, fontweight="bold",
@@ -296,7 +296,7 @@ def plot_per_language_comparison(lang_rows: list[dict], output_dir: Path):
     ax.set_xlabel("Language")
     ax.set_xticks(x)
     ax.set_xticklabels(all_langs)
-    ax.set_ylim(0.3, 0.7)
+    ax.set_ylim(0.0, 0.85)
     ax.set_title(
         "Per-Language Winrate Comparison (m-arena-hard-EU, final step)",
         fontsize=13, fontweight="bold",
