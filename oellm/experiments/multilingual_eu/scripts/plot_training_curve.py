@@ -289,7 +289,14 @@ def plot_per_language_comparison(lang_rows: list[dict], output_dir: Path):
         values = [exp_data[experiment].get(lang, 0) for lang in all_langs]
         color = COLORS.get(experiment, "gray")
         offset = (i - len(experiments) / 2 + 0.5) * width
-        ax.bar(x + offset, values, width, label=experiment, color=color, alpha=0.85)
+        bars = ax.bar(x + offset, values, width, label=experiment, color=color, alpha=0.85)
+        # Add value labels on top of each bar
+        for bar, val in zip(bars, values):
+            if val > 0:
+                ax.text(
+                    bar.get_x() + bar.get_width() / 2, val + 0.008,
+                    f"{val:.0%}", ha="center", va="bottom", fontsize=6, fontweight="bold",
+                )
 
     ax.axhline(y=0.5, color="gray", linestyle="--", alpha=0.7, linewidth=1)
     ax.set_ylabel("Winrate vs Baseline")
