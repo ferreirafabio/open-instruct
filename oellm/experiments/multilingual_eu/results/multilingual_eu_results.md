@@ -1,171 +1,93 @@
-# Multilingual EU Fine-tuning: Evaluation Results
+## Multilingual fine-tuning: Track A results
 
-Evaluation results for multilingual EU fine-tuning experiments. All models continue training from the instruct SFT checkpoint (`dolci-instruct-sft-v2-horeka`) on mixtures of English + EU-language data.
+We're investigating how to add multilingual capabilities to OLMo-3-7B without catastrophic forgetting of English. Starting from our reproduced instruct SFT checkpoint, we continue training on mixtures of English + EU-language data at varying ratios.
 
-## Setup
+### Motivation: Dolci-Instruct-SFT is 93% English
+
+The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Think-SFT: 2.27M samples) is ~93-94% English with a long tail of ~160 languages, none exceeding ~0.2%. This motivates our experiments: can we improve EU language performance by mixing in translated data during continued SFT?
+
+![Dolci-Instruct-SFT language counts](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/dolci_distribution/results/dolci_language_counts.png?raw=true)
+
+![Dolci-Instruct-SFT language percentage](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/dolci_distribution/results/dolci_language_distribution.png?raw=true)
+
+### Setup
 
 | | |
 |---|---|
-| **Base checkpoint** | `checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-sft-v2-horeka` |
-| **Baseline** | `models/baselines/Olmo-3-7B-Instruct-SFT` |
-| **Judge** | `Qwen/Qwen3-30B-A3B-Instruct-2507` (winrate mode, fixed ordering) |
+| **Base checkpoint** | OLMo-3-7B-Instruct-SFT (reproduced, [details](https://github.com/allenai/open-instruct/issues/1352#issuecomment-2823953936)) |
+| **Judge** | Qwen3-30B-A3B-Instruct-2507 (VLLM, winrate mode, fixed ordering) |
 | **Benchmarks** | m-arena-hard-EU (6000 prompts, 12 EU languages), arena-hard (500 prompts, English) |
-| **Training languages** | de, es, fr, it, pt, pl, nl, cs |
-| **Held-out languages** | ro, el (zero-shot transfer test) |
-| **Date** | 2026-03-06 |
+| **Training languages** | en + de, es, fr, it, pt, pl, nl, cs (ratio varies by experiment) |
+| **Eval languages** | en, de, es, fr, it, pt, pl, nl, cs, ro, el, uk (12 languages in m-arena-hard-EU) |
+| **Held-out languages** | ro, el (zero-shot transfer test — not in training data) |
 
-### Experiment matrix
+### Experiment tracks
 
-| Experiment | En/EU ratio | Total samples | Data sources | Cluster |
-|---|---|---|---|---|
-| A1-90en | 90/10 | 94.7k | fusion-synth | kislurm |
-| A2-80en | 80/20 | 94.7k | fusion-synth | kislurm |
-| A3-70en | 70/30 | 94.7k | fusion-synth | kislurm |
-| B1-90en | 90/10 | 491k | fusion-synth + wildchat + lmsys-chat + oasst2 | kislurm + HoreKa |
-| B2-80en | 80/20 | 473k | fusion-synth + wildchat + lmsys-chat + oasst2 | HoreKa |
+| Track | Question | Design |
+|---|---|---|
+| **A** | Does the English/EU ratio matter? | 90/80/70% English, 94.7k samples (from fusion-synth), EU share split equally across 8 languages |
+| **B** | Does more diverse data help? | Same ratios, ~490k samples, synthetic + organic (wildchat, lmsys-chat, oasst2) |
+| **C** | Is the English regression caused by EU data, or by continued training itself? | 100% English control (no EU data at all), same total samples. If English still regresses, the problem is continued SFT, not the EU data. |
+| **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same as Track B ratios, but English data comes from Dolci-Instruct-SFT (the base checkpoint's own training data) instead of new English data |
 
----
+### Full experiment matrix
 
-## Winrate: m-arena-hard-EU vs arena-hard
+| Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO | m-arena-hard-EU WR% | arena-hard WR% |
+|---|---|---|---|---|---|---|
+| **A1-90en** | 90/10 | 1.25% each | 94.7k | _pending_ | **57.2%** (+7.2pp) | 15.7% (-34.3pp) |
+| **A2-80en** | 80/20 | 2.5% each | 94.7k | _pending_ | **58.5%** (+8.5pp) | 13.7% (-36.3pp) |
+| **A3-70en** | 70/30 | 3.75% each | 94.7k | _pending_ | **59.0%** (+9.0pp) | 14.3% (-35.7pp) |
+| **B1-90en** | 90/10 | 1.25% each | 491k | - | _pending_ | _pending_ |
+| **B2-80en** | 80/20 | 2.5% each | 473k | - | _pending_ | _pending_ |
+| **C0-100en** | 100/0 | — | 94.7k | - | _pending_ | _pending_ |
+| **D1-90en** | 90/10 (replay EN) | 1.25% each | 94.7k | - | _pending_ | _pending_ |
 
-Winrate of our model vs the instruct baseline. 50% = parity. Values > 50% mean our model is better.
+**94.7k** = total row count of the fusion-synth dataset (94,721 samples across 10 languages). Track A uses fusion-synth as its primary multilingual source, which covers de/es/fr/it/pt well (~8-10k each), while WildChat and lmsys-chat fill gaps for pl/nl/cs. No upsampling; A2/A3 cap Czech at its available 1,295 samples, so actual totals are slightly below 94.7k. C0 and D1 use the same 94.7k for direct comparability.
 
-| Experiment | Step | m-arena-hard-EU WR% | arena-hard WR% (English) | Battles (EU) | Battles (EN) |
-|---|---:|---:|---:|---:|---:|
-| A1-90en | 238 | **57.2%** (+7.2pp) | 15.7% (-34.3pp) | 6000 | 500 |
-| A2-80en | 228 | **58.5%** (+8.5pp) | 13.7% (-36.3pp) | 6000 | 500 |
-| A3-70en | 216 | **59.0%** (+9.0pp) | 14.3% (-35.7pp) | 6000 | 500 |
-| B1-90en | _tbd_ | _pending_ | _pending_ | 6000 | 500 |
-| B2-80en | _tbd_ | _pending_ | _pending_ | 6000 | 500 |
+**~490k** (Track B) = ~5× Track A to test data scaling. Target is 500k, but Czech (1,295) and Dutch (2,800) are capped at what's available, giving actual totals of ~491k (B1) and ~473k (B2).
 
-### Observations
+Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
-- Strong EU language gains across all experiments (+7 to +9pp)
-- More EU data helps marginally: A3 (30%) > A2 (20%) > A1 (10%)
-- **Severe English regression** (~14-16% winrate on arena-hard, -34 to -36pp)
-- English degradation is roughly constant regardless of EU ratio (10% vs 30%)
+### Track A: Per-language winrate (m-arena-hard-EU)
 
----
+`[T]` = trained language, `[H]` = held-out (zero-shot), `[E]` = English. "uk" = Ukrainian.
 
-## Per-Language Winrate: m-arena-hard-EU
+| Language | A1-90en | A2-80en | A3-70en |
+|---|---:|---:|---:|
+| en [E] | 14.9% | 13.9% | 12.9% |
+| de [T] | 65.7% | 68.5% | **71.0%** |
+| es [T] | 65.7% | **72.2%** | **72.2%** |
+| fr [T] | 49.8% | 49.8% | 52.1% |
+| it [T] | 55.1% | 58.5% | 59.9% |
+| pt [T] | 62.9% | 69.6% | **70.0%** |
+| pl [T] | 60.6% | 63.4% | **67.0%** |
+| nl [T] | 67.3% | 65.1% | 67.6% |
+| cs [T] | **74.5%** | **76.2%** | **75.7%** |
+| ro [H] | 64.8% | 65.5% | 61.6% |
+| el [H] | 54.3% | 48.5% | 47.1% |
+| uk | 51.1% | 50.3% | 51.1% |
 
-Winrate broken down by language. [T] = trained, [H] = held-out (zero-shot), [E] = English.
+### Per-language scatter plot (A1 vs A2 vs A3)
 
-| Language | A1-90en | A2-80en | A3-70en | B1-90en | B2-80en |
-|---|---:|---:|---:|---:|---:|
-| en [E] | 14.9% | 13.9% | 12.9% | _pending_ | _pending_ |
-| de [T] | 65.7% | 68.5% | **71.0%** | _pending_ | _pending_ |
-| es [T] | 65.7% | **72.2%** | **72.2%** | _pending_ | _pending_ |
-| fr [T] | 49.8% | 49.8% | 52.1% | _pending_ | _pending_ |
-| it [T] | 55.1% | 58.5% | 59.9% | _pending_ | _pending_ |
-| pt [T] | 62.9% | 69.6% | **70.0%** | _pending_ | _pending_ |
-| pl [T] | 60.6% | 63.4% | **67.0%** | _pending_ | _pending_ |
-| nl [T] | 67.3% | 65.1% | 67.6% | _pending_ | _pending_ |
-| cs [T] | **74.5%** | **76.2%** | **75.7%** | _pending_ | _pending_ |
-| ro [H] | 64.8% | 65.5% | 61.6% | _pending_ | _pending_ |
-| el [H] | 54.3% | 48.5% | 47.1% | _pending_ | _pending_ |
-| uk | 51.1% | 50.3% | 51.1% | _pending_ | _pending_ |
+Each dot is one language. X-axis is the language, Y-axis is winrate vs baseline.
 
-### Per-language observations
+![Per-language comparison](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/per_language_comparison.png?raw=true)
 
-- **Czech** is the biggest winner (74-76%) — possibly because it's underrepresented in the baseline
-- **French** barely moves (~50%) despite being a trained language — may need more fr data or higher-quality fr data
-- **Romanian** [held-out] transfers well (62-66%) — Romance family cross-lingual transfer from es/fr/it/pt
-- **Greek** [held-out] doesn't transfer (47-54%) — different script limits cross-lingual transfer
-- **Ukrainian** stays neutral (~51%) — Cyrillic script, not closely related to training languages
-- **English** drops dramatically (13-15%) — catastrophic forgetting from continued training
+### Key findings (Track A)
 
----
-
-## Plots
-
-![Winrate training curves](plots/training_curve_winrate.png)
-
-![Per-language comparison](plots/per_language_comparison.png)
-
-![A1-90en per-language](plots/per_language_A1-90en_step238.png)
-
-![A2-80en per-language](plots/per_language_A2-80en_step228.png)
-
-![A3-70en per-language](plots/per_language_A3-70en_step216.png)
-
----
-
-## Rubric Scores: m-arena-hard-EU
-
-_Rubric evaluation not yet run. To run:_
-```bash
-sbatch oellm/experiments/multilingual_eu/run_single_eval.sh A1-90en 238 rubric fixed
-```
-
----
-
-## Key Questions & Answers (Track A)
-
-1. **Does more EU data help?** Yes, marginally. A3 (30% EU) = 59.0% > A2 (20%) = 58.5% > A1 (10%) = 57.2%
-2. **English regression?** Yes, severe. All experiments drop to ~14-16% on arena-hard. The English degradation is roughly constant regardless of EU ratio, suggesting the issue is continued training itself rather than the EU data proportion.
-3. **Zero-shot transfer?** Mixed. Romanian (Latin script, Romance family) transfers well (62-66%). Greek (Greek script) does not (47-54%).
-4. **Scale matters?** Track B results pending (B1 training in progress on kislurm + HoreKa).
+1. **More EU data helps marginally**: A3 (30% EU) = 59.0% > A2 (20%) = 58.5% > A1 (10%) = 57.2%
+2. **Severe English regression**: All models drop to ~14% winrate on arena-hard (~-35pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
+3. **Zero-shot transfer**: Romanian (Latin script, Romance family) transfers well (62-66%). Greek (different script) does not (47-54%).
+4. **Czech is the biggest winner** (74-76%), likely because it's underrepresented in the baseline.
+5. **French barely moves** (~50%) despite being a trained language.
 
 ### Next steps
 
-- Investigate English regression: is it from continued training or from the EU data?
-  - Run a **control experiment**: continue training with 100% English (same total samples) to isolate the effect
-- Track B results (B1-90en, B2-80en) will show if more diverse data sources help
-- Consider mixing in English data from the original Dolci training set to mitigate forgetting
+- **Track C** (C0-100en, English-only control) will isolate whether English regression comes from EU data or from continued training itself
+- **Track B** (B1/B2, more data + organic sources) will show if scale and data diversity help
+- **ELO ratings**: Running arena-anchored Bradley-Terry ELO estimation on EU languages (pending)
 
----
+### Code
 
-## Results paths
-
-| Experiment | Results directory |
-|---|---|
-| A1-90en | `oellm/evaluations/benchmarks/OpenJury/results/multilingual_eu/multilingual-eu-A1-90en-winrate-step238-Olmo-3-7B-Instruct-SFT-20260306_000054` |
-| A2-80en | `oellm/evaluations/benchmarks/OpenJury/results/multilingual_eu/multilingual-eu-A2-80en-winrate-step228-Olmo-3-7B-Instruct-SFT-20260306_000056` |
-| A3-70en | `oellm/evaluations/benchmarks/OpenJury/results/multilingual_eu/multilingual-eu-A3-70en-winrate-step216-Olmo-3-7B-Instruct-SFT-20260306_000056` |
-
----
-
-<details><summary>Helper code (click to expand)</summary>
-
-```python
-import json
-from pathlib import Path
-import pandas as pd
-
-RESULTS_ROOT = Path("oellm/evaluations/benchmarks/OpenJury/results/multilingual_eu")
-
-def load_winrate(results_dir):
-    rows = []
-    for f in sorted((RESULTS_ROOT / results_dir).rglob("results-*.json")):
-        d = json.loads(f.read_text())
-        if d.get("eval_mode") != "winrate": continue
-        rows.append({"Benchmark": d["dataset"], "Baseline WR%": d["winrate"]*100,
-            "Ours WR%": (1-d["winrate"])*100, "Battles": d["num_battles"]})
-    return pd.DataFrame(rows)
-
-def load_per_language(results_dir, dataset="m-arena-hard-EU"):
-    """Load per-language winrates from annotations CSV."""
-    import re
-    for f in sorted((RESULTS_ROOT / results_dir).rglob(f"{dataset}-*-annotations.csv")):
-        df = pd.read_csv(f)
-        df["lang"] = df["instruction_index"].str.rsplit("-", n=1).str[-1]
-        def parse_winner(text):
-            if not isinstance(text, str): return None
-            a = re.search(r"score_A:\s*(\d+)", text)
-            b = re.search(r"score_B:\s*(\d+)", text)
-            if not a or not b: return None
-            sa, sb = int(a.group(1)), int(b.group(1))
-            return "B" if sb > sa else ("A" if sa > sb else "tie")
-        df["winner"] = df["judge_completion"].apply(parse_winner)
-        df = df.dropna(subset=["winner"])
-        results = []
-        for lang, g in df.groupby("lang"):
-            n = len(g)
-            wins = (g["winner"] == "B").sum()
-            ties = (g["winner"] == "tie").sum()
-            results.append({"Language": lang, "WR%": round((wins + 0.5*ties)/n*100, 1), "N": n})
-        return pd.DataFrame(results).sort_values("Language")
-```
-
-</details>
+- Training configs: [`oellm/configs/`](https://github.com/ferreirafabio/open-instruct/tree/main/oellm/configs)
+- Evaluation scripts: [`oellm/evaluations/benchmarks/`](https://github.com/ferreirafabio/open-instruct/tree/main/oellm/evaluations/benchmarks)

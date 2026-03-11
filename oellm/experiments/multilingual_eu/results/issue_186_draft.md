@@ -17,29 +17,34 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **Base checkpoint** | OLMo-3-7B-Instruct-SFT (reproduced, [details](https://github.com/allenai/open-instruct/issues/1352#issuecomment-2823953936)) |
 | **Judge** | Qwen3-30B-A3B-Instruct-2507 (VLLM, winrate mode, fixed ordering) |
 | **Benchmarks** | m-arena-hard-EU (6000 prompts, 12 EU languages), arena-hard (500 prompts, English) |
-| **Training languages** | de, es, fr, it, pt, pl, nl, cs |
-| **Held-out languages** | ro, el (zero-shot transfer test) |
+| **Training languages** | en + de, es, fr, it, pt, pl, nl, cs (ratio varies by experiment) |
+| **Eval languages** | en, de, es, fr, it, pt, pl, nl, cs, ro, el, uk (12 languages in m-arena-hard-EU) |
+| **Held-out languages** | ro, el (zero-shot transfer test — not in training data) |
 
 ### Experiment tracks
 
 | Track | Question | Design |
 |---|---|---|
-| **A** | Does the English/EU ratio matter? | 90/80/70% English, ~95k samples, synthetic data only |
+| **A** | Does the English/EU ratio matter? | 90/80/70% English, 94.7k samples (from fusion-synth), EU share split equally across 8 languages |
 | **B** | Does more diverse data help? | Same ratios, ~490k samples, synthetic + organic (wildchat, lmsys-chat, oasst2) |
 | **C** | Is the English regression caused by EU data, or by continued training itself? | 100% English control (no EU data at all), same total samples. If English still regresses, the problem is continued SFT, not the EU data. |
 | **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same as Track B ratios, but English data comes from Dolci-Instruct-SFT (the base checkpoint's own training data) instead of new English data |
 
 ### Full experiment matrix
 
-| Experiment | En/EU ratio | Total samples | ELO | m-arena-hard-EU WR% | arena-hard WR% |
-|---|---|---|---|---|---|
-| **A1-90en** | 90/10 | 94.7k | _pending_ | **57.2%** (+7.2pp) | 15.7% (-34.3pp) |
-| **A2-80en** | 80/20 | 94.7k | _pending_ | **58.5%** (+8.5pp) | 13.7% (-36.3pp) |
-| **A3-70en** | 70/30 | 94.7k | _pending_ | **59.0%** (+9.0pp) | 14.3% (-35.7pp) |
-| **B1-90en** | 90/10 | 491k | - | _pending_ | _pending_ |
-| **B2-80en** | 80/20 | 473k | - | _pending_ | _pending_ |
-| **C0-100en** | 100/0 | 94.7k | - | _pending_ | _pending_ |
-| **D1-90en** | 90/10 (replay EN) | 94.7k | - | _pending_ | _pending_ |
+| Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO | m-arena-hard-EU WR% | arena-hard WR% |
+|---|---|---|---|---|---|---|
+| **A1-90en** | 90/10 | 1.25% each | 94.7k | _pending_ | **57.2%** (+7.2pp) | 15.7% (-34.3pp) |
+| **A2-80en** | 80/20 | 2.5% each | 94.7k | _pending_ | **58.5%** (+8.5pp) | 13.7% (-36.3pp) |
+| **A3-70en** | 70/30 | 3.75% each | 94.7k | _pending_ | **59.0%** (+9.0pp) | 14.3% (-35.7pp) |
+| **B1-90en** | 90/10 | 1.25% each | 491k | - | _pending_ | _pending_ |
+| **B2-80en** | 80/20 | 2.5% each | 473k | - | _pending_ | _pending_ |
+| **C0-100en** | 100/0 | — | 94.7k | - | _pending_ | _pending_ |
+| **D1-90en** | 90/10 (replay EN) | 1.25% each | 94.7k | - | _pending_ | _pending_ |
+
+**94.7k** = total row count of the fusion-synth dataset (94,721 samples across 10 languages). Track A uses fusion-synth as its primary multilingual source, which covers de/es/fr/it/pt well (~8-10k each), while WildChat and lmsys-chat fill gaps for pl/nl/cs. No upsampling; A2/A3 cap Czech at its available 1,295 samples, so actual totals are slightly below 94.7k. C0 and D1 use the same 94.7k for direct comparability.
+
+**~490k** (Track B) = ~5× Track A to test data scaling. Target is 500k, but Czech (1,295) and Dutch (2,800) are capped at what's available, giving actual totals of ~491k (B1) and ~473k (B2).
 
 Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
