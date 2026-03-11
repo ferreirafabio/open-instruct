@@ -34,7 +34,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 | Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO | m-arena-hard-EU WR% | arena-hard WR% |
 |---|---|---|---|---|---|---|
-| **Instruct baseline** | — | — | — | _pending_ | 50% (ref) | 50% (ref) |
+| **Instruct baseline** | — | — | — | _pending_ | — | — |
 | **A1-90en** | 90/10 | 1.25% each | 94.7k | 686.4 ± 69.8 | **54.8%** (+4.8pp) | 14.1% (-35.9pp) |
 | **A2-80en** | 80/20 | 2.5% each | 94.7k | _pending_ | _running_ | _pending_ |
 | **A3-70en** | 70/30 | 3.75% each | 94.7k | _pending_ | _pending_ | _pending_ |
