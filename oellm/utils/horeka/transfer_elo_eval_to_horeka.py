@@ -21,6 +21,7 @@ import os
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))))
 
+import time as _time
 from oellm.utils.horeka.transfer_data import load_env, rsync_to_horeka, run_remote
 
 WS_REMOTE = "/hkfs/work/workspace/scratch/fr_ff1042-oellm/open-instruct"
@@ -29,8 +30,10 @@ LOCAL = "/work/dlclarge2/ferreira-oellm/open-instruct"
 
 def main():
     parser = argparse.ArgumentParser(description="Transfer ELO eval to HoreKa")
-    parser.add_argument("--skip-judge", action="store_true",
-                        help="Skip Qwen judge model transfer")
+    parser.add_argument("--skip-judge", action="store_true", default=True,
+                        help="Skip Qwen judge model transfer (downloaded on compute node instead)")
+    parser.add_argument("--transfer-judge", action="store_true",
+                        help="Force transfer judge model via rsync")
     parser.add_argument("--skip-model", action="store_true",
                         help="Skip eval model checkpoint transfer")
     parser.add_argument("--dry-run", action="store_true",
@@ -66,8 +69,8 @@ def main():
             "extra": "",
         })
 
-    # 4. Qwen judge model
-    if not args.skip_judge:
+    # 4. Qwen judge model (skipped by default; downloaded on compute node)
+    if args.transfer_judge:
         transfers.append({
             "name": "Qwen3-30B-A3B judge model",
             "local": f"{LOCAL}/models/huggingface/hub/models--Qwen--Qwen3-30B-A3B-Instruct-2507/",
@@ -94,7 +97,7 @@ def main():
         print("DRY RUN: no transfers performed.")
         return
 
-    # Create remote directories
+    # Create remote directories + symlink in one SSH call
     dirs = [
         f"{WS_REMOTE}/oellm/evaluations/benchmarks",
         f"{WS_REMOTE}/oellm/evaluations/logs",
@@ -103,16 +106,21 @@ def main():
         f"{WS_REMOTE}/models/eval",
         f"{WS_REMOTE}/checkpoints/ferreira/olmo3-7b-sft",
     ]
-    print("Creating remote directories...")
-    run_remote(f"mkdir -p {' '.join(dirs)}", env)
-
-    # Create eval symlink on remote
-    print("Creating eval symlink on remote...")
-    run_remote(
+    setup_cmd = (
+        f"mkdir -p {' '.join(dirs)} && "
         f"ln -sfn {WS_REMOTE}/checkpoints/ferreira/olmo3-7b-sft/dolci-instruct-eu-A1-90en-hf/step238 "
-        f"{WS_REMOTE}/models/eval/eu-A1-90en-step238",
-        env
+        f"{WS_REMOTE}/models/eval/eu-A1-90en-step238 && echo SETUP_DONE"
     )
+    print("Creating remote directories + symlink...")
+    out = run_remote(setup_cmd, env)
+    print(out)
+
+    # Wait for next TOTP window so rsync gets a fresh OTP
+    import pyotp
+    totp = pyotp.TOTP(env['HOREKA_TOTP_SECRET'])
+    remaining = totp.interval - (int(_time.time()) % totp.interval)
+    print(f"  Waiting {remaining+1}s for next TOTP window...")
+    _time.sleep(remaining + 1)
 
     # Transfer each item
     for t in transfers:

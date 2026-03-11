@@ -33,10 +33,10 @@ EXPERIMENT_NAME="${4:-quick-fix-65k-config}"
 TRAINED_OVERRIDE="${5:-}"         # Optional: path to trained model (overrides default)
 
 # Generation hyperparameters
-MAX_OUT_TOKENS="${MAX_OUT_TOKENS:-32768}"
-MAX_OUT_TOKENS_JUDGE="${MAX_OUT_TOKENS_JUDGE:-32768}"
-TRUNCATE_CHARS="${TRUNCATE_CHARS:-32768}"
-SWAP_MODE="${SWAP_MODE:-fixed}"  # "fixed" or "both" (both corrects position bias, 2x compute)
+MAX_OUT_TOKENS="${MAX_OUT_TOKENS:-8192}"
+MAX_OUT_TOKENS_JUDGE="${MAX_OUT_TOKENS_JUDGE:-8192}"
+TRUNCATE_CHARS="${TRUNCATE_CHARS:-8192}"
+SWAP_MODE="${SWAP_MODE:-both}"  # "fixed" or "both" (both corrects position bias, 2x compute)
 EVAL_MODE="${EVAL_MODE:-winrate}"  # "winrate" or "rubric" (rubric: independent 1-7 Likert on 4 criteria)
 PROVIDE_EXPLANATION="${PROVIDE_EXPLANATION:-true}"  # Judge explains reasoning before verdict
 #EXPERIMENT_NAME="${4:-baseline-repro}"  # Old experiment name
@@ -77,9 +77,8 @@ if [ ! -d "$TRAINED" ]; then
 fi
 
 # Judge model - Qwen3-30B is recommended for quality
-JUDGE_MODEL="Qwen/Qwen3.5-35B-A3B"
-# Previous judge (keep for reproducibility):
-# JUDGE_MODEL="Qwen/Qwen3-30B-A3B-Instruct-2507"
+JUDGE_MODEL="Qwen/Qwen3-30B-A3B-Instruct-2507"
+# Note: Qwen3.5-35B-A3B (qwen3_5_moe) is NOT supported by vllm 0.10.2
 
 # Environment
 export OPENJURY_DATA="$PROJECT_ROOT/data/openjury-eval-data"

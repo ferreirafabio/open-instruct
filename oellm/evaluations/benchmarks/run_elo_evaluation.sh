@@ -58,10 +58,10 @@ fi
 JUDGE_MODEL="Qwen/Qwen3-30B-A3B-Instruct-2507"
 
 # Hyperparameters (consistent with run_evaluation.sh)
-MAX_OUT_TOKENS=32768
-MAX_OUT_TOKENS_JUDGE=32768
-TRUNCATE_CHARS=32768
-SWAP_MODE="fixed"
+MAX_OUT_TOKENS=8192
+MAX_OUT_TOKENS_JUDGE=8192
+TRUNCATE_CHARS=8192
+SWAP_MODE="both"
 
 # Filter to EU languages (same as m-arena-hard-EU)
 EU_LANGUAGES="en de es fr it pt pl nl cs ro el uk"

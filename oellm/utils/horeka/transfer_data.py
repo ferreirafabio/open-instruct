@@ -21,13 +21,26 @@ def load_env():
     return env
 
 
+_last_otp = None
+
 def fresh_otp(env):
+    global _last_otp
     totp = pyotp.TOTP(env['HOREKA_TOTP_SECRET'])
+    # Always ensure we get a different OTP than last time
+    otp = totp.now()
+    if otp == _last_otp:
+        remaining = totp.interval - (int(time.time()) % totp.interval)
+        print(f"  Waiting {remaining+1}s for fresh OTP window (same token as last call)...")
+        time.sleep(remaining + 1)
+        otp = totp.now()
+    # Also wait if not enough time left for the connection to use the OTP
     remaining = totp.interval - (int(time.time()) % totp.interval)
-    if remaining < 15:
+    if remaining < 10:
         print(f"  Waiting {remaining+1}s for fresh OTP window...")
         time.sleep(remaining + 1)
-    return totp.now()
+        otp = totp.now()
+    _last_otp = otp
+    return otp
 
 
 def rsync_to_horeka(local_path, remote_path, env, extra_args=""):
