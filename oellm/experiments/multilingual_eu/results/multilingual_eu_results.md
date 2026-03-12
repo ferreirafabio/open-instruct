@@ -32,16 +32,16 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 ### Full experiment matrix
 
-| Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO (w/ en)† | ELO (w/o en)† | m-arena-hard-EU WR% | arena-hard WR% |
+| Exp. | En/EU | EU-lang % | Samples | ELO w/ en† | ELO w/o en† | EU WR% | EN WR% |
 |---|---|---|---|---|---|---|---|
-| **Instruct baseline** | — | — | — | 687.7 ± 75.3 | 679.1 ± 88.0 | — | — |
-| **A1-90en** | 90/10 | 1.25% each | 94.7k | 613.2 ± 89.2 | 584.7 ± 105.6 | **54.8%** (+4.8pp) | 14.1% (-35.9pp) |
-| **A2-80en** | 80/20 | 2.5% each | 94.7k | 600.0 ± 110.2 | **705.7 ± 49.6** | **57.2%** (+7.2pp) | 12.4% (-37.6pp) |
-| **A3-70en** | 70/30 | 3.75% each | 94.7k | **708.6 ± 47.9** | 645.8 ± 88.5 | **58.8%** (+8.8pp) | 13.3% (-36.7pp) |
-| **B1-90en** | 90/10 | 1.25% each | 491k | - | - | _pending_ | _pending_ |
-| **B2-80en** | 80/20 | 2.5% each | 473k | - | - | _pending_ | _pending_ |
+| **Baseline** | — | — | — | 688±75 | 679±88 | — | — |
+| **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | 585±106 | **54.8%** | 14.1% |
+| **A2-80en** | 80/20 | 2.5% | 94.7k | 600±110 | **706±50** | **57.2%** | 12.4% |
+| **A3-70en** | 70/30 | 3.75% | 94.7k | **709±48** | 646±89 | **58.8%** | 13.3% |
+| **B1-90en** | 90/10 | 1.25% | 491k | - | - | _pending_ | _pending_ |
+| **B2-80en** | 80/20 | 2.5% | 473k | - | - | _pending_ | _pending_ |
 | **C0-100en** | 100/0 | — | 94.7k | - | - | _pending_ | _pending_ |
-| **D1-90en** | 90/10 (replay EN) | 1.25% each | 94.7k | - | - | _pending_ | _pending_ |
+| **D1-90en** | 90/10 | 1.25% | 94.7k | - | - | _pending_ | _pending_ |
 
 **94.7k** = total row count of the fusion-synth dataset (94,721 samples across 10 languages). Track A uses fusion-synth as its primary multilingual source, which covers de/es/fr/it/pt well (~8-10k each), while WildChat and lmsys-chat fill gaps for pl/nl/cs. No upsampling; A2/A3 cap Czech at its available 1,295 samples, so actual totals are slightly below 94.7k. C0 and D1 use the same 94.7k for direct comparability.
 
