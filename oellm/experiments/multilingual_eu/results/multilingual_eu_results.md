@@ -32,7 +32,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 ### Full experiment matrix
 
-| Exp. | En/EU | EU-lang % | Samples | ELO (LMArena, 2.1k)† | ELO (ComparIA, 20k)‡ | m-arena-hard-EU WR% | arena-hard (en) WR% |
+| Exp. | En/EU | EU % | Samples | ELO LMArena† | ELO ComparIA‡ | m-arena-hard-EU WR% | arena-hard (en) WR% |
 |---|---|---|---|---|---|---|---|
 | **Instruct-SFT (ours)** | — | — | — | _pending_ | _pending_ | 50% (ref) | 50% (ref) |
 | **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | _pending_ | **54.8%** | 14.1% |
@@ -49,9 +49,9 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
-†**ELO (LMArena)**: Bradley-Terry with 100 bootstraps on LMArena battles, balanced at 200 battles/language (el: 65, ro: 55 — capped at availability), 12 EU languages, 2,120 battles total.
+†**ELO LMArena**: Bradley-Terry, 100 bootstraps, 2.1k battles. Balanced at 200 battles/language (el: 65, ro: 55 — capped at availability), 12 EU languages.
 
-‡**ELO (ComparIA)**: Bradley-Terry with 100 bootstraps on ComparIA battles (French government arena), 20k battles, all languages (predominantly French, ~92%).
+‡**ELO ComparIA**: Bradley-Terry, 100 bootstraps, 20k battles. All languages, predominantly French (~92%).
 
 ### Track A: Per-language winrate (m-arena-hard-EU)
 
