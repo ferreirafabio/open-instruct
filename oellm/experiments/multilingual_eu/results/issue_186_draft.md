@@ -15,7 +15,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | | |
 |---|---|
 | **Base checkpoint** | OLMo-3-7B-Instruct-SFT (reproduced, [details](https://github.com/allenai/open-instruct/issues/1352#issuecomment-2823953936)) |
-| **Judge** | Qwen3-30B-A3B-Instruct-2507 (VLLM, winrate mode, fixed ordering) |
+| **Judge** | Qwen3-30B-A3B-Instruct-2507 (VLLM, winrate mode, both orderings) |
 | **Benchmarks** | m-arena-hard-EU (6000 prompts, 12 EU languages), arena-hard (500 prompts, English) |
 | **Training languages** | en + de, es, fr, it, pt, pl, nl, cs (ratio varies by experiment) |
 | **Eval languages** | en, de, es, fr, it, pt, pl, nl, cs, ro, el, uk (12 languages in m-arena-hard-EU) |
@@ -34,9 +34,10 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 | Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO | m-arena-hard-EU WR% | arena-hard WR% |
 |---|---|---|---|---|---|---|
-| **A1-90en** | 90/10 | 1.25% each | 94.7k | _pending_ | **57.2%** (+7.2pp) | 15.7% (-34.3pp) |
-| **A2-80en** | 80/20 | 2.5% each | 94.7k | _pending_ | **58.5%** (+8.5pp) | 13.7% (-36.3pp) |
-| **A3-70en** | 70/30 | 3.75% each | 94.7k | _pending_ | **59.0%** (+9.0pp) | 14.3% (-35.7pp) |
+| **Instruct baseline** | — | — | — | 1154.2 ± 114.4 | — | — |
+| **A1-90en** | 90/10 | 1.25% each | 94.7k | 686.4 ± 69.8 | **54.8%** (+4.8pp) | 14.1% (-35.9pp) |
+| **A2-80en** | 80/20 | 2.5% each | 94.7k | _pending_ | **57.2%** (+7.2pp) | 12.4% (-37.6pp) |
+| **A3-70en** | 70/30 | 3.75% each | 94.7k | _pending_ | **58.8%** (+8.8pp) | 13.3% (-36.7pp) |
 | **B1-90en** | 90/10 | 1.25% each | 491k | - | _pending_ | _pending_ |
 | **B2-80en** | 80/20 | 2.5% each | 473k | - | _pending_ | _pending_ |
 | **C0-100en** | 100/0 | — | 94.7k | - | _pending_ | _pending_ |
@@ -54,38 +55,20 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 | Language | A1-90en | A2-80en | A3-70en |
 |---|---:|---:|---:|
-| en [E] | 14.9% | 13.9% | 12.9% |
-| de [T] | 65.7% | 68.5% | **71.0%** |
-| es [T] | 65.7% | **72.2%** | **72.2%** |
-| fr [T] | 49.8% | 49.8% | 52.1% |
-| it [T] | 55.1% | 58.5% | 59.9% |
-| pt [T] | 62.9% | 69.6% | **70.0%** |
-| pl [T] | 60.6% | 63.4% | **67.0%** |
-| nl [T] | 67.3% | 65.1% | 67.6% |
-| cs [T] | **74.5%** | **76.2%** | **75.7%** |
-| ro [H] | 64.8% | 65.5% | 61.6% |
-| el [H] | 54.3% | 48.5% | 47.1% |
-| uk | 51.1% | 50.3% | 51.1% |
-
-### Per-language scatter plot (A1 vs A2 vs A3)
-
-Each dot is one language. X-axis is the language, Y-axis is winrate vs baseline.
-
-![Per-language comparison](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/per_language_comparison.png?raw=true)
+| _pending_ | | | |
 
 ### Key findings (Track A)
 
-1. **More EU data helps marginally**: A3 (30% EU) = 59.0% > A2 (20%) = 58.5% > A1 (10%) = 57.2%
-2. **Severe English regression**: All models drop to ~14% winrate on arena-hard (~-35pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
-3. **Zero-shot transfer**: Romanian (Latin script, Romance family) transfers well (62-66%). Greek (different script) does not (47-54%).
-4. **Czech is the biggest winner** (74-76%), likely because it's underrepresented in the baseline.
-5. **French barely moves** (~50%) despite being a trained language.
+1. **More EU data helps**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
+2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
+3. **Baseline ELO is much higher**: 1154 vs 686 for A1. The multilingual training hurts absolute competitiveness on the LMArena leaderboard, driven by English regression.
+4. Per-language breakdown pending.
 
 ### Next steps
 
 - **Track C** (C0-100en, English-only control) will isolate whether English regression comes from EU data or from continued training itself
 - **Track B** (B1/B2, more data + organic sources) will show if scale and data diversity help
-- **ELO ratings**: Running arena-anchored Bradley-Terry ELO estimation (pending)
+- **ELO ratings**: Baseline = 1154.2 ± 114.4, A1 = 686.4 ± 69.8. A2/A3 pending.
 
 ### Code
 
