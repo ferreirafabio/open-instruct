@@ -51,20 +51,31 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 ### Track A: Per-language winrate (m-arena-hard-EU)
 
-`[T]` = trained language, `[H]` = held-out (zero-shot), `[E]` = English. "uk" = Ukrainian.
-
-_Re-evaluating with swap_mode=both (previous results used fixed ordering, which underestimates winrates by ~35pp due to position bias)._
+`[T]` = trained language, `[H]` = held-out (zero-shot). "uk" = Ukrainian.
 
 | Language | A1-90en | A2-80en | A3-70en |
 |---|---:|---:|---:|
-| _pending_ | | | |
+| en | 13.2% | 16.0% | 13.6% |
+| de [T] | 63.9% | 66.3% | **69.6%** |
+| es [T] | 62.6% | **68.4%** | **71.6%** |
+| fr [T] | 46.2% | 51.4% | 53.4% |
+| it [T] | 51.9% | 60.4% | 59.3% |
+| pt [T] | 60.2% | 60.6% | **66.8%** |
+| pl [T] | 59.6% | 60.7% | 63.4% |
+| nl [T] | 65.1% | 64.3% | 65.1% |
+| cs [T] | **73.8%** | **74.2%** | **74.3%** |
+| ro [H] | 60.2% | 64.4% | 64.9% |
+| el [H] | 51.3% | 50.9% | 49.8% |
+| uk | 52.0% | 48.6% | 54.0% |
 
 ### Key findings (Track A)
 
 1. **More EU data helps**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
 2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
 3. **Baseline ELO is much higher**: 1154 vs 686 for A1. The multilingual training hurts absolute competitiveness on the LMArena leaderboard, driven by English regression.
-4. Per-language breakdown pending.
+4. **Transfer**: Romanian (60-65%) transfers well despite not being in training data. Greek (50-51%, different script) does not.
+5. **Czech** performs best (74%) — likely underrepresented in the baseline.
+6. **French barely moves** (46-53%).
 
 ### Next steps
 

@@ -57,18 +57,18 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 | Language | A1-90en | A2-80en | A3-70en |
 |---|---:|---:|---:|
-| en | 14.9% | 13.9% | 12.9% |
-| de [T] | 65.7% | 68.5% | **71.0%** |
-| es [T] | 65.7% | **72.2%** | **72.2%** |
-| fr [T] | 49.8% | 49.8% | 52.1% |
-| it [T] | 55.1% | 58.5% | 59.9% |
-| pt [T] | 62.9% | 69.6% | **70.0%** |
-| pl [T] | 60.6% | 63.4% | **67.0%** |
-| nl [T] | 67.3% | 65.1% | 67.6% |
-| cs [T] | **74.5%** | **76.2%** | **75.7%** |
-| ro [H] | 64.8% | 65.5% | 61.6% |
-| el [H] | 54.3% | 48.5% | 47.1% |
-| uk | 51.1% | 50.3% | 51.1% | (non-EU lang)
+| en | 13.2% | 16.0% | 13.6% |
+| de [T] | 63.9% | 66.3% | **69.6%** |
+| es [T] | 62.6% | **68.4%** | **71.6%** |
+| fr [T] | 46.2% | 51.4% | 53.4% |
+| it [T] | 51.9% | 60.4% | 59.3% |
+| pt [T] | 60.2% | 60.6% | **66.8%** |
+| pl [T] | 59.6% | 60.7% | 63.4% |
+| nl [T] | 65.1% | 64.3% | 65.1% |
+| cs [T] | **73.8%** | **74.2%** | **74.3%** |
+| ro [H] | 60.2% | 64.4% | 64.9% |
+| el [H] | 51.3% | 50.9% | 49.8% |
+| uk | 52.0% | 48.6% | 54.0% |
 
 ### Per-language scatter plot (A1 vs A2 vs A3)
 
@@ -81,9 +81,9 @@ Each dot is one language. X-axis is the language, Y-axis is winrate vs baseline.
 1. **Expectations met: more EU data helps marginally with EU language eval**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8%
 2. **English regression**: models drop to ~13% winrate on arena-hard (~-37pp), which serves as English control test. The degradation is roughly constant regardless of EU ratio (is continued SFT tricky?).
 3. **Baseline ELO is much higher**: 1154 vs 686 for A1. The multilingual training hurts absolute competitiveness on the LMArena leaderboard, driven by English regression.
-4. **Transfer**: Romanian and Greek are not in train data. Romanian transfers well (62-66%), Greek (different script) does not (47-54%).
-5. **Czech** performs well (74-76%) -> underrepresented in the baseline?
-6. **French barely moves** (~50%)
+4. **Transfer**: Romanian and Greek are not in train data. Romanian transfers well (60-65%), Greek (different script) does not (50-51%).
+5. **Czech** performs well (74%) -> underrepresented in the baseline?
+6. **French barely moves** (46-53%)
 
 ### Code
 
