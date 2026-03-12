@@ -340,34 +340,32 @@ def plot_language_distribution(
 
     fig, ax = plt.subplots(figsize=(22, 7))
     x = np.arange(len(display_langs))
-    width = 0.7
+    n_datasets = len(dataset_names)
+    bar_width = 0.7 / n_datasets
 
-    bottom = np.zeros(len(display_langs))
     for i, name in enumerate(dataset_names):
         pcts = np.array(dataset_pcts[name])
+        offset = (i - (n_datasets - 1) / 2) * bar_width
         bars = ax.bar(
-            x, pcts, width,
-            bottom=bottom,
+            x + offset, pcts, bar_width,
             label=name,
             color=colors[i % len(colors)],
         )
-        # Label each segment with its percentage
-        for bar, pct, bot in zip(bars, pcts, bottom):
+        for bar, pct in zip(bars, pcts):
             if pct > 0:
                 label = f"{pct:.1f}%" if pct >= 1 else f"{pct:.2f}%"
                 ax.text(
                     bar.get_x() + bar.get_width() / 2,
-                    bot + pct,
+                    bar.get_height(),
                     label,
                     ha="left", va="bottom",
-                    fontsize=9, fontweight="bold", rotation=45,
+                    fontsize=8, fontweight="bold", rotation=45,
                 )
-        bottom += pcts
 
     ax.set_yscale("log")
     ax.set_xlabel("Language")
     ax.set_ylabel("Percentage of each dataset (%, log scale)")
-    ax.set_title("Language Distribution in Dolci Datasets (stacked by dataset)")
+    ax.set_title("Language Distribution in Dolci Datasets (side by side)")
     ax.set_xticks(x)
     ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=10)
     ax.legend()
@@ -390,16 +388,15 @@ def plot_language_distribution(
         dataset_counts[name] = counts
 
     fig, ax = plt.subplots(figsize=(22, 7))
-    bottom = np.zeros(len(display_langs))
     for i, name in enumerate(dataset_names):
         counts = np.array(dataset_counts[name], dtype=float)
+        offset = (i - (n_datasets - 1) / 2) * bar_width
         bars = ax.bar(
-            x, counts, width,
-            bottom=bottom,
+            x + offset, counts, bar_width,
             label=name,
             color=colors[i % len(colors)],
         )
-        for bar, cnt, bot in zip(bars, counts, bottom):
+        for bar, cnt in zip(bars, counts):
             if cnt > 0:
                 if cnt >= 1000:
                     label = f"{cnt / 1000:.0f}k" if cnt < 1_000_000 else f"{cnt / 1_000_000:.1f}M"
@@ -407,17 +404,16 @@ def plot_language_distribution(
                     label = f"{int(cnt)}"
                 ax.text(
                     bar.get_x() + bar.get_width() / 2,
-                    bot + cnt,
+                    bar.get_height(),
                     label,
                     ha="left", va="bottom",
-                    fontsize=9, fontweight="bold", rotation=45,
+                    fontsize=8, fontweight="bold", rotation=45,
                 )
-        bottom += counts
 
     ax.set_yscale("log")
     ax.set_xlabel("Language")
     ax.set_ylabel("Sample count (log scale)")
-    ax.set_title("Language Counts in Dolci Datasets (stacked by dataset)")
+    ax.set_title("Language Counts in Dolci Datasets (side by side)")
     ax.set_xticks(x)
     ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=10)
     ax.legend()
