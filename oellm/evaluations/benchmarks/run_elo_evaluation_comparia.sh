@@ -34,7 +34,10 @@ else
     MODEL_SYMLINK="${1:?Usage: sbatch run_elo_evaluation_comparia.sh <model-symlink> [n_instructions]}"
 fi
 
-N_INSTRUCTIONS="${2:-20000}"
+N_PER_LANGUAGE="${2:-200}"  # Balanced sampling: 200 battles per language
+
+# Filter to EU languages (same as LMArena ELO)
+EU_LANGUAGES="en de es fr it pt pl nl cs ro el uk"
 
 # Resolve model path from symlink
 MODEL_PATH="$SYMLINK_DIR/$MODEL_SYMLINK"
@@ -68,7 +71,8 @@ echo "Array Task ID:    ${SLURM_ARRAY_TASK_ID:-N/A}"
 echo "Model:            $MODEL_SYMLINK -> $(readlink -f "$MODEL_PATH")"
 echo "Judge:            $JUDGE_MODEL"
 echo "Arena:            ComparIA"
-echo "N Instructions:   $N_INSTRUCTIONS"
+echo "N Per Language:   $N_PER_LANGUAGE"
+echo "Languages:        $EU_LANGUAGES"
 echo "Swap Mode:        $SWAP_MODE"
 echo "=============================================="
 echo ""
@@ -84,7 +88,8 @@ $VENV_PYTHON openjury/estimate_elo_ratings.py \
     --max_out_tokens_models $MAX_OUT_TOKENS \
     --max_out_tokens_judge $MAX_OUT_TOKENS_JUDGE \
     --provide_explanation \
-    --n_instructions $N_INSTRUCTIONS
+    --languages $EU_LANGUAGES \
+    --n_instructions_per_language $N_PER_LANGUAGE
 
 echo ""
 echo "=============================================="
