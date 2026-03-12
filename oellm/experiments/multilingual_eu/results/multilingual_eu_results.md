@@ -32,22 +32,24 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 ### Full experiment matrix
 
-| Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO | m-arena-hard-EU WR% | arena-hard WR% |
-|---|---|---|---|---|---|---|
-| **Instruct baseline** | — | — | — | 1154.2 ± 114.4 | — | — |
-| **A1-90en** | 90/10 | 1.25% each | 94.7k | 686.4 ± 69.8 | **54.8%** (+4.8pp) | 14.1% (-35.9pp) |
-| **A2-80en** | 80/20 | 2.5% each | 94.7k | 850.1 ± 159.2 | **57.2%** (+7.2pp) | 12.4% (-37.6pp) |
-| **A3-70en** | 70/30 | 3.75% each | 94.7k | 737.5 ± 26.0 | **58.8%** (+8.8pp) | 13.3% (-36.7pp) |
-| **B1-90en** | 90/10 | 1.25% each | 491k | - | _pending_ | _pending_ |
-| **B2-80en** | 80/20 | 2.5% each | 473k | - | _pending_ | _pending_ |
-| **C0-100en** | 100/0 | — | 94.7k | - | _pending_ | _pending_ |
-| **D1-90en** | 90/10 (replay EN) | 1.25% each | 94.7k | - | _pending_ | _pending_ |
+| Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO (w/ en)† | ELO (w/o en)† | m-arena-hard-EU WR% | arena-hard WR% |
+|---|---|---|---|---|---|---|---|
+| **Instruct baseline** | — | — | — | 687.7 ± 75.3 | _pending_ | — | — |
+| **A1-90en** | 90/10 | 1.25% each | 94.7k | 613.2 ± 89.2 | _pending_ | **54.8%** (+4.8pp) | 14.1% (-35.9pp) |
+| **A2-80en** | 80/20 | 2.5% each | 94.7k | 600.0 ± 110.2 | _pending_ | **57.2%** (+7.2pp) | 12.4% (-37.6pp) |
+| **A3-70en** | 70/30 | 3.75% each | 94.7k | **708.6 ± 47.9** | _pending_ | **58.8%** (+8.8pp) | 13.3% (-36.7pp) |
+| **B1-90en** | 90/10 | 1.25% each | 491k | - | - | _pending_ | _pending_ |
+| **B2-80en** | 80/20 | 2.5% each | 473k | - | - | _pending_ | _pending_ |
+| **C0-100en** | 100/0 | — | 94.7k | - | - | _pending_ | _pending_ |
+| **D1-90en** | 90/10 (replay EN) | 1.25% each | 94.7k | - | - | _pending_ | _pending_ |
 
 **94.7k** = total row count of the fusion-synth dataset (94,721 samples across 10 languages). Track A uses fusion-synth as its primary multilingual source, which covers de/es/fr/it/pt well (~8-10k each), while WildChat and lmsys-chat fill gaps for pl/nl/cs. No upsampling; A2/A3 cap Czech at its available 1,295 samples, so actual totals are slightly below 94.7k. C0 and D1 use the same 94.7k for direct comparability.
 
 **~490k** (Track B) = ~5× Track A to test data scaling. Target is 500k, but Czech (1,295) and Dutch (2,800) are capped at what's available, giving actual totals of ~491k (B1) and ~473k (B2).
 
 Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
+
+†**ELO**: Bradley-Terry with 100 bootstraps on LMArena battles, balanced at 200 battles/language (el: 65, ro: 55 — capped at availability). "w/ en" = 12 EU languages (2,120 battles), "w/o en" = 11 languages excluding English (1,920 battles).
 
 ### Track A: Per-language winrate (m-arena-hard-EU)
 
@@ -72,7 +74,7 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 1. **More EU data helps**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
 2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
-3. **Baseline ELO is much higher**: 1154 vs 686 for A1. The multilingual training hurts absolute competitiveness on the LMArena leaderboard, driven by English regression.
+3. **ELO (balanced, w/ en)**: With language-balanced battles, A3 (709) overtakes the baseline (688). A1 (613) and A2 (600) remain below — English regression still hurts on the English portion of battles.
 4. **Transfer**: Romanian (60-65%) transfers well despite not being in training data. Greek (50-51%, different script) does not.
 5. **Czech** performs best (74%) — likely underrepresented in the baseline.
 6. **French barely moves** (46-53%).
