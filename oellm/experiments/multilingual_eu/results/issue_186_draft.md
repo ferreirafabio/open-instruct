@@ -34,16 +34,16 @@ Percentage-based (w.r.t. the respective dataset):
 
 ### Full experiment matrix
 
-| Exp. | En/EU | EU-lang % | Samples | ELO w/ en† | ELO w/o en† | m-arena-hard-EU WR% | arena-hard WR% |
-|---|---|---|---|---|---|---|---|
-| **Baseline** | — | — | — | 688±75 | 679±88 | — | — |
-| **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | 585±106 | **54.8%** | 14.1% |
-| **A2-80en** | 80/20 | 2.5% | 94.7k | 600±110 | **706±50** | **57.2%** | 12.4% |
-| **A3-70en** | 70/30 | 3.75% | 94.7k | **709±48** | 646±89 | **58.8%** | 13.3% |
-| **B1-90en** | 90/10 | 1.25% | 491k | - | - | _pending_ | _pending_ |
-| **B2-80en** | 80/20 | 2.5% | 473k | - | - | _pending_ | _pending_ |
-| **C0-100en** | 100/0 | — | 94.7k | - | - | _pending_ | _pending_ |
-| **D1-90en** | 90/10 | 1.25% | 94.7k | - | - | _pending_ | _pending_ |
+| Exp. | En/EU | EU-lang % | Samples | ELO† | m-arena-hard-EU WR% | arena-hard WR% |
+|---|---|---|---|---|---|---|
+| **Baseline** | — | — | — | 688±75 | — | — |
+| **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | **54.8%** | 14.1% |
+| **A2-80en** | 80/20 | 2.5% | 94.7k | 600±110 | **57.2%** | 12.4% |
+| **A3-70en** | 70/30 | 3.75% | 94.7k | **709±48** | **58.8%** | 13.3% |
+| **B1-90en** | 90/10 | 1.25% | 491k | - | _pending_ | _pending_ |
+| **B2-80en** | 80/20 | 2.5% | 473k | - | _pending_ | _pending_ |
+| **C0-100en** | 100/0 | — | 94.7k | - | _pending_ | _pending_ |
+| **D1-90en** | 90/10 | 1.25% | 94.7k | - | _pending_ | _pending_ |
 
 **94.7k** = total row count of the fusion-synth dataset (94,721 samples across 10 languages). Track A uses fusion-synth as its primary multilingual source, which covers de/es/fr/it/pt well (~8-10k each), while WildChat and lmsys-chat fill gaps for pl/nl/cs. No upsampling; A2/A3 cap Czech at its available 1,295 samples, so actual totals are slightly below 94.7k. C0 and D1 use the same 94.7k for direct comparability.
 
@@ -51,7 +51,7 @@ Percentage-based (w.r.t. the respective dataset):
 
 Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
-†**ELO**: Bradley-Terry with 100 bootstraps on LMArena battles, balanced at 200 battles/language (el: 65, ro: 55 — capped at availability). "w/ en" = 12 EU languages (2,120 battles), "w/o en" = 11 languages excluding English (1,920 battles).
+†**ELO**: Bradley-Terry with 100 bootstraps on LMArena battles, balanced at 200 battles/language (el: 65, ro: 55 — capped at availability), 12 EU languages, 2,120 battles total.
 
 ### Track A: Per-language winrate (m-arena-hard-EU)
 
