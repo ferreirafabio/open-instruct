@@ -302,7 +302,7 @@ def _add_bar_labels(ax, bars, pcts, min_y=None):
                 label,
                 ha="left",
                 va="bottom",
-                fontsize=7,
+                fontsize=9,
                 fontweight="bold",
                 rotation=45,
             )
@@ -360,7 +360,7 @@ def plot_language_distribution(
                     bot + pct,
                     label,
                     ha="left", va="bottom",
-                    fontsize=6, fontweight="bold", rotation=45,
+                    fontsize=9, fontweight="bold", rotation=45,
                 )
         bottom += pcts
 
@@ -369,7 +369,7 @@ def plot_language_distribution(
     ax.set_ylabel("Percentage of each dataset (%, log scale)")
     ax.set_title("Language Distribution in Dolci Datasets (stacked by dataset)")
     ax.set_xticks(x)
-    ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=7)
+    ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=10)
     ax.legend()
     ax.grid(axis="y", alpha=0.3, which="both")
     ax.set_ylim(bottom=0.005)
@@ -410,7 +410,7 @@ def plot_language_distribution(
                     bot + cnt,
                     label,
                     ha="left", va="bottom",
-                    fontsize=6, fontweight="bold", rotation=45,
+                    fontsize=9, fontweight="bold", rotation=45,
                 )
         bottom += counts
 
@@ -419,7 +419,7 @@ def plot_language_distribution(
     ax.set_ylabel("Sample count (log scale)")
     ax.set_title("Language Counts in Dolci Datasets (stacked by dataset)")
     ax.set_xticks(x)
-    ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=7)
+    ax.set_xticklabels([lang_label(l) for l in display_langs], rotation=45, ha="right", fontsize=10)
     ax.legend()
     ax.grid(axis="y", alpha=0.3, which="both")
     ax.set_ylim(bottom=1)
@@ -489,7 +489,7 @@ def plot_per_group_distribution(
         ax.set_yscale("log")
         ax.set_ylim(bottom=min_y)
         ax.set_xticks(range(len(langs)))
-        ax.set_xticklabels([lang_label(l) for l in langs], rotation=45, ha="right", fontsize=7)
+        ax.set_xticklabels([lang_label(l) for l in langs], rotation=45, ha="right", fontsize=10)
         ax.grid(axis="y", alpha=0.3, which="both")
         plt.tight_layout()
         fig.savefig(
