@@ -15,7 +15,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | | |
 |---|---|
 | **Base checkpoint** | OLMo-3-7B-Instruct-SFT (reproduced, [details](https://github.com/allenai/open-instruct/issues/1352#issuecomment-2823953936)) |
-| **Judge** | Qwen3-30B-A3B-Instruct-2507 (VLLM, winrate mode, both orderings) |
+| **Judge** | Qwen3-30B-A3B-Instruct-2507 (VLLM, winrate mode, both orderings, 8k max tokens) |
 | **Benchmarks** | m-arena-hard-EU (6000 prompts, 12 EU languages), arena-hard (500 prompts, English) |
 | **Training languages** | en + de, es, fr, it, pt, pl, nl, cs (ratio varies by experiment) |
 | **Eval languages** | en, de, es, fr, it, pt, pl, nl, cs, ro, el, uk (12 languages in m-arena-hard-EU) |
