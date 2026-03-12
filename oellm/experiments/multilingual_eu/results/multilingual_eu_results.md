@@ -1,4 +1,4 @@
-## Multilingual fine-tuning: Track A results
+## Multilingual SFT: Track A results
 
 We're investigating how to add multilingual capabilities to OLMo-3-7B without catastrophic forgetting of English. Starting from our reproduced instruct SFT checkpoint, we continue training on mixtures of English + EU-language data at varying ratios.
 
