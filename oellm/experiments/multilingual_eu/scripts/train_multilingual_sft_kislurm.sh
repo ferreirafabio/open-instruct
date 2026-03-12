@@ -7,6 +7,7 @@
 #SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/experiments/multilingual_eu/logs/%A_%a.%x.%N.out
 #SBATCH --error=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/experiments/multilingual_eu/logs/%A_%a.%x.%N.err
 #SBATCH --array=0-9%1
+#SBATCH --requeue
 
 # Multilingual SFT training script for OLMo-core
 # Continues training the instruct checkpoint on multilingual data.

@@ -7,6 +7,7 @@
 #SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/experiments/english_control/logs/%A_%a.%x.%N.out
 #SBATCH --error=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/experiments/english_control/logs/%A_%a.%x.%N.err
 #SBATCH --array=0-9%1
+#SBATCH --requeue
 
 # English control experiment (C0-100en) for OLMo-core
 # Isolates whether English regression comes from continued training or EU data.

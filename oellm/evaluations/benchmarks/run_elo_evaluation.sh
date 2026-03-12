@@ -4,6 +4,7 @@
 #SBATCH --gpus=1
 #SBATCH --time=24:00:00
 #SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/evaluations/logs/elo_%A_%a.log
+#SBATCH --requeue
 
 # ELO Rating estimation using OpenJury + LMArena battles
 # Estimates Bradley-Terry ELO by judging our model against arena opponents
@@ -110,7 +111,7 @@ $VENV_PYTHON openjury/estimate_elo_ratings.py \
     --max_out_tokens_models $MAX_OUT_TOKENS \
     --max_out_tokens_judge $MAX_OUT_TOKENS_JUDGE \
     --provide_explanation \
-    --ignore_cache \
+    \
     --languages $EU_LANGUAGES \
     $N_INSTR_FLAG \
     $N_PER_LANG_FLAG

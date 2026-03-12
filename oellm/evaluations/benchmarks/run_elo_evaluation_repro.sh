@@ -4,6 +4,7 @@
 #SBATCH --gpus=1
 #SBATCH --time=24:00:00
 #SBATCH --output=/work/dlclarge2/ferreira-oellm/open-instruct/oellm/evaluations/logs/elo_repro_%A_%a.log
+#SBATCH --requeue
 
 # ELO Rating estimation for reproduced instruct/think checkpoints
 # Uses 20k LMArena battles (all languages), caching enabled for resumability
