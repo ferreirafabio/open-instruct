@@ -34,7 +34,7 @@ Percentage-based (w.r.t. the respective dataset):
 
 ### Full experiment matrix
 
-| Exp. | En/EU | EU-lang % | Samples | ELO† | m-arena-hard-EU WR% | arena-hard WR% |
+| Exp. | En/EU | EU-lang % | Samples | ELO† | m-arena-hard-EU WR% | arena-hard (en) WR% |
 |---|---|---|---|---|---|---|
 | **Baseline** | — | — | — | 688±75 | — | — |
 | **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | **54.8%** | 14.1% |
