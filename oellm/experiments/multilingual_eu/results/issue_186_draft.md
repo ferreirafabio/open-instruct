@@ -34,7 +34,7 @@ Percentage-based (w.r.t. the respective dataset):
 
 ### Full experiment matrix
 
-| Exp. | En/EU | EU-lang % | Samples | ELO (LMArena, 2.1k)† | ELO (ComparIA, 1.5k)‡ | m-arena-hard-EU WR% | arena-hard (en) WR% |
+| Exp. | En/EU | EU-lang % | Samples | ELO (LMArena, 2.1k)† | ELO (ComparIA, 20k)‡ | m-arena-hard-EU WR% | arena-hard (en) WR% |
 |---|---|---|---|---|---|---|---|
 | **Instruct-SFT (ours)** | — | — | — | _pending_ | _pending_ | 50% (ref) | 50% (ref) |
 | **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | _pending_ | **54.8%** | 14.1% |
@@ -53,7 +53,7 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 †**ELO (LMArena)**: Bradley-Terry with 100 bootstraps on LMArena battles, balanced at 200 battles/language (el: 65, ro: 55 — capped at availability), 12 EU languages, 2,120 battles total.
 
-‡**ELO (ComparIA)**: Bradley-Terry with 100 bootstraps on ComparIA battles (French government arena), balanced at 200 battles/language, 12 EU languages, ~1,500 battles total (pt: 121, pl: 23, nl: 132, cs: 16, el: 4, uk: 3 — capped at availability).
+‡**ELO (ComparIA)**: Bradley-Terry with 100 bootstraps on ComparIA battles (French government arena), 20k battles, all languages (predominantly French, ~92%).
 
 ### Track A: Per-language winrate (m-arena-hard-EU)
 
