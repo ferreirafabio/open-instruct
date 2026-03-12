@@ -34,10 +34,10 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 | Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO (w/ en)† | ELO (w/o en)† | m-arena-hard-EU WR% | arena-hard WR% |
 |---|---|---|---|---|---|---|---|
-| **Instruct baseline** | — | — | — | 687.7 ± 75.3 | _pending_ | — | — |
-| **A1-90en** | 90/10 | 1.25% each | 94.7k | 613.2 ± 89.2 | _pending_ | **54.8%** (+4.8pp) | 14.1% (-35.9pp) |
-| **A2-80en** | 80/20 | 2.5% each | 94.7k | 600.0 ± 110.2 | _pending_ | **57.2%** (+7.2pp) | 12.4% (-37.6pp) |
-| **A3-70en** | 70/30 | 3.75% each | 94.7k | **708.6 ± 47.9** | _pending_ | **58.8%** (+8.8pp) | 13.3% (-36.7pp) |
+| **Instruct baseline** | — | — | — | 687.7 ± 75.3 | 679.1 ± 88.0 | — | — |
+| **A1-90en** | 90/10 | 1.25% each | 94.7k | 613.2 ± 89.2 | 584.7 ± 105.6 | **54.8%** (+4.8pp) | 14.1% (-35.9pp) |
+| **A2-80en** | 80/20 | 2.5% each | 94.7k | 600.0 ± 110.2 | **705.7 ± 49.6** | **57.2%** (+7.2pp) | 12.4% (-37.6pp) |
+| **A3-70en** | 70/30 | 3.75% each | 94.7k | **708.6 ± 47.9** | 645.8 ± 88.5 | **58.8%** (+8.8pp) | 13.3% (-36.7pp) |
 | **B1-90en** | 90/10 | 1.25% each | 491k | - | - | _pending_ | _pending_ |
 | **B2-80en** | 80/20 | 2.5% each | 473k | - | - | _pending_ | _pending_ |
 | **C0-100en** | 100/0 | — | 94.7k | - | - | _pending_ | _pending_ |
