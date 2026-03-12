@@ -34,10 +34,10 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 | Experiment | En/EU ratio | Per-EU-lang % | Total samples | ELO | m-arena-hard-EU WR% | arena-hard WR% |
 |---|---|---|---|---|---|---|
-| **Instruct baseline** | — | — | — | _pending_ | — | — |
+| **Instruct baseline** | — | — | — | 1154.2 ± 114.4 | — | — |
 | **A1-90en** | 90/10 | 1.25% each | 94.7k | 686.4 ± 69.8 | **54.8%** (+4.8pp) | 14.1% (-35.9pp) |
-| **A2-80en** | 80/20 | 2.5% each | 94.7k | _pending_ | _running_ | _pending_ |
-| **A3-70en** | 70/30 | 3.75% each | 94.7k | _pending_ | _pending_ | _pending_ |
+| **A2-80en** | 80/20 | 2.5% each | 94.7k | _pending_ | **57.2%** (+7.2pp) | 12.4% (-37.6pp) |
+| **A3-70en** | 70/30 | 3.75% each | 94.7k | _pending_ | **58.8%** (+8.8pp) | 13.3% (-36.7pp) |
 | **B1-90en** | 90/10 | 1.25% each | 491k | - | _pending_ | _pending_ |
 | **B2-80en** | 80/20 | 2.5% each | 473k | - | _pending_ | _pending_ |
 | **C0-100en** | 100/0 | — | 94.7k | - | _pending_ | _pending_ |
@@ -61,9 +61,10 @@ _Re-evaluating with swap_mode=both (previous results used fixed ordering, which 
 
 ### Key findings (Track A)
 
-1. **EU improvement confirmed**: A1-90en wins 54.8% on m-arena-hard-EU (+4.8pp vs baseline). A2/A3 results pending.
-2. **Severe English regression**: A1 drops to 14.1% winrate on arena-hard (-35.9pp). Consistent with previous observations.
-3. Per-language breakdown and zero-shot transfer analysis pending (awaiting A2/A3 results).
+1. **More EU data helps**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
+2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
+3. **Baseline ELO is much higher**: 1154 vs 686 for A1. The multilingual training hurts absolute competitiveness on the LMArena leaderboard, driven by English regression.
+4. Per-language breakdown pending.
 
 ### Next steps
 
