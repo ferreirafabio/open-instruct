@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=olmo3-7b-control-sft
+#SBATCH --job-name=sft-C0-100en
 #SBATCH --partition=alldlc2_gpu-h200
 #SBATCH --nodes=1
 #SBATCH --gpus=8

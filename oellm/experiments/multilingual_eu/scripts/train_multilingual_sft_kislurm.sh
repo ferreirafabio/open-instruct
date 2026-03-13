@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#SBATCH --job-name=olmo3-7b-multilingual-sft
+#SBATCH --job-name=sft-multilingual
 #SBATCH --partition=alldlc2_gpu-h200
 #SBATCH --nodes=1
 #SBATCH --gpus=8
