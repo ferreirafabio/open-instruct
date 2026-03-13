@@ -146,6 +146,15 @@ show_rubric(
 
 </details>
 
+### ELO Ratings (LMArena)
+
+Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn), 100 bootstraps. Judged by Qwen3-30B-A3B-Instruct-2507 (swap_mode=both, 8k max tokens).
+
+| Model | ELO (LMArena) |
+|---|---|
+| Think-SFT (official) | 1002.9 ± 9.0 |
+| Think-SFT (ours, step 42856) | 1002.2 ± 13.0 |
+
 ---
 
 ## OLMo-3-7B Think SFT Performance over Training Time: Reproduction vs. Baseline
@@ -355,6 +364,15 @@ show_rubric(
 
 </details>
 
+### ELO Ratings (LMArena)
+
+Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn), 100 bootstraps. Judged by Qwen3-30B-A3B-Instruct-2507 (swap_mode=both, 8k max tokens).
+
+| Model | ELO (LMArena) |
+|---|---|
+| Instruct-SFT (official) | 940.5 ± 7.9 |
+| Instruct-SFT (ours, step 3252) | 953.0 ± 9.3 |
+
 ---
 
 ## OLMo-3-7B Instruct SFT Performance over Training Time: Reproduction vs. Baseline
@@ -408,25 +426,6 @@ Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 | 2000 | 0.886 | 0.884 | -0.002 | 0.821 | 0.815 | -0.005 | 0.487 | 0.488 | +0.001 |
 | 3000 | 0.891 | 0.888 | -0.003 | 0.826 | 0.840 | +0.014 | 0.487 | 0.511 | +0.024 |
 | 3252 | 0.887 | 0.891 | +0.004 | 0.815 | 0.827 | +0.012 | 0.489 | 0.510 | +0.021 |
-
----
-
-## ELO Ratings (LMArena)
-
-Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn), 100 bootstraps. Each model independently competes against arena opponents, judged by Qwen3-30B-A3B-Instruct-2507 (swap_mode=both, 8k max tokens).
-
-| | |
-|---|---|
-| **Judge** | Qwen/Qwen3-30B-A3B-Instruct-2507 (both orderings, 8k max tokens) |
-| **Arena** | LMArena (20k battles, all languages) |
-| **Method** | Bradley-Terry, 100 bootstraps |
-
-| Model | ELO (LMArena) |
-|---|---|
-| Think-SFT (official) | 1002.9 ± 9.0 |
-| Think-SFT (ours, step 42856) | 1002.2 ± 13.0 |
-| Instruct-SFT (official) | 940.5 ± 7.9 |
-| Instruct-SFT (ours, step 3252) | 953.0 ± 9.3 |
 
 ---
 
