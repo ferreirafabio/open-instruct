@@ -411,4 +411,23 @@ Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 
 ---
 
+## ELO Ratings (LMArena)
+
+Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn), 100 bootstraps. Each model independently competes against arena opponents, judged by Qwen3-30B-A3B-Instruct-2507 (swap_mode=both, 8k max tokens).
+
+| | |
+|---|---|
+| **Judge** | Qwen/Qwen3-30B-A3B-Instruct-2507 (both orderings, 8k max tokens) |
+| **Arena** | LMArena (20k battles, all languages) |
+| **Method** | Bradley-Terry, 100 bootstraps |
+
+| Model | ELO (LMArena) |
+|---|---|
+| Think-SFT (official) | _pending_ |
+| Think-SFT (ours, step 42856) | _pending_ |
+| Instruct-SFT (official) | 940.5 ± 7.9 |
+| Instruct-SFT (ours, step 3252) | 953.0 ± 9.3 |
+
+---
+
 <sup>1</sup> Average (0–1) is a min-max normalization of the mean of the 4 criterion scores.
