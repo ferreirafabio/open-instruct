@@ -425,8 +425,8 @@ Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn),
 |---|---|
 | Think-SFT (official) | _pending_ |
 | Think-SFT (ours, step 42856) | _pending_ |
-| Instruct-SFT (official) | _pending_ |
-| Instruct-SFT (ours, step 3252) | _pending_ |
+| Instruct-SFT (official) | 940.5 ± 7.9 |
+| Instruct-SFT (ours, step 3252) | 953.0 ± 9.3 |
 
 ---
 

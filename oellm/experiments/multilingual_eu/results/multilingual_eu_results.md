@@ -34,7 +34,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 | Exp. | En/EU | EU % | Samples | ELO LMArena† | ELO ComparIA‡ | m-arena-hard-EU WR% | arena-hard (en) WR% |
 |---|---|---|---|---|---|---|---|
-| **Instruct-SFT (ours)** | — | — | — | _pending_ | _pending_ | 50% (ref) | 50% (ref) |
+| **Instruct-SFT (ours)** | — | — | — | 766±54 | _pending_ | 50% (ref) | 50% (ref) |
 | **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | _pending_ | **54.8%** | 14.1% |
 | **A2-80en** | 80/20 | 2.5% | 94.7k | 600±110 | _pending_ | **57.2%** | 12.4% |
 | **A3-70en** | 70/30 | 3.75% | 94.7k | **709±48** | _pending_ | **58.8%** | 13.3% |
@@ -76,7 +76,7 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 1. **More EU data helps**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
 2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
-3. **ELO (balanced, w/ en)**: With language-balanced battles, A3 (709) overtakes the baseline (688). A1 (613) and A2 (600) remain below — English regression still hurts on the English portion of battles.
+3. **ELO (balanced, w/ en)**: With language-balanced battles, A3 (709) approaches the baseline (766). A1 (613) and A2 (600) remain below — English regression still hurts on the English portion of battles.
 4. **Transfer**: Romanian (60-65%) transfers well despite not being in training data. Greek (50-51%, different script) does not.
 5. **Czech** performs best (74%) — likely underrepresented in the baseline.
 6. **French barely moves** (46-53%).
