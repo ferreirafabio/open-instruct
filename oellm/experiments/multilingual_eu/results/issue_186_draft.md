@@ -80,14 +80,45 @@ Each dot is one language. X-axis is the language, Y-axis is winrate vs baseline.
 
 ![Per-language comparison](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/per_language_comparison.png?raw=true)
 
-### Preliminary Findings (Track A)
+### Track B/C/D: Per-language winrate (m-arena-hard-EU)
 
-1. **Expectations met: more EU data helps marginally with EU language eval**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8%
-2. **English regression**: models drop to ~13% winrate on arena-hard (~-37pp), which serves as English control test. The degradation is roughly constant regardless of EU ratio (is continued SFT tricky?).
-3. **ELO (balanced, w/ en)**: With language-balanced battles, A3 (709) approaches the baseline (766). A1 (613) and A2 (600) remain below — English regression still hurts on the English portion of battles.
-4. **Transfer**: Romanian and Greek are not in train data. Romanian transfers well (60-65%), Greek (different script) does not (50-51%).
-5. **Czech** performs well (74%) -> underrepresented in the baseline?
+| Language | B1-90en | B2-80en | C0-100en | D1-90en |
+|---|---:|---:|---:|---:|
+| en | 14.2% | 14.3% | 15.7% | **54.4%** |
+| de [T] | 63.6% | 64.0% | 51.7% | **67.5%** |
+| es [T] | 66.5% | 60.6% | 55.9% | **67.1%** |
+| fr [T] | 44.2% | 41.5% | 41.3% | 57.2% |
+| it [T] | 53.3% | 51.9% | 42.0% | 59.4% |
+| pt [T] | 60.3% | 58.0% | 48.4% | **70.7%** |
+| pl [T] | 56.8% | 57.3% | 48.6% | 59.1% |
+| nl [T] | 57.9% | 60.7% | 59.2% | **68.4%** |
+| cs [T] | **71.7%** | **71.0%** | **61.9%** | **73.8%** |
+| ro [H] | 58.0% | 55.9% | 61.2% | **67.7%** |
+| el [H] | 51.9% | 53.8% | 54.2% | **62.0%** |
+| uk | 45.5% | 46.5% | 46.4% | 54.1% |
+
+### Findings
+
+**Track A** (English/EU ratio):
+1. **More EU data helps marginally**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8%
+2. **English regression**: models drop to ~13% winrate on arena-hard (~-37pp), roughly constant regardless of EU ratio
+3. **ELO (balanced, w/ en)**: A3 (709) approaches baseline (766). A1 (613) and A2 (600) remain below
+4. **Transfer**: Romanian (60-65%) transfers well, Greek (different script, 50-51%) does not
+5. **Czech** performs well (74%) — underrepresented in baseline?
 6. **French barely moves** (46-53%)
+
+**Track B** (data scaling):
+7. **More data does not help**: B1 (53.6%) and B2 (52.9%) perform worse than Track A counterparts despite ~5× more data
+8. **English regression persists** at ~13-14%
+
+**Track C** (English-only control):
+9. **Continued SFT itself causes forgetting**: C0-100en drops English to 11.8% despite having no EU data at all
+10. **C0 slightly hurts EU too**: 48.9% overall (below parity)
+
+**Track D** (Dolci English replay):
+11. **Dolci replay preserves English**: D1-90en maintains English (54.6% arena-hard) — the only model to do so
+12. **D1 achieves best EU scores**: 63.4% overall, with Greek jumping to 62.0% (vs ~50% in Track A)
+13. **D1 ELO (755±50) approaches baseline (766±54)**: nearly matches the base checkpoint
 
 ### Code
 

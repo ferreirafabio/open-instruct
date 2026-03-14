@@ -72,8 +72,26 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 | el [H] | 51.3% | 50.9% | 49.8% |
 | uk | 52.0% | 48.6% | 54.0% |
 
-### Key findings (Track A)
+### Track B/C/D: Per-language winrate (m-arena-hard-EU)
 
+| Language | B1-90en | B2-80en | C0-100en | D1-90en |
+|---|---:|---:|---:|---:|
+| en | 14.2% | 14.3% | 15.7% | **54.4%** |
+| de [T] | 63.6% | 64.0% | 51.7% | **67.5%** |
+| es [T] | 66.5% | 60.6% | 55.9% | **67.1%** |
+| fr [T] | 44.2% | 41.5% | 41.3% | 57.2% |
+| it [T] | 53.3% | 51.9% | 42.0% | 59.4% |
+| pt [T] | 60.3% | 58.0% | 48.4% | **70.7%** |
+| pl [T] | 56.8% | 57.3% | 48.6% | 59.1% |
+| nl [T] | 57.9% | 60.7% | 59.2% | **68.4%** |
+| cs [T] | **71.7%** | **71.0%** | **61.9%** | **73.8%** |
+| ro [H] | 58.0% | 55.9% | 61.2% | **67.7%** |
+| el [H] | 51.9% | 53.8% | 54.2% | **62.0%** |
+| uk | 45.5% | 46.5% | 46.4% | 54.1% |
+
+### Key findings
+
+**Track A** (English/EU ratio):
 1. **More EU data helps**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
 2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
 3. **ELO (balanced, w/ en)**: With language-balanced battles, A3 (709) approaches the baseline (766). A1 (613) and A2 (600) remain below — English regression still hurts on the English portion of battles.
@@ -81,11 +99,18 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 5. **Czech** performs best (74%) — likely underrepresented in the baseline.
 6. **French barely moves** (46-53%).
 
-### Next steps
+**Track B** (data scaling):
+7. **More data does not help**: B1 (53.6%) and B2 (52.9%) perform *worse* than their Track A counterparts A1 (54.8%) and A2 (57.2%), despite having ~5× more data. Adding organic sources (wildchat, lmsys-chat) at scale may introduce noise.
+8. **English regression persists**: B1 (13.0%) and B2 (14.2%) show the same ~37pp English drop as Track A.
 
-- **Track C** (C0-100en, English-only control) will isolate whether English regression comes from EU data or from continued training itself
-- **Track B** (B1/B2, more data + organic sources) will show if scale and data diversity help
-- **ELO ratings**: Running arena-anchored Bradley-Terry ELO estimation on EU languages (pending)
+**Track C** (English-only control):
+9. **Continued SFT itself causes forgetting**: C0-100en (no EU data at all) still drops English to 11.8% on arena-hard. This confirms the regression is not caused by EU data — it's an artifact of continued training on new English data.
+10. **C0 slightly hurts EU languages too**: 48.9% overall EU winrate (below 50% parity), suggesting the new English data actively overwrites some multilingual capability.
+
+**Track D** (Dolci English replay):
+11. **Dolci replay preserves English**: D1-90en is the only model that maintains English performance (54.6% arena-hard, vs ~13% for all others). Replaying the base checkpoint's own training data during continued SFT prevents catastrophic forgetting.
+12. **D1 achieves best EU scores across nearly every language**: 63.4% overall, with strong gains even in held-out languages — Greek jumps to 62.0% (vs ~50% in Track A) and Romanian to 67.7%.
+13. **D1 ELO (755±50) approaches baseline (766±54)**: The only continued-SFT model that nearly matches the base checkpoint's balanced ELO rating.
 
 ### Code
 
