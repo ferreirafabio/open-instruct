@@ -46,7 +46,7 @@ def plot_think_elo():
 
     ax.set_xlabel("Training Step", fontsize=12)
     ax.set_ylabel("ELO Rating", fontsize=12)
-    ax.set_title("Think SFT: ELO over Training (20k LMArena battles)", fontsize=14, fontweight="bold")
+    ax.set_title("OLMo-3-7B Think SFT: ELO over Training (20k LMArena battles)", fontsize=14, fontweight="bold")
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)
 
@@ -72,7 +72,7 @@ def plot_instruct_elo():
 
     ax.set_xlabel("Training Step", fontsize=12)
     ax.set_ylabel("ELO Rating", fontsize=12)
-    ax.set_title("Instruct SFT: ELO over Training (20k LMArena battles)", fontsize=14, fontweight="bold")
+    ax.set_title("OLMo-3-7B Instruct SFT: ELO over Training (20k LMArena battles)", fontsize=14, fontweight="bold")
     ax.legend(fontsize=10)
     ax.grid(True, alpha=0.3)
 
