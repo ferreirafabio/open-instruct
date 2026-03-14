@@ -261,6 +261,8 @@ Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 
 Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn), 100 bootstraps. Same prompts across all checkpoints (deterministic sampling, seed=0).
 
+![Think ELO training curve](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/think_elo_curve.png)
+
 | Step | ELO (LMArena) |
 |---:|---|
 | 500 | 980.4 ± 11.8 |
@@ -457,6 +459,8 @@ Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 ### ELO (LMArena, 20k battles)
 
 Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn), 100 bootstraps. Same prompts across all checkpoints (deterministic sampling, seed=0).
+
+![Instruct ELO training curve](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/instruct_elo_curve.png)
 
 | Step | ELO (LMArena) |
 |---:|---|
