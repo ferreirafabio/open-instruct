@@ -145,11 +145,19 @@ run_eval() {
     SYMLINK_DIR="$PROJECT_ROOT/models/eval"
     mkdir -p "$SYMLINK_DIR"
     
-    TEMP_BASELINE="$SYMLINK_DIR/${MODEL_TYPE}-baseline"
-    TEMP_OURS="$SYMLINK_DIR/${MODEL_TYPE}-ours"
+    # Use job-specific symlink names to avoid race conditions when running
+    # multiple eval jobs in parallel (each job would otherwise overwrite the
+    # same symlink, causing all jobs to evaluate the same model).
+    JOB_SUFFIX="${SLURM_JOB_ID:-$$}"
+    TEMP_BASELINE="$SYMLINK_DIR/${MODEL_TYPE}-baseline-${JOB_SUFFIX}"
+    TEMP_OURS="$SYMLINK_DIR/${MODEL_TYPE}-ours-${JOB_SUFFIX}"
     rm -f "$TEMP_BASELINE" "$TEMP_OURS"
     ln -sf "$BASELINE" "$TEMP_BASELINE"
     ln -sf "$TRAINED" "$TEMP_OURS"
+    # Clean up job-specific symlinks on exit
+    trap "rm -f '$TEMP_BASELINE' '$TEMP_OURS'" EXIT
+    echo "Symlink (baseline): $TEMP_BASELINE -> $(readlink -f "$TEMP_BASELINE")"
+    echo "Symlink (ours):     $TEMP_OURS -> $(readlink -f "$TEMP_OURS")"
     
     # Build optional flags
     EXTRA_FLAGS=""
