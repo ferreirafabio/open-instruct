@@ -257,6 +257,33 @@ Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 | 38000 | 0.926 | 0.931 | +0.006 | 0.861 | 0.862 | +0.001 |
 | 42856 | 0.931 | 0.930 | -0.002 | 0.853 | 0.857 | +0.004 |
 
+### ELO (LMArena, 20k battles)
+
+Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn), 100 bootstraps. Same prompts across all checkpoints (deterministic sampling, seed=0).
+
+| Step | ELO (LMArena) |
+|---:|---|
+| 500 | 980.4 ± 11.8 |
+| 1000 | 941.2 ± 7.7 |
+| 2000 | 916.5 ± 9.3 |
+| 3000 | 907.7 ± 9.2 |
+| 4000 | 937.2 ± 10.1 |
+| 5000 | 915.2 ± 9.1 |
+| 7000 | 947.0 ± 8.0 |
+| 8000 | 915.4 ± 10.6 |
+| 11000 | 932.5 ± 7.0 |
+| 13000 | 949.2 ± 7.7 |
+| 15000 | 943.3 ± 9.7 |
+| 17000 | 928.2 ± 8.3 |
+| 19000 | 961.6 ± 7.0 |
+| 21000 | 955.0 ± 7.1 |
+| 24000 | 979.8 ± 8.2 |
+| 27000 | 973.4 ± 7.6 |
+| 31000 | 1012.4 ± 5.6 |
+| 34000 | 1000.5 ± 12.5 |
+| 38000 | 991.4 ± 8.7 |
+| 42856 | 1002.2 ± 13.0 |
+
 ## OLMo-3-7B Instruct SFT: Winrate
 
 | | |
@@ -426,6 +453,17 @@ Average score (0–1 scale, higher = better). Delta = Ours - Baseline.
 | 2000 | 0.886 | 0.884 | -0.002 | 0.821 | 0.815 | -0.005 | 0.487 | 0.488 | +0.001 |
 | 3000 | 0.891 | 0.888 | -0.003 | 0.826 | 0.840 | +0.014 | 0.487 | 0.511 | +0.024 |
 | 3252 | 0.887 | 0.891 | +0.004 | 0.815 | 0.827 | +0.012 | 0.489 | 0.510 | +0.021 |
+
+### ELO (LMArena, 20k battles)
+
+Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn), 100 bootstraps. Same prompts across all checkpoints (deterministic sampling, seed=0).
+
+| Step | ELO (LMArena) |
+|---:|---|
+| 1000 | 889.0 ± 7.6 |
+| 2000 | 945.9 ± 10.0 |
+| 3000 | 954.2 ± 9.2 |
+| 3252 | 953.0 ± 9.3 |
 
 ---
 
