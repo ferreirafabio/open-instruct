@@ -39,8 +39,8 @@ Percentage-based (w.r.t. the respective dataset):
 |---|---|---|---|---|---|---|---|
 | **Instruct-SFT (ours)** | — | — | — | 766±54 | 247±40 | 50% (ref) | 50% (ref) |
 | **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | 224±40 | **54.8%** | 14.1% |
-| **A2-80en** | 80/20 | 2.5% | 94.7k | 600±110 | 233±37 | **57.2%** | 12.4% |
-| **A3-70en** | 70/30 | 3.75% | 94.7k | **709±48** | **235±39** | **58.8%** | 13.3% |
+| **A2-80en** | 80/20 | 2.5% | 93.6k | 600±110 | 233±37 | **57.2%** | 12.4% |
+| **A3-70en** | 70/30 | 3.75% | 91.7k | **709±48** | **235±39** | **58.8%** | 13.3% |
 | **B1-90en** | 90/10 | 1.25% | 491k | 633±75 | — | 53.6% | 13.0% |
 | **B2-80en** | 80/20 | 2.5% | 473k | 595±136 | — | 52.9% | 14.2% |
 | **C0-100en** | 100/0 | — | 94.7k | 524±142 | — | 48.9% | 11.8% |
@@ -48,10 +48,10 @@ Percentage-based (w.r.t. the respective dataset):
 | **D2-80en** | 80/20 | 2.5% | 93.6k | **777±41** | — | **62.0%** | **54.6%** |
 | **D3-70en** | 70/30 | 3.75% | 91.7k | 729±90 | — | **63.5%** | **54.3%** |
 | **E1-90en** | 90/10 | 1.25% | 491k | **808±51** | — | **59.9%** | **57.0%** |
-| **E2-80en** | 80/20 | 2.5% | 474k | 661±130 | — | _pending_ | **58.2%** |
-| **E3-70en** | 70/30 | 3.75% | 455k | 688±79 | — | _pending_ | **58.6%** |
+| **E2-80en** | 80/20 | 2.5% | 474k | 661±130 | — | **56.6%** | **58.2%** |
+| **E3-70en** | 70/30 | 3.75% | 455k | 688±79 | — | 53.1% | **58.6%** |
 
-**94.7k** = total row count of the fusion-synth dataset (94,721 samples across 10 languages). Track A uses fusion-synth as its primary multilingual source, which covers de/es/fr/it/pt well (~8-10k each), while WildChat and lmsys-chat fill gaps for pl/nl/cs. No upsampling; A2/A3 cap Czech at its available 1,295 samples, so actual totals are slightly below 94.7k. C0 and D1 use the same 94.7k for direct comparability.
+**Sample counts**: Fusion-synth has 94,721 rows across 10 languages, setting the dataset size for Tracks A/D. At 90/10, Czech (1,295 available) fits within its 1.25% share → 94.7k samples. At 80/20 and 70/30, Czech and Dutch (2,800) are capped below their required shares, reducing totals to 93.6k and 91.7k. Track A and D have identical EU distributions — only the English source differs (fusion-synth vs Dolci replay). C0 (100% English) = exactly 94.7k. All sampling is random (not sequential) with a fixed seed (42) for reproducibility.
 
 **~490k** (Track B) = ~5x Track A to test data scaling. Target is 500k, but Czech (1,295) and Dutch (2,800) are capped at what's available, giving actual totals of ~491k (B1) and ~473k (B2).
 
@@ -124,18 +124,18 @@ Each dot is one language. X-axis is the language, Y-axis is winrate vs baseline.
 
 | Language | E1-90en | E2-80en | E3-70en |
 |---|---:|---:|---:|
-| en | **60.3%** | _pending_ | _pending_ |
-| de [T] | **71.4%** | _pending_ | _pending_ |
-| es [T] | **66.3%** | _pending_ | _pending_ |
-| fr [T] | **61.3%** | _pending_ | _pending_ |
-| it [T] | **70.3%** | _pending_ | _pending_ |
-| pt [T] | **67.4%** | _pending_ | _pending_ |
-| pl [T] | 56.7% | _pending_ | _pending_ |
-| nl [T] | 56.5% | _pending_ | _pending_ |
-| cs [T] | **68.6%** | _pending_ | _pending_ |
-| ro [H] | 48.8% | _pending_ | _pending_ |
-| el [H] | 46.1% | _pending_ | _pending_ |
-| uk | 45.3% | _pending_ | _pending_ |
+| en | **60.3%** | **58.3%** | **57.6%** |
+| de [T] | **71.4%** | **66.9%** | 59.9% |
+| es [T] | **66.3%** | **61.9%** | 58.2% |
+| fr [T] | **61.3%** | 41.2% | 39.2% |
+| it [T] | **70.3%** | 53.0% | 41.3% |
+| pt [T] | **67.4%** | 58.5% | 56.3% |
+| pl [T] | 56.7% | 54.8% | 57.4% |
+| nl [T] | 56.5% | 57.3% | 59.2% |
+| cs [T] | **68.6%** | **70.3%** | **68.4%** |
+| ro [H] | 48.8% | 54.9% | 49.1% |
+| el [H] | 46.1% | 49.9% | 43.8% |
+| uk | 45.3% | 53.2% | 47.2% |
 
 ### Findings
 
@@ -165,8 +165,8 @@ Each dot is one language. X-axis is the language, Y-axis is winrate vs baseline.
 **Track E** (Dolci replay at scale):
 16. **E1-90en achieves the highest ELO (808±51)**: Exceeds both the baseline (766±54) and D2 (777±41). English improves to 57.0% on arena-hard, and 60.3% per-language.
 17. **E1 m-arena-hard-EU (59.9%)** is lower than D1 (63.4%): Per-language, E1 is stronger on en (60.3% vs 54.4%), fr (61.3% vs 57.2%), it (70.3% vs 59.4%), but weaker on held-out languages ro (48.8% vs 67.7%), el (46.1% vs 62.0%), uk (45.3% vs 54.1%).
-18. **E2/E3 ELO drops sharply**: E2 (661±130) and E3 (688±79) fall well below E1 (808±51) and even below the baseline (766±54). The wide CI on E2 (±130) suggests high variance. English arena-hard remains stable: E2 (58.2%), E3 (58.6%).
-19. **E2/E3 m-arena-hard-EU pending**: Per-language results will clarify whether the ELO drop is driven by specific languages.
+18. **E2 (56.6%) and E3 (53.1%) m-arena-hard-EU** are below E1 (59.9%) and their Track D counterparts D2 (62.0%) and D3 (63.5%). French: E2 41.2%, E3 39.2% (vs E1 61.3%). Italian: E3 41.3% (vs E1 70.3%). Czech stays at 68-70% across all three.
+19. **E2 ELO (661±130) and E3 ELO (688±79)** are below E1 (808±51) and the baseline (766±54). English arena-hard: E2 58.2%, E3 58.6% (comparable to E1 57.0%).
 
 ### Code
 
