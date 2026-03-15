@@ -1,0 +1,28 @@
+# Track E3: 70% English (Dolci-Instruct-SFT), 30% EU languages, ~500k samples
+# Same as Track D3 but scaled to ~500k.
+#
+# Bottleneck: Czech (1,295 available), 3.75% of 500,000 = 18,750 needed -> capped.
+# Dutch (2,800 available), 3.75% of 500,000 = 18,750 needed -> capped.
+
+name: E3-70en
+total_samples: 500000
+english_ratio: 0.70
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages:
+  de: 0.0375   # German: 3.75%
+  fr: 0.0375   # French: 3.75%
+  es: 0.0375   # Spanish: 3.75%
+  it: 0.0375   # Italian: 3.75%
+  pt: 0.0375   # Portuguese: 3.75%
+  pl: 0.0375   # Polish: 3.75%
+  nl: 0.0375   # Dutch: 3.75%
+  cs: 0.0375   # Czech: 3.75%
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+seed: 42

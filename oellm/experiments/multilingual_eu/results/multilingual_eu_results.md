@@ -1,4 +1,4 @@
-## Multilingual SFT: Track A results
+## Multilingual SFT: Track A–E results
 
 We're investigating how to add multilingual capabilities to OLMo-3-7B without catastrophic forgetting of English. Starting from our reproduced instruct SFT checkpoint, we continue training on mixtures of English + EU-language data at varying ratios.
 
@@ -28,7 +28,8 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **A** | Does the English/EU ratio matter? | 90/80/70% English, 94.7k samples (from fusion-synth), EU share split equally across 8 languages |
 | **B** | Does more diverse data help? | Same ratios, ~490k samples, synthetic + organic (wildchat, lmsys-chat, oasst2) |
 | **C** | Is the English regression caused by EU data, or by continued training itself? | 100% English control (no EU data at all), same total samples. If English still regresses, the problem is continued SFT, not the EU data. |
-| **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same as Track B ratios, but English data comes from Dolci-Instruct-SFT (the base checkpoint's own training data) instead of new English data |
+| **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same ratios as Track A, but English data comes from Dolci-Instruct-SFT (the base checkpoint's own training data) instead of new English data |
+| **E** | Does Dolci replay scale with more data? | Same ratios as Track D, but ~490k samples instead of 94.7k (Dolci English + same EU sources) |
 
 ### Full experiment matrix
 
@@ -42,6 +43,11 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **B2-80en** | 80/20 | 2.5% | 473k | 595±136 | — | 52.9% | 14.2% |
 | **C0-100en** | 100/0 | — | 94.7k | 524±142 | — | 48.9% | 11.8% |
 | **D1-90en** | 90/10 | 1.25% | 94.7k | **755±50** | — | **63.4%** | **54.6%** |
+| **D2-80en** | 80/20 | 2.5% | 93.6k | **777±41** | — | **62.0%** | **54.6%** |
+| **D3-70en** | 70/30 | 3.75% | 91.7k | 729±90 | — | **63.5%** | **54.3%** |
+| **E1-90en** | 90/10 | 1.25% | 491k | **808±51** | — | **59.9%** | **57.0%** |
+| **E2-80en** | 80/20 | 2.5% | 474k | 661±130 | — | _pending_ | **58.2%** |
+| **E3-70en** | 70/30 | 3.75% | 455k | 688±79 | — | _pending_ | **58.6%** |
 
 **94.7k** = total row count of the fusion-synth dataset (94,721 samples across 10 languages). Track A uses fusion-synth as its primary multilingual source, which covers de/es/fr/it/pt well (~8-10k each), while WildChat and lmsys-chat fill gaps for pl/nl/cs. No upsampling; A2/A3 cap Czech at its available 1,295 samples, so actual totals are slightly below 94.7k. C0 and D1 use the same 94.7k for direct comparability.
 
@@ -72,22 +78,56 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 | el [H] | 51.3% | 50.9% | 49.8% |
 | uk | 52.0% | 48.6% | 54.0% |
 
-### Track B/C/D: Per-language winrate (m-arena-hard-EU)
+### Track B/C: Per-language winrate (m-arena-hard-EU)
 
-| Language | B1-90en | B2-80en | C0-100en | D1-90en |
-|---|---:|---:|---:|---:|
-| en | 14.2% | 14.3% | 15.7% | **54.4%** |
-| de [T] | 63.6% | 64.0% | 51.7% | **67.5%** |
-| es [T] | 66.5% | 60.6% | 55.9% | **67.1%** |
-| fr [T] | 44.2% | 41.5% | 41.3% | 57.2% |
-| it [T] | 53.3% | 51.9% | 42.0% | 59.4% |
-| pt [T] | 60.3% | 58.0% | 48.4% | **70.7%** |
-| pl [T] | 56.8% | 57.3% | 48.6% | 59.1% |
-| nl [T] | 57.9% | 60.7% | 59.2% | **68.4%** |
-| cs [T] | **71.7%** | **71.0%** | **61.9%** | **73.8%** |
-| ro [H] | 58.0% | 55.9% | 61.2% | **67.7%** |
-| el [H] | 51.9% | 53.8% | 54.2% | **62.0%** |
-| uk | 45.5% | 46.5% | 46.4% | 54.1% |
+| Language | B1-90en | B2-80en | C0-100en |
+|---|---:|---:|---:|
+| en | 14.2% | 14.3% | 15.7% |
+| de [T] | 63.6% | 64.0% | 51.7% |
+| es [T] | 66.5% | 60.6% | 55.9% |
+| fr [T] | 44.2% | 41.5% | 41.3% |
+| it [T] | 53.3% | 51.9% | 42.0% |
+| pt [T] | 60.3% | 58.0% | 48.4% |
+| pl [T] | 56.8% | 57.3% | 48.6% |
+| nl [T] | 57.9% | 60.7% | 59.2% |
+| cs [T] | **71.7%** | **71.0%** | **61.9%** |
+| ro [H] | 58.0% | 55.9% | 61.2% |
+| el [H] | 51.9% | 53.8% | 54.2% |
+| uk | 45.5% | 46.5% | 46.4% |
+
+### Track D: Per-language winrate (m-arena-hard-EU)
+
+| Language | D1-90en | D2-80en | D3-70en |
+|---|---:|---:|---:|
+| en | **54.4%** | **56.6%** | **57.7%** |
+| de [T] | **67.5%** | **70.5%** | **75.8%** |
+| es [T] | **67.1%** | **71.9%** | **72.0%** |
+| fr [T] | 57.2% | **60.6%** | **63.9%** |
+| it [T] | 59.4% | **60.2%** | **63.0%** |
+| pt [T] | **70.7%** | **65.7%** | **70.0%** |
+| pl [T] | 59.1% | 59.2% | **60.7%** |
+| nl [T] | **68.4%** | **62.5%** | **61.2%** |
+| cs [T] | **73.8%** | **70.0%** | **71.9%** |
+| ro [H] | **67.7%** | **65.8%** | **64.1%** |
+| el [H] | **62.0%** | 51.2% | 51.5% |
+| uk | 54.1% | 49.9% | 50.2% |
+
+### Track E: Per-language winrate (m-arena-hard-EU)
+
+| Language | E1-90en | E2-80en | E3-70en |
+|---|---:|---:|---:|
+| en | **60.3%** | _pending_ | _pending_ |
+| de [T] | **71.4%** | _pending_ | _pending_ |
+| es [T] | **66.3%** | _pending_ | _pending_ |
+| fr [T] | **61.3%** | _pending_ | _pending_ |
+| it [T] | **70.3%** | _pending_ | _pending_ |
+| pt [T] | **67.4%** | _pending_ | _pending_ |
+| pl [T] | 56.7% | _pending_ | _pending_ |
+| nl [T] | 56.5% | _pending_ | _pending_ |
+| cs [T] | **68.6%** | _pending_ | _pending_ |
+| ro [H] | 48.8% | _pending_ | _pending_ |
+| el [H] | 46.1% | _pending_ | _pending_ |
+| uk | 45.3% | _pending_ | _pending_ |
 
 ### Key findings
 
@@ -108,9 +148,17 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 10. **C0 slightly hurts EU languages too**: 48.9% overall EU winrate (below 50% parity), suggesting the new English data actively overwrites some multilingual capability.
 
 **Track D** (Dolci English replay):
-11. **Dolci replay preserves English**: D1-90en is the only model that maintains English performance (54.6% arena-hard, vs ~13% for all others). Replaying the base checkpoint's own training data during continued SFT prevents catastrophic forgetting.
-12. **D1 achieves best EU scores across nearly every language**: 63.4% overall, with strong gains even in held-out languages — Greek jumps to 62.0% (vs ~50% in Track A) and Romanian to 67.7%.
-13. **D1 ELO (755±50) approaches baseline (766±54)**: The only continued-SFT model that nearly matches the base checkpoint's balanced ELO rating.
+11. **Dolci replay preserves English across all ratios**: D1 (54.6%), D2 (54.6%), D3 (54.3%) all maintain English. The effect is robust regardless of EU ratio.
+12. **D2-80en has the best ELO (777±41)**: Actually *exceeds* the baseline (766±54) while preserving English — the only model to do so.
+13. **More EU data improves EU languages within Track D**: D3 (63.5%) ≈ D1 (63.4%) > D2 (62.0%) on m-arena-hard-EU. Per-language, D3 leads on de (75.8%), es (72.0%), fr (63.9%), it (63.0%).
+14. **D3 ELO (729±90) is weaker with wider CI**: Despite good per-language scores, the balanced ELO drops — possibly because the 70/30 ratio reduces English battle performance slightly.
+15. **Greek transfer lost in D2/D3**: D1's Greek gain (62.0%) does not replicate in D2 (51.2%) or D3 (51.5%). The D1 Greek result may have been an outlier.
+
+**Track E** (Dolci replay at scale):
+16. **E1-90en achieves the highest ELO (808±51)**: Exceeds both the baseline (766±54) and D2 (777±41). English improves to 57.0% on arena-hard, and 60.3% per-language.
+17. **E1 m-arena-hard-EU (59.9%)** is lower than D1 (63.4%): Per-language, E1 is stronger on en (60.3% vs 54.4%), fr (61.3% vs 57.2%), it (70.3% vs 59.4%), but weaker on held-out languages ro (48.8% vs 67.7%), el (46.1% vs 62.0%), uk (45.3% vs 54.1%).
+18. **E2/E3 ELO drops sharply**: E2 (661±130) and E3 (688±79) fall well below E1 (808±51) and even below the baseline (766±54). The wide CI on E2 (±130) suggests high variance. English arena-hard remains stable: E2 (58.2%), E3 (58.6%).
+19. **E2/E3 m-arena-hard-EU pending**: Per-language results will clarify whether the ELO drop is driven by specific languages.
 
 ### Code
 

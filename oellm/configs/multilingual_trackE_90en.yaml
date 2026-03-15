@@ -1,0 +1,29 @@
+# Track E1: 90% English (Dolci-Instruct-SFT), 10% EU languages, ~500k samples
+# Same as Track D1 (Dolci English replay) but scaled to ~500k (like Track B).
+# Tests whether Dolci replay + data scaling yields further improvements.
+#
+# Bottleneck: Czech (1,295 available), 1.25% of 500,000 = 6,250 needed -> capped.
+# Dutch (2,800 available), 1.25% of 500,000 = 6,250 needed -> capped.
+
+name: E1-90en
+total_samples: 500000
+english_ratio: 0.90
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages:
+  de: 0.0125   # German: 1.25%
+  fr: 0.0125   # French: 1.25%
+  es: 0.0125   # Spanish: 1.25%
+  it: 0.0125   # Italian: 1.25%
+  pt: 0.0125   # Portuguese: 1.25%
+  pl: 0.0125   # Polish: 1.25%
+  nl: 0.0125   # Dutch: 1.25%
+  cs: 0.0125   # Czech: 1.25%
+
+sources:  # EU sources only (English comes from english_dir)
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+seed: 42
