@@ -257,7 +257,7 @@ def main():
         'legend.fontsize': 9, 'figure.dpi': 150,
     })
 
-    def filter_outliers(steps, data, tps_key='tps', min_tps=5000):
+    def filter_outliers(steps, data, tps_key='tps', min_tps=6000):
         """Remove warmup/checkpoint-saving outliers (TPS < min_tps)."""
         mask = data[tps_key] >= min_tps
         return steps[mask], {k: v[mask] for k, v in data.items()}
@@ -322,9 +322,9 @@ def main():
     axes[0].legend(loc='lower right')
     axes[0].grid(True, alpha=0.3)
 
-    # Instruct (right) — all HoreKa
+    # Instruct (right) — all HoreKa (larger window: fewer datapoints than Think)
     steps_f, inst_f = filter_outliers(v2_instruct['steps'], v2_instruct)
-    median, p10, p90 = rolling_stats(inst_f['tps'])
+    median, p10, p90 = rolling_stats(inst_f['tps'], window=100)
     axes[1].plot(steps_f, median, color=COLOR_INST, linewidth=2,
                  label=f"HoreKa 2×4 H200")
     axes[1].fill_between(steps_f, p10, p90,
@@ -355,9 +355,9 @@ def main():
     axes[0].grid(True, alpha=0.3)
     axes[0].set_ylim(50, 100)
 
-    # Instruct (right) — all HoreKa
+    # Instruct (right) — all HoreKa (larger window: fewer datapoints than Think)
     steps_f, inst_f = filter_outliers(v2_instruct['steps'], v2_instruct)
-    median, p10, p90 = rolling_stats(inst_f['mfu'])
+    median, p10, p90 = rolling_stats(inst_f['mfu'], window=100)
     axes[1].plot(steps_f, median, color=COLOR_INST, linewidth=2,
                  label=f"HoreKa 2×4 H200")
     axes[1].fill_between(steps_f, p10, p90,
