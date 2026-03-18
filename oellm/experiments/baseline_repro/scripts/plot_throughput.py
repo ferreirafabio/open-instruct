@@ -257,8 +257,13 @@ def main():
         'legend.fontsize': 9, 'figure.dpi': 150,
     })
 
-    def rolling_stats(steps, values, window=50):
-        """Compute rolling median with 10th-90th percentile band (robust to outliers)."""
+    def filter_outliers(steps, data, tps_key='tps', min_tps=5000):
+        """Remove warmup/checkpoint-saving outliers (TPS < min_tps)."""
+        mask = data[tps_key] >= min_tps
+        return steps[mask], {k: v[mask] for k, v in data.items()}
+
+    def rolling_stats(values, window=50):
+        """Compute rolling median with 10th-90th percentile band."""
         from numpy.lib.stride_tricks import sliding_window_view
         if len(values) < window:
             window = max(1, len(values) // 3)
@@ -291,9 +296,10 @@ def main():
         ]:
             if len(seg['steps']) == 0:
                 continue
-            median, p10, p90 = rolling_stats(seg['steps'], seg[metric_key])
-            ax.plot(seg['steps'], median, color=color, linewidth=2, label=label)
-            ax.fill_between(seg['steps'], p10, p90, color=color, alpha=0.2)
+            steps_f, seg_f = filter_outliers(seg['steps'], seg)
+            median, p10, p90 = rolling_stats(seg_f[metric_key])
+            ax.plot(steps_f, median, color=color, linewidth=2, label=label)
+            ax.fill_between(steps_f, p10, p90, color=color, alpha=0.2)
 
     # ====== Figure 1: TPS/device over steps ======
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -309,10 +315,11 @@ def main():
     axes[0].grid(True, alpha=0.3)
 
     # Instruct (right) — all HoreKa
-    median, p10, p90 = rolling_stats(v2_instruct['steps'], v2_instruct['tps'])
-    axes[1].plot(v2_instruct['steps'], median, color=COLOR_INST, linewidth=2,
+    steps_f, inst_f = filter_outliers(v2_instruct['steps'], v2_instruct)
+    median, p10, p90 = rolling_stats(inst_f['tps'])
+    axes[1].plot(steps_f, median, color=COLOR_INST, linewidth=2,
                  label=f"HoreKa 2×4 H200")
-    axes[1].fill_between(v2_instruct['steps'], p10, p90,
+    axes[1].fill_between(steps_f, p10, p90,
                          color=COLOR_INST, alpha=0.2)
     axes[1].set_title(f'Instruct SFT (3,252 steps, avg: {v2_instruct["tps_avg"][-1]:,.0f} TPS)')
     axes[1].set_xlabel('Training Step')
@@ -341,10 +348,11 @@ def main():
     axes[0].set_ylim(50, 100)
 
     # Instruct (right) — all HoreKa
-    median, p10, p90 = rolling_stats(v2_instruct['steps'], v2_instruct['mfu'])
-    axes[1].plot(v2_instruct['steps'], median, color=COLOR_INST, linewidth=2,
+    steps_f, inst_f = filter_outliers(v2_instruct['steps'], v2_instruct)
+    median, p10, p90 = rolling_stats(inst_f['mfu'])
+    axes[1].plot(steps_f, median, color=COLOR_INST, linewidth=2,
                  label=f"HoreKa 2×4 H200")
-    axes[1].fill_between(v2_instruct['steps'], p10, p90,
+    axes[1].fill_between(steps_f, p10, p90,
                          color=COLOR_INST, alpha=0.2)
     axes[1].set_title(f'Instruct SFT (3,252 steps, avg: {v2_instruct["mfu_avg"][-1]:.1f}%)')
     axes[1].set_xlabel('Training Step')
