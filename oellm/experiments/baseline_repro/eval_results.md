@@ -534,6 +534,6 @@ Multi-node overhead is minimal (~1% TPS reduction for Think). The +13.6 GiB high
 
 ### Notes
 
-<sup>2</sup> OLMo-core's `SpeedMonitorCallback` does not recognize H200 GPUs — it falls through to the A100 default (156 TFLOPS BF16 dense), inflating reported MFU by 6.3×. See `olmo_core/train/callbacks/speed_monitor.py:82-95`.
+<sup>2</sup> OLMo-core's `SpeedMonitorCallback` does not have an H200 entry in its GPU peak FLOPS table (predates H200). It falls back to the A100 default (156 TFLOPS BF16 dense), inflating reported MFU by 6.3×. See `olmo_core/train/callbacks/speed_monitor.py:82-95`.
 
 <sup>3</sup> Corrected using H200 SXM BF16 dense peak = 989.5 TFLOPS (same Hopper GH100 die as H100 SXM). MFU includes forward + backward FLOPs per the PaLM convention.

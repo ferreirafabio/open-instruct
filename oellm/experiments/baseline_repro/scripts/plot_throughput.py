@@ -209,21 +209,32 @@ def parse_grep_metrics(log_path: Path) -> dict:
 
 
 def main():
-    # Load data
-    # kislurm v1 — Think was preempted many times, merge all wandb sessions
-    ki_think = parse_wandb_multi(
-        CKPT / "dolci-think-sft/wandb/wandb"
+    # Load v2 data only (production runs used for evaluation)
+    #
+    # Think v2: started on kislurm (steps 0-35K), checkpoint transferred to
+    # HoreKa to finish (steps 36K-42,856). Merge both wandb sources.
+    v2_think_local = parse_wandb_multi(
+        CKPT / "dolci-think-sft-v2/wandb/wandb"
     )
-    ki_instruct = parse_wandb_log(
-        CKPT / "dolci-instruct-sft/wandb/wandb/run-20251229_191221-0c77cvcj/files/output.log"
-    )
+    v2_think_horeka = parse_grep_metrics(ROOT / "logs/horeka_think_v2_metrics.txt")
+    v2_think = {
+        'steps': np.concatenate([v2_think_local['steps'], v2_think_horeka['steps']]),
+        'tps': np.concatenate([v2_think_local['tps'], v2_think_horeka['tps']]),
+        'tps_avg': np.concatenate([v2_think_local['tps_avg'], v2_think_horeka['tps_avg']]),
+        'mfu': np.concatenate([v2_think_local['mfu'], v2_think_horeka['mfu']]),
+        'mfu_avg': np.concatenate([v2_think_local['mfu_avg'], v2_think_horeka['mfu_avg']]),
+    }
+    order = np.argsort(v2_think['steps'], kind='stable')
+    for k in v2_think:
+        v2_think[k] = v2_think[k][order]
+    _, unique_idx = np.unique(v2_think['steps'], return_index=True)
+    for k in v2_think:
+        v2_think[k] = v2_think[k][unique_idx]
 
-    # HoreKa v2 (grep-extracted)
-    hk_think = parse_grep_metrics(ROOT / "logs/horeka_think_v2_metrics.txt")
-    hk_instruct = parse_grep_metrics(ROOT / "logs/horeka_instruct_v2_metrics.txt")
+    # Instruct v2: trained entirely on HoreKa
+    v2_instruct = parse_grep_metrics(ROOT / "logs/horeka_instruct_v2_metrics.txt")
 
-    for name, data in [("kislurm Think", ki_think), ("kislurm Instruct", ki_instruct),
-                        ("HoreKa Think", hk_think), ("HoreKa Instruct", hk_instruct)]:
+    for name, data in [("Think v2", v2_think), ("Instruct v2", v2_instruct)]:
         print(f"{name:20s}: {len(data['steps']):5d} datapoints, steps {data['steps'][0]}-{data['steps'][-1]}")
 
     # --- Plot style ---
@@ -231,39 +242,29 @@ def main():
         'font.size': 11, 'axes.titlesize': 13, 'axes.labelsize': 12,
         'legend.fontsize': 9, 'figure.dpi': 150,
     })
-    colors = {
-        'ki_think': '#2196F3', 'ki_instruct': '#FF9800',
-        'hk_think': '#4CAF50', 'hk_instruct': '#E91E63',
-    }
-    labels = {
-        'ki_think': 'Think (kislurm 1×8)',
-        'ki_instruct': 'Instruct (kislurm 1×8)',
-        'hk_think': 'Think (HoreKa 2×4)',
-        'hk_instruct': 'Instruct (HoreKa 2×4)',
-    }
 
     # ====== Figure 1: TPS/device over steps ======
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
-    fig.suptitle('Tokens Per Second (TPS) per Device over Training', fontsize=14, fontweight='bold')
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    fig.suptitle('Tokens Per Second (TPS) per Device over Training (8× H200 SXM, BF16)',
+                 fontsize=14, fontweight='bold')
 
     # Think (left)
-    for key, data in [('ki_think', ki_think), ('hk_think', hk_think)]:
-        axes[0].scatter(data['steps'], data['tps'], alpha=0.15, s=4, color=colors[key])
-        axes[0].plot(data['steps'], data['tps_avg'], color=colors[key], linewidth=2,
-                     label=f"{labels[key]} (avg: {data['tps_avg'][-1]:,.0f})")
-    axes[0].set_title('Think SFT')
+    axes[0].scatter(v2_think['steps'], v2_think['tps'], alpha=0.15, s=4, color='#2196F3')
+    axes[0].plot(v2_think['steps'], v2_think['tps_avg'], color='#2196F3', linewidth=2,
+                 label=f"Think SFT (avg: {v2_think['tps_avg'][-1]:,.0f})")
+    axes[0].set_title('Think SFT (42,856 steps)')
     axes[0].set_xlabel('Training Step')
     axes[0].set_ylabel('TPS / device')
     axes[0].legend(loc='lower right')
     axes[0].grid(True, alpha=0.3)
 
     # Instruct (right)
-    for key, data in [('ki_instruct', ki_instruct), ('hk_instruct', hk_instruct)]:
-        axes[1].scatter(data['steps'], data['tps'], alpha=0.15, s=4, color=colors[key])
-        axes[1].plot(data['steps'], data['tps_avg'], color=colors[key], linewidth=2,
-                     label=f"{labels[key]} (avg: {data['tps_avg'][-1]:,.0f})")
-    axes[1].set_title('Instruct SFT')
+    axes[1].scatter(v2_instruct['steps'], v2_instruct['tps'], alpha=0.15, s=4, color='#FF9800')
+    axes[1].plot(v2_instruct['steps'], v2_instruct['tps_avg'], color='#FF9800', linewidth=2,
+                 label=f"Instruct SFT (avg: {v2_instruct['tps_avg'][-1]:,.0f})")
+    axes[1].set_title('Instruct SFT (3,252 steps)')
     axes[1].set_xlabel('Training Step')
+    axes[1].set_ylabel('TPS / device')
     axes[1].legend(loc='lower right')
     axes[1].grid(True, alpha=0.3)
 
@@ -274,22 +275,21 @@ def main():
     plt.close()
 
     # ====== Figure 2: MFU (H200-corrected) over steps ======
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
-    fig.suptitle('Model FLOPs Utilization (MFU) over Training — H200 SXM BF16 basis', fontsize=14, fontweight='bold')
+    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
+    fig.suptitle('Model FLOPs Utilization (MFU) over Training (8× H200 SXM, BF16 dense = 989.5 TFLOPS)',
+                 fontsize=14, fontweight='bold')
 
-    for idx, (model, pairs) in enumerate([
-        ('Think SFT', [('ki_think', ki_think), ('hk_think', hk_think)]),
-        ('Instruct SFT', [('ki_instruct', ki_instruct), ('hk_instruct', hk_instruct)]),
+    for idx, (title, data, color) in enumerate([
+        ('Think SFT (42,856 steps)', v2_think, '#2196F3'),
+        ('Instruct SFT (3,252 steps)', v2_instruct, '#FF9800'),
     ]):
         ax = axes[idx]
-        for key, data in pairs:
-            ax.scatter(data['steps'], data['mfu'], alpha=0.15, s=4, color=colors[key])
-            ax.plot(data['steps'], data['mfu_avg'], color=colors[key], linewidth=2,
-                    label=f"{labels[key]} (avg: {data['mfu_avg'][-1]:.1f}%)")
-        ax.set_title(model)
+        ax.scatter(data['steps'], data['mfu'], alpha=0.15, s=4, color=color)
+        ax.plot(data['steps'], data['mfu_avg'], color=color, linewidth=2,
+                label=f"MFU (avg: {data['mfu_avg'][-1]:.1f}%)")
+        ax.set_title(title)
         ax.set_xlabel('Training Step')
-        if idx == 0:
-            ax.set_ylabel('MFU (%)')
+        ax.set_ylabel('MFU (%)')
         ax.legend(loc='lower right')
         ax.grid(True, alpha=0.3)
         ax.set_ylim(50, 100)
