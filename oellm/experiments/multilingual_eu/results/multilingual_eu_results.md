@@ -140,25 +140,25 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 6. **French barely moves** (46-53%).
 
 **Track B** (data scaling):
-7. **More data does not help**: B1 (53.6%) and B2 (52.9%) perform *worse* than their Track A counterparts A1 (54.8%) and A2 (57.2%), despite having ~5× more data. Adding organic sources (wildchat, lmsys-chat) at scale may introduce noise.
+7. **More data does not help**: B1 (53.6%) and B2 (52.9%) score below their Track A counterparts A1 (54.8%) and A2 (57.2%) on m-arena-hard-EU, despite ~5× more data.
 8. **English regression persists**: B1 (13.0%) and B2 (14.2%) show the same ~37pp English drop as Track A.
 
 **Track C** (English-only control):
-9. **Continued SFT itself causes forgetting**: C0-100en (no EU data at all) still drops English to 11.8% on arena-hard. This confirms the regression is not caused by EU data — it's an artifact of continued training on new English data.
-10. **C0 slightly hurts EU languages too**: 48.9% overall EU winrate (below 50% parity), suggesting the new English data actively overwrites some multilingual capability.
+9. **English regresses without EU data**: C0-100en (no EU data at all) drops English to 11.8% on arena-hard.
+10. **C0 EU winrate below parity**: 48.9% overall on m-arena-hard-EU.
 
 **Track D** (Dolci English replay):
-11. **Dolci replay preserves English across all ratios**: D1 (54.6%), D2 (54.6%), D3 (54.3%) all maintain English. The effect is robust regardless of EU ratio.
-12. **D2-80en has the best ELO (777±41)**: Actually *exceeds* the baseline (766±54) while preserving English — the only model to do so.
-13. **More EU data improves EU languages within Track D**: D3 (63.5%) ≈ D1 (63.4%) > D2 (62.0%) on m-arena-hard-EU. Per-language, D3 leads on de (75.8%), es (72.0%), fr (63.9%), it (63.0%).
-14. **D3 ELO (729±90) is weaker with wider CI**: Despite good per-language scores, the balanced ELO drops — possibly because the 70/30 ratio reduces English battle performance slightly.
-15. **Greek transfer lost in D2/D3**: D1's Greek gain (62.0%) does not replicate in D2 (51.2%) or D3 (51.5%). The D1 Greek result may have been an outlier.
+11. **Dolci replay preserves English**: D1 (54.6%), D2 (54.6%), D3 (54.3%) all maintain English arena-hard winrate across all EU ratios.
+12. **D2-80en ELO (777±41)** exceeds the baseline (766±54).
+13. **EU winrates**: D3 (63.5%) ≈ D1 (63.4%) > D2 (62.0%) on m-arena-hard-EU. Per-language, D3 leads on de (75.8%), es (72.0%), fr (63.9%), it (63.0%).
+14. **D3 ELO (729±90)** is lower than D1/D2 with a wider CI.
+15. **Greek**: D1 (62.0%) does not replicate in D2 (51.2%) or D3 (51.5%).
 
 **Track E** (Dolci replay at scale):
-16. **E1-90en achieves the highest ELO (808±51)**: Exceeds both the baseline (766±54) and D2 (777±41). English improves to 57.0% on arena-hard, and 60.3% per-language.
-17. **E1 m-arena-hard-EU (59.9%)** is lower than D1 (63.4%): Per-language, E1 is stronger on en (60.3% vs 54.4%), fr (61.3% vs 57.2%), it (70.3% vs 59.4%), but weaker on held-out languages ro (48.8% vs 67.7%), el (46.1% vs 62.0%), uk (45.3% vs 54.1%).
-18. **E2 (56.6%) and E3 (53.1%) m-arena-hard-EU** are below E1 (59.9%) and their Track D counterparts D2 (62.0%) and D3 (63.5%). French: E2 41.2%, E3 39.2% (vs E1 61.3%). Italian: E3 41.3% (vs E1 70.3%). Czech stays at 68-70% across all three.
-19. **E2 ELO (661±130) and E3 ELO (688±79)** are below E1 (808±51) and the baseline (766±54). English arena-hard: E2 58.2%, E3 58.6% (comparable to E1 57.0%).
+16. **E1-90en achieves the highest ELO (808±51)**: Exceeds D2 (777±41) and the baseline (766±54). English: 57.0% on arena-hard.
+17. **E1 m-arena-hard-EU (59.9%)** is lower than D1 (63.4%). E1 is stronger on en, fr, it but weaker on held-out languages (ro, el, uk).
+18. **E2/E3 m-arena-hard-EU drop**: E2 (56.6%) and E3 (53.1%) are below E1 and their Track D counterparts. French drops sharply: E2 41.2%, E3 39.2% (vs E1 61.3%).
+19. **E2/E3 ELO**: E2 (661±130) and E3 (688±79) are below E1 and the baseline. English arena-hard remains comparable: E2 58.2%, E3 58.6%.
 
 ### Code
 
