@@ -258,23 +258,20 @@ def main():
     })
 
     def rolling_stats(steps, values, window=50):
-        """Compute rolling mean and std for shaded confidence band."""
+        """Compute rolling median with 10th-90th percentile band (robust to outliers)."""
         from numpy.lib.stride_tricks import sliding_window_view
         if len(values) < window:
             window = max(1, len(values) // 3)
         pad = window // 2
-        # Pad edges to keep same length
         padded = np.pad(values, (pad, window - 1 - pad), mode='edge')
         windows = sliding_window_view(padded, window)
-        mean = windows.mean(axis=1)
-        std = windows.std(axis=1)
-        return mean, std
+        median = np.median(windows, axis=1)
+        p10 = np.percentile(windows, 10, axis=1)
+        p90 = np.percentile(windows, 90, axis=1)
+        return median, p10, p90
 
     # Split Think v2 into kislurm and HoreKa segments for color-coding.
-    # kislurm wandb ends at step 35,273; HoreKa wandb starts at step 36,010.
-    # Steps 35,274–36,009 (~736 steps, 1.7%) were trained on kislurm but
-    # wandb wasn't logging — no per-step data exists for this window.
-    # We connect the segments with a dashed line to indicate the gap.
+    # Use HoreKa's first step as the clean cutoff — no overlap.
     horeka_start = v2_think_horeka['steps'][0] if len(v2_think_horeka['steps']) > 0 else 36010
     ki_mask = v2_think['steps'] < horeka_start
     hk_mask = v2_think['steps'] >= horeka_start
@@ -294,9 +291,9 @@ def main():
         ]:
             if len(seg['steps']) == 0:
                 continue
-            mean, std = rolling_stats(seg['steps'], seg[metric_key])
-            ax.plot(seg['steps'], mean, color=color, linewidth=2, label=label)
-            ax.fill_between(seg['steps'], mean - std, mean + std, color=color, alpha=0.2)
+            median, p10, p90 = rolling_stats(seg['steps'], seg[metric_key])
+            ax.plot(seg['steps'], median, color=color, linewidth=2, label=label)
+            ax.fill_between(seg['steps'], p10, p90, color=color, alpha=0.2)
 
     # ====== Figure 1: TPS/device over steps ======
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
@@ -312,10 +309,10 @@ def main():
     axes[0].grid(True, alpha=0.3)
 
     # Instruct (right) — all HoreKa
-    mean, std = rolling_stats(v2_instruct['steps'], v2_instruct['tps'])
-    axes[1].plot(v2_instruct['steps'], mean, color=COLOR_INST, linewidth=2,
+    median, p10, p90 = rolling_stats(v2_instruct['steps'], v2_instruct['tps'])
+    axes[1].plot(v2_instruct['steps'], median, color=COLOR_INST, linewidth=2,
                  label=f"HoreKa 2×4 H200")
-    axes[1].fill_between(v2_instruct['steps'], mean - std, mean + std,
+    axes[1].fill_between(v2_instruct['steps'], p10, p90,
                          color=COLOR_INST, alpha=0.2)
     axes[1].set_title(f'Instruct SFT (3,252 steps, avg: {v2_instruct["tps_avg"][-1]:,.0f} TPS)')
     axes[1].set_xlabel('Training Step')
@@ -344,10 +341,10 @@ def main():
     axes[0].set_ylim(50, 100)
 
     # Instruct (right) — all HoreKa
-    mean, std = rolling_stats(v2_instruct['steps'], v2_instruct['mfu'])
-    axes[1].plot(v2_instruct['steps'], mean, color=COLOR_INST, linewidth=2,
+    median, p10, p90 = rolling_stats(v2_instruct['steps'], v2_instruct['mfu'])
+    axes[1].plot(v2_instruct['steps'], median, color=COLOR_INST, linewidth=2,
                  label=f"HoreKa 2×4 H200")
-    axes[1].fill_between(v2_instruct['steps'], mean - std, mean + std,
+    axes[1].fill_between(v2_instruct['steps'], p10, p90,
                          color=COLOR_INST, alpha=0.2)
     axes[1].set_title(f'Instruct SFT (3,252 steps, avg: {v2_instruct["mfu_avg"][-1]:.1f}%)')
     axes[1].set_xlabel('Training Step')

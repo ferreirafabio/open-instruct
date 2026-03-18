@@ -490,7 +490,7 @@ Throughput metrics for the v2 production runs (used for all evaluations above). 
 
 ### Throughput Plots
 
-![TPS over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/experiments/baseline_repro/figures/throughput_tps.png)
+![TPS over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/experiments/baseline_repro/figures/throughput_tps.png?v=2)
 
-![MFU over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/experiments/baseline_repro/figures/throughput_mfu.png)
+![MFU over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/experiments/baseline_repro/figures/throughput_mfu.png?v=2)
 
