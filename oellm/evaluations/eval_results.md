@@ -472,3 +472,12 @@ Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn),
 ---
 
 <sup>1</sup> Average (0–1) is a min-max normalization of the mean of the 4 criterion scores.
+
+---
+
+## Training time
+
+| Model | GPUs | Steps | Wall-clock |
+|---|---|---|---|
+| Instruct-SFT | 8× H200 (1 node) | 3,252 | ~5 hours |
+| Think-SFT | 8× H200 (1 node) | 42,856 | ~63 hours |
