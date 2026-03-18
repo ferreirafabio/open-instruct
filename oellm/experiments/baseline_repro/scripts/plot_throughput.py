@@ -256,25 +256,55 @@ def main():
         std = windows.std(axis=1)
         return mean, std
 
+    # Split Think v2 into kislurm and HoreKa segments for color-coding
+    # HoreKa data starts at step 36010
+    horeka_start = v2_think_horeka['steps'][0] if len(v2_think_horeka['steps']) > 0 else 36010
+    ki_mask = v2_think['steps'] < horeka_start
+    hk_mask = v2_think['steps'] >= horeka_start
+
+    think_ki = {k: v2_think[k][ki_mask] for k in v2_think}
+    think_hk = {k: v2_think[k][hk_mask] for k in v2_think}
+
+    COLOR_KI = '#2196F3'   # blue for kislurm
+    COLOR_HK = '#4CAF50'   # green for HoreKa
+    COLOR_INST = '#FF9800'  # orange for instruct
+
+    def plot_think_segments(ax, metric_key, avg_key):
+        """Plot Think with kislurm/HoreKa color distinction."""
+        for seg, color, label in [
+            (think_ki, COLOR_KI, f'kislurm 1×8 H200'),
+            (think_hk, COLOR_HK, f'HoreKa 2×4 H200'),
+        ]:
+            if len(seg['steps']) == 0:
+                continue
+            mean, std = rolling_stats(seg['steps'], seg[metric_key])
+            ax.plot(seg['steps'], mean, color=color, linewidth=2, label=label)
+            ax.fill_between(seg['steps'], mean - std, mean + std, color=color, alpha=0.2)
+
     # ====== Figure 1: TPS/device over steps ======
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     fig.suptitle('Tokens Per Second (TPS) per Device over Training (8× H200 SXM, BF16)',
                  fontsize=14, fontweight='bold')
 
-    for ax, title, data, color in [
-        (axes[0], 'Think SFT (42,856 steps)', v2_think, '#2196F3'),
-        (axes[1], 'Instruct SFT (3,252 steps)', v2_instruct, '#FF9800'),
-    ]:
-        mean, std = rolling_stats(data['steps'], data['tps'])
-        ax.plot(data['steps'], mean, color=color, linewidth=2,
-                label=f"rolling mean (final avg: {data['tps_avg'][-1]:,.0f})")
-        ax.fill_between(data['steps'], mean - std, mean + std, color=color, alpha=0.2,
-                        label='±1 std')
-        ax.set_title(title)
-        ax.set_xlabel('Training Step')
-        ax.set_ylabel('TPS / device')
-        ax.legend(loc='lower right')
-        ax.grid(True, alpha=0.3)
+    # Think (left) — split by cluster
+    plot_think_segments(axes[0], 'tps', 'tps_avg')
+    axes[0].set_title(f'Think SFT (42,856 steps, avg: {v2_think["tps_avg"][-1]:,.0f} TPS)')
+    axes[0].set_xlabel('Training Step')
+    axes[0].set_ylabel('TPS / device')
+    axes[0].legend(loc='lower right')
+    axes[0].grid(True, alpha=0.3)
+
+    # Instruct (right) — all HoreKa
+    mean, std = rolling_stats(v2_instruct['steps'], v2_instruct['tps'])
+    axes[1].plot(v2_instruct['steps'], mean, color=COLOR_INST, linewidth=2,
+                 label=f"HoreKa 2×4 H200")
+    axes[1].fill_between(v2_instruct['steps'], mean - std, mean + std,
+                         color=COLOR_INST, alpha=0.2)
+    axes[1].set_title(f'Instruct SFT (3,252 steps, avg: {v2_instruct["tps_avg"][-1]:,.0f} TPS)')
+    axes[1].set_xlabel('Training Step')
+    axes[1].set_ylabel('TPS / device')
+    axes[1].legend(loc='lower right')
+    axes[1].grid(True, alpha=0.3)
 
     plt.tight_layout()
     for out_dir in [FIGURES, EVAL_FIGURES]:
@@ -287,21 +317,27 @@ def main():
     fig.suptitle('Model FLOPs Utilization (MFU) over Training (8× H200 SXM, BF16 dense = 989.5 TFLOPS)',
                  fontsize=14, fontweight='bold')
 
-    for ax, title, data, color in [
-        (axes[0], 'Think SFT (42,856 steps)', v2_think, '#2196F3'),
-        (axes[1], 'Instruct SFT (3,252 steps)', v2_instruct, '#FF9800'),
-    ]:
-        mean, std = rolling_stats(data['steps'], data['mfu'])
-        ax.plot(data['steps'], mean, color=color, linewidth=2,
-                label=f"rolling mean (final avg: {data['mfu_avg'][-1]:.1f}%)")
-        ax.fill_between(data['steps'], mean - std, mean + std, color=color, alpha=0.2,
-                        label='±1 std')
-        ax.set_title(title)
-        ax.set_xlabel('Training Step')
-        ax.set_ylabel('MFU (%)')
-        ax.legend(loc='lower right')
-        ax.grid(True, alpha=0.3)
-        ax.set_ylim(50, 100)
+    # Think (left) — split by cluster
+    plot_think_segments(axes[0], 'mfu', 'mfu_avg')
+    axes[0].set_title(f'Think SFT (42,856 steps, avg: {v2_think["mfu_avg"][-1]:.1f}%)')
+    axes[0].set_xlabel('Training Step')
+    axes[0].set_ylabel('MFU (%)')
+    axes[0].legend(loc='lower right')
+    axes[0].grid(True, alpha=0.3)
+    axes[0].set_ylim(50, 100)
+
+    # Instruct (right) — all HoreKa
+    mean, std = rolling_stats(v2_instruct['steps'], v2_instruct['mfu'])
+    axes[1].plot(v2_instruct['steps'], mean, color=COLOR_INST, linewidth=2,
+                 label=f"HoreKa 2×4 H200")
+    axes[1].fill_between(v2_instruct['steps'], mean - std, mean + std,
+                         color=COLOR_INST, alpha=0.2)
+    axes[1].set_title(f'Instruct SFT (3,252 steps, avg: {v2_instruct["mfu_avg"][-1]:.1f}%)')
+    axes[1].set_xlabel('Training Step')
+    axes[1].set_ylabel('MFU (%)')
+    axes[1].legend(loc='lower right')
+    axes[1].grid(True, alpha=0.3)
+    axes[1].set_ylim(50, 100)
 
     plt.tight_layout()
     for out_dir in [FIGURES, EVAL_FIGURES]:
