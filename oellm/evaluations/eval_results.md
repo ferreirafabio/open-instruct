@@ -477,54 +477,27 @@ Bradley-Terry ELO estimated on 20k LMArena battles (all languages, single-turn),
 
 ## Training Throughput
 
-Throughput metrics from wandb offline logs for both clusters. v1 ran entirely on kislurm (single-node), v2 ran entirely on HoreKa (multi-node) — these are independent reproductions, not one run split across clusters. MFU values corrected for H200 (OLMo-core misidentifies H200 as A100 — see notes).
+Throughput metrics for the v2 production runs (used for all evaluations above). Think SFT v2 started on kislurm and was transferred to HoreKa to finish; Instruct SFT v2 ran entirely on HoreKa. All metrics from wandb offline logs.
 
 **Metric definitions:**
-- **TPS (Tokens Per Second)**: Number of tokens one GPU processes per second. Multiply by 8 to get total cluster throughput. Higher TPS = faster training.
-- **MFU (Model FLOPs Utilization)**: Percentage of the GPU's peak theoretical compute actually used for training. 73% means 73% of the H200's 989.5 TFLOPS (BF16 dense) is doing useful work; the rest is memory transfers, synchronization, idle time. Includes forward + backward pass FLOPs per the PaLM convention.
-- **Wall-clock**: Total real-world training time, computed as `total_steps × avg_step_time`. Not calendar time — excludes SLURM queue waits, preemptions, and restarts between array jobs.
+- **TPS (Tokens Per Second)**: Number of tokens one GPU processes per second. Total cluster throughput = TPS/device × 8 GPUs.
+- **MFU (Model FLOPs Utilization)**: Percentage of the GPU's theoretical peak compute used for training (forward + backward FLOPs per the PaLM convention). 72% means 72% of the H200's 989.5 TFLOPS (BF16 dense) is doing useful matrix math; the rest is memory transfers, synchronization, and idle time.
+- **Wall-clock**: Total training compute time = `total_steps × avg_step_time`. Excludes SLURM queue waits and restart overhead.
 
 ### Hardware & Configuration
 
-| | kislurm (v1) | HoreKa (v2) |
-|---|---|---|
-| **GPUs** | 8× H200 SXM (1 node) | 2× 4 H200 SXM (2 nodes) |
-| **Cluster node(s)** | dlc2gpu21 (Think), dlc2gpu19 (Instruct) | hkn1953 (Think), hkn1952 (Instruct) |
-| **Intra-node** | NVLink 4th gen (900 GB/s bidirectional) | NVLink 4th gen (900 GB/s bidirectional) |
-| **Inter-node** | N/A (single node) | InfiniBand HDR200 (200 Gb/s), Mellanox ConnectX HCA (`mlx5`) |
-| **Precision** | BF16 | BF16 |
-| **Seq length** | 32,768 | 32,768 |
-| **Global batch size** | 1,048,576 tokens (1M) | 1,048,576 tokens (1M) |
-| **Tokens/step/device** | 131,072 | 131,072 |
-| **CUDA** | 13.0 | 12.4 |
+| | |
+|---|---|
+| **GPUs** | 8× NVIDIA H200 SXM (141 GiB HBM3e) |
+| **Topology** | Think: 1×8 H200 (kislurm, steps 0–35K) → 2×4 H200 (HoreKa, steps 35K–42.8K). Instruct: 2×4 H200 (HoreKa) |
+| **Intra-node** | NVLink 4th gen (900 GB/s bidirectional) |
+| **Inter-node** | InfiniBand HDR200 (200 Gb/s), Mellanox ConnectX HCA (`mlx5`) — HoreKa only |
+| **Precision** | BF16 |
+| **Seq length** | 32,768 |
+| **Global batch size** | 1,048,576 tokens (1M) |
+| **Tokens/step/device** | 131,072 |
 
-### Throughput Summary (kislurm, 1× 8 H200)
-
-| Metric | Think SFT | Instruct SFT |
-|---|---|---|
-| Total tokens | 45.5B | 3.6B |
-| Total steps | 43,376 | 3,394 |
-| Epochs | 2 | 2 |
-| Dataset size | 694,030 samples | 54,314 samples |
-| Learning rate | 5e-5 | 8e-5 |
-| | | |
-| **TPS/device (avg)** | **7,792** | **8,721** |
-| **Total TPS (8 GPUs)** | **62,333** | **69,767** |
-| Step time (avg) | 16.8 s | 15.0 s |
-| Steps/hour | 214 | 240 |
-| Tokens/GPU-hour | 28.0M | 31.4M |
-| | | |
-| MFU (reported, A100 basis ²) | 463.8% | 519.1% |
-| **MFU (corrected, H200 basis ³)** | **73.1%** | **81.8%** |
-| Data loading overhead | 0.33% | 0.56% |
-| | | |
-| GPU active memory | 96.9 GiB (69.3%) | 96.9 GiB (69.3%) |
-| GPU reserved memory | 104.6 GiB (74.8%) | 104.6 GiB (74.8%) |
-| | | |
-| **Computed wall-clock** | **202.8 h** | **14.2 h** |
-| **GPU-hours** | **1,622** | **113** |
-
-### Throughput Summary (HoreKa, 2× 4 H200)
+### Throughput Summary
 
 | Metric | Think SFT | Instruct SFT |
 |---|---|---|
@@ -540,8 +513,7 @@ Throughput metrics from wandb offline logs for both clusters. v1 ran entirely on
 | Steps/hour | 212 | 240 |
 | Tokens/GPU-hour | 27.7M | 31.4M |
 | | | |
-| MFU (reported, A100 basis ²) | 458.6% | 519.7% |
-| **MFU (corrected, H200 basis ³)** | **72.3%** | **81.9%** |
+| **MFU (H200 BF16 dense)** | **72.3%** | **81.9%** |
 | Data loading overhead | 0.15% | 0.15% |
 | | | |
 | GPU active memory | 110.5 GiB (79.0%) | 110.5 GiB (79.0%) |
@@ -550,22 +522,12 @@ Throughput metrics from wandb offline logs for both clusters. v1 ran entirely on
 | **Computed wall-clock** | **202.5 h** | **13.6 h** |
 | **GPU-hours** | **1,620** | **108** |
 
-### Cross-Cluster Comparison (kislurm vs HoreKa)
-
-| Metric | Think SFT | Instruct SFT |
-|---|---|---|
-| TPS/device delta | -1.1% | +0.1% |
-| GPU active mem delta | +13.6 GiB | +13.6 GiB |
-| MFU delta (H200) | -0.8 pp | +0.1 pp |
-
-Multi-node overhead is minimal (~1% TPS reduction for Think). The +13.6 GiB higher GPU memory on HoreKa is due to DeepSpeed ZeRO-2 communication buffers for inter-node gradient synchronization over InfiniBand.
-
 ### Per-Step Observations
 
-- **Think SFT** (kislurm): TPS/device stable at 7,600–7,900 across 4,870 logged steps (epoch 2, steps 38,510–43,370). Actual avg converged to 7,792 TPS/device.
-- **Instruct SFT** (kislurm): TPS/device stable at 8,700–9,100 across full training (steps 10–3,390). Higher throughput than Think due to higher masked-label ratio (61.4% vs 2.8%).
-- **Data loading**: Negligible overhead (<0.6% of step time). HoreKa lower (0.15%) than kislurm (0.33–0.56%), likely due to faster local NVMe on compute nodes.
-- **Memory**: Identical footprint within each cluster despite different datasets — expected since model architecture and batch size are identical.
+- **Think SFT**: TPS/device stable at 7,500–8,000 across 42K steps. Low outliers (~2,500–4,500 TPS) at session restarts are warmup/compilation overhead after SLURM preemptions.
+- **Instruct SFT**: TPS/device stable at 8,500–9,100 across full training. Higher throughput than Think due to higher masked-label ratio (56.1% vs 3.3%), reducing effective computation per token.
+- **Data loading**: Negligible overhead (0.15% of step time, ~0.2 ms per step).
+- **Memory**: Identical footprint for both models — expected since model architecture and batch size are identical.
 
 ### Throughput Plots
 
@@ -573,8 +535,3 @@ Multi-node overhead is minimal (~1% TPS reduction for Think). The +13.6 GiB high
 
 ![MFU over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_mfu.png)
 
-### Notes
-
-<sup>2</sup> OLMo-core's `SpeedMonitorCallback` does not have an H200 entry in its GPU peak FLOPS table (predates H200). It falls back to the A100 default (156 TFLOPS BF16 dense), inflating reported MFU by 6.3×. See `olmo_core/train/callbacks/speed_monitor.py:82-95`.
-
-<sup>3</sup> Corrected using H200 SXM BF16 dense peak = 989.5 TFLOPS (same Hopper GH100 die as H100 SXM). MFU includes forward + backward FLOPs per the PaLM convention.

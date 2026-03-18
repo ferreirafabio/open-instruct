@@ -243,30 +243,38 @@ def main():
         'legend.fontsize': 9, 'figure.dpi': 150,
     })
 
+    def rolling_stats(steps, values, window=50):
+        """Compute rolling mean and std for shaded confidence band."""
+        from numpy.lib.stride_tricks import sliding_window_view
+        if len(values) < window:
+            window = max(1, len(values) // 3)
+        pad = window // 2
+        # Pad edges to keep same length
+        padded = np.pad(values, (pad, window - 1 - pad), mode='edge')
+        windows = sliding_window_view(padded, window)
+        mean = windows.mean(axis=1)
+        std = windows.std(axis=1)
+        return mean, std
+
     # ====== Figure 1: TPS/device over steps ======
     fig, axes = plt.subplots(1, 2, figsize=(14, 5))
     fig.suptitle('Tokens Per Second (TPS) per Device over Training (8× H200 SXM, BF16)',
                  fontsize=14, fontweight='bold')
 
-    # Think (left)
-    axes[0].scatter(v2_think['steps'], v2_think['tps'], alpha=0.15, s=4, color='#2196F3')
-    axes[0].plot(v2_think['steps'], v2_think['tps_avg'], color='#2196F3', linewidth=2,
-                 label=f"Think SFT (avg: {v2_think['tps_avg'][-1]:,.0f})")
-    axes[0].set_title('Think SFT (42,856 steps)')
-    axes[0].set_xlabel('Training Step')
-    axes[0].set_ylabel('TPS / device')
-    axes[0].legend(loc='lower right')
-    axes[0].grid(True, alpha=0.3)
-
-    # Instruct (right)
-    axes[1].scatter(v2_instruct['steps'], v2_instruct['tps'], alpha=0.15, s=4, color='#FF9800')
-    axes[1].plot(v2_instruct['steps'], v2_instruct['tps_avg'], color='#FF9800', linewidth=2,
-                 label=f"Instruct SFT (avg: {v2_instruct['tps_avg'][-1]:,.0f})")
-    axes[1].set_title('Instruct SFT (3,252 steps)')
-    axes[1].set_xlabel('Training Step')
-    axes[1].set_ylabel('TPS / device')
-    axes[1].legend(loc='lower right')
-    axes[1].grid(True, alpha=0.3)
+    for ax, title, data, color in [
+        (axes[0], 'Think SFT (42,856 steps)', v2_think, '#2196F3'),
+        (axes[1], 'Instruct SFT (3,252 steps)', v2_instruct, '#FF9800'),
+    ]:
+        mean, std = rolling_stats(data['steps'], data['tps'])
+        ax.plot(data['steps'], mean, color=color, linewidth=2,
+                label=f"rolling mean (final avg: {data['tps_avg'][-1]:,.0f})")
+        ax.fill_between(data['steps'], mean - std, mean + std, color=color, alpha=0.2,
+                        label='±1 std')
+        ax.set_title(title)
+        ax.set_xlabel('Training Step')
+        ax.set_ylabel('TPS / device')
+        ax.legend(loc='lower right')
+        ax.grid(True, alpha=0.3)
 
     plt.tight_layout()
     for out_dir in [FIGURES, EVAL_FIGURES]:
@@ -279,14 +287,15 @@ def main():
     fig.suptitle('Model FLOPs Utilization (MFU) over Training (8× H200 SXM, BF16 dense = 989.5 TFLOPS)',
                  fontsize=14, fontweight='bold')
 
-    for idx, (title, data, color) in enumerate([
-        ('Think SFT (42,856 steps)', v2_think, '#2196F3'),
-        ('Instruct SFT (3,252 steps)', v2_instruct, '#FF9800'),
-    ]):
-        ax = axes[idx]
-        ax.scatter(data['steps'], data['mfu'], alpha=0.15, s=4, color=color)
-        ax.plot(data['steps'], data['mfu_avg'], color=color, linewidth=2,
-                label=f"MFU (avg: {data['mfu_avg'][-1]:.1f}%)")
+    for ax, title, data, color in [
+        (axes[0], 'Think SFT (42,856 steps)', v2_think, '#2196F3'),
+        (axes[1], 'Instruct SFT (3,252 steps)', v2_instruct, '#FF9800'),
+    ]:
+        mean, std = rolling_stats(data['steps'], data['mfu'])
+        ax.plot(data['steps'], mean, color=color, linewidth=2,
+                label=f"rolling mean (final avg: {data['mfu_avg'][-1]:.1f}%)")
+        ax.fill_between(data['steps'], mean - std, mean + std, color=color, alpha=0.2,
+                        label='±1 std')
         ax.set_title(title)
         ax.set_xlabel('Training Step')
         ax.set_ylabel('MFU (%)')
