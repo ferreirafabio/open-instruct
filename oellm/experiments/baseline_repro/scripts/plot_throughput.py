@@ -20,6 +20,8 @@ ROOT = Path(__file__).resolve().parents[1]  # baseline_repro/
 CKPT = Path("/work/dlclarge2/ferreira-oellm/open-instruct/checkpoints/ferreira/olmo3-7b-sft")
 FIGURES = ROOT / "figures"
 FIGURES.mkdir(exist_ok=True)
+EVAL_FIGURES = ROOT.parent.parent / "evaluations" / "figures"
+EVAL_FIGURES.mkdir(exist_ok=True)
 
 # MFU correction: OLMo-core used A100 peak (156 TFLOPS) instead of H200 (989.5 TFLOPS)
 A100_PEAK = 156e12
@@ -27,13 +29,10 @@ H200_PEAK = 989.5e12
 MFU_CORRECTION = A100_PEAK / H200_PEAK
 
 
-def parse_wandb_log(log_path: Path) -> dict:
-    """Parse output.log for per-step metrics (logged every 10 steps)."""
-    text = log_path.read_text()
+def _parse_single_log(text: str) -> dict:
+    """Parse a single output.log text for per-step metrics (logged every 10 steps)."""
     steps, tps, tps_avg, mfu, mfu_avg = [], [], [], [], []
-    timestamps = []
 
-    # Match blocks: step header followed by metric lines
     block_pat = re.compile(
         r'(\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2})\.\d+\t.*\[step=(\d+)/\d+,epoch=\d+,eta=.*?\]'
     )
@@ -42,24 +41,19 @@ def parse_wandb_log(log_path: Path) -> dict:
     mfu_pat = re.compile(r'throughput/device/MFU=([\d.]+)')
     mfu_avg_pat = re.compile(r'throughput/device/MFU \(actual avg\)=([\d.]+)')
 
-    lines = text.split('\n')
     current_step = None
-    current_ts = None
     current = {}
 
-    for line in lines:
+    for line in text.split('\n'):
         bm = block_pat.search(line)
         if bm:
-            # Save previous block
             if current_step is not None and 'tps' in current:
                 steps.append(current_step)
-                timestamps.append(current_ts)
                 tps.append(current['tps'])
                 tps_avg.append(current.get('tps_avg', current['tps']))
                 mfu.append(current['mfu'])
                 mfu_avg.append(current.get('mfu_avg', current['mfu']))
             current_step = int(bm.group(2))
-            current_ts = bm.group(1)
             current = {}
             continue
 
@@ -77,10 +71,8 @@ def parse_wandb_log(log_path: Path) -> dict:
             if m:
                 current['mfu_avg'] = float(m.group(1))
 
-    # Save last block
     if current_step is not None and 'tps' in current:
         steps.append(current_step)
-        timestamps.append(current_ts)
         tps.append(current['tps'])
         tps_avg.append(current.get('tps_avg', current['tps']))
         mfu.append(current['mfu'])
@@ -90,8 +82,72 @@ def parse_wandb_log(log_path: Path) -> dict:
         'steps': np.array(steps),
         'tps': np.array(tps),
         'tps_avg': np.array(tps_avg),
-        'mfu': np.array(mfu) * MFU_CORRECTION,  # Correct to H200 basis
-        'mfu_avg': np.array(mfu_avg) * MFU_CORRECTION,
+        'mfu': np.array(mfu),
+        'mfu_avg': np.array(mfu_avg),
+    }
+
+
+def parse_wandb_log(log_path: Path) -> dict:
+    """Parse a single output.log file."""
+    data = _parse_single_log(log_path.read_text())
+    data['mfu'] *= MFU_CORRECTION
+    data['mfu_avg'] *= MFU_CORRECTION
+    return data
+
+
+def parse_wandb_multi(wandb_dir: Path) -> dict:
+    """Parse ALL wandb run directories under a wandb/wandb/ dir, merging them.
+
+    This handles training runs that were preempted and restarted multiple times
+    (SLURM array=0-9%1), each creating a new wandb run directory.
+    """
+    all_steps, all_tps, all_tps_avg, all_mfu, all_mfu_avg = [], [], [], [], []
+
+    run_dirs = sorted(wandb_dir.glob("*/files/output.log"))
+    # Also check offline-run-* dirs
+    run_dirs += sorted(wandb_dir.glob("offline-*/files/output.log"))
+    run_dirs = sorted(set(run_dirs))  # dedup
+
+    for log_path in run_dirs:
+        if log_path.stat().st_size == 0:
+            continue
+        data = _parse_single_log(log_path.read_text())
+        if len(data['steps']) > 0:
+            all_steps.append(data['steps'])
+            all_tps.append(data['tps'])
+            all_tps_avg.append(data['tps_avg'])
+            all_mfu.append(data['mfu'])
+            all_mfu_avg.append(data['mfu_avg'])
+
+    if not all_steps:
+        return {'steps': np.array([]), 'tps': np.array([]),
+                'tps_avg': np.array([]), 'mfu': np.array([]),
+                'mfu_avg': np.array([])}
+
+    steps = np.concatenate(all_steps)
+    tps = np.concatenate(all_tps)
+    tps_avg = np.concatenate(all_tps_avg)
+    mfu = np.concatenate(all_mfu)
+    mfu_avg = np.concatenate(all_mfu_avg)
+
+    # Sort by step and deduplicate (keep last occurrence for overlapping steps)
+    order = np.argsort(steps, kind='stable')
+    steps, tps, tps_avg, mfu, mfu_avg = (
+        steps[order], tps[order], tps_avg[order], mfu[order], mfu_avg[order]
+    )
+    _, unique_idx = np.unique(steps, return_index=True)
+    steps = steps[unique_idx]
+    tps = tps[unique_idx]
+    tps_avg = tps_avg[unique_idx]
+    mfu = mfu[unique_idx]
+    mfu_avg = mfu_avg[unique_idx]
+
+    return {
+        'steps': steps,
+        'tps': tps,
+        'tps_avg': tps_avg,
+        'mfu': mfu * MFU_CORRECTION,
+        'mfu_avg': mfu_avg * MFU_CORRECTION,
     }
 
 
@@ -152,17 +208,11 @@ def parse_grep_metrics(log_path: Path) -> dict:
     }
 
 
-def compute_wall_clock(steps: np.ndarray, bps_avg: float) -> np.ndarray:
-    """Compute cumulative wall-clock hours from step numbers and avg BPS."""
-    step_time = 1.0 / bps_avg  # seconds per step
-    return steps * step_time / 3600
-
-
 def main():
     # Load data
-    # kislurm v1
-    ki_think = parse_wandb_log(
-        CKPT / "dolci-think-sft/wandb/wandb/run-20251228_004416-opfnhcpn/files/output.log"
+    # kislurm v1 — Think was preempted many times, merge all wandb sessions
+    ki_think = parse_wandb_multi(
+        CKPT / "dolci-think-sft/wandb/wandb"
     )
     ki_instruct = parse_wandb_log(
         CKPT / "dolci-instruct-sft/wandb/wandb/run-20251229_191221-0c77cvcj/files/output.log"
@@ -172,16 +222,9 @@ def main():
     hk_think = parse_grep_metrics(ROOT / "logs/horeka_think_v2_metrics.txt")
     hk_instruct = parse_grep_metrics(ROOT / "logs/horeka_instruct_v2_metrics.txt")
 
-    print(f"kislurm Think:    {len(ki_think['steps'])} datapoints, steps {ki_think['steps'][0]}-{ki_think['steps'][-1]}")
-    print(f"kislurm Instruct: {len(ki_instruct['steps'])} datapoints, steps {ki_instruct['steps'][0]}-{ki_instruct['steps'][-1]}")
-    print(f"HoreKa Think:     {len(hk_think['steps'])} datapoints, steps {hk_think['steps'][0]}-{hk_think['steps'][-1]}")
-    print(f"HoreKa Instruct:  {len(hk_instruct['steps'])} datapoints, steps {hk_instruct['steps'][0]}-{hk_instruct['steps'][-1]}")
-
-    # BPS averages (from wandb-summary.json)
-    bps = {
-        'ki_think': 0.0594, 'ki_instruct': 0.0665,
-        'hk_think': 0.05878, 'hk_instruct': 0.06661,
-    }
+    for name, data in [("kislurm Think", ki_think), ("kislurm Instruct", ki_instruct),
+                        ("HoreKa Think", hk_think), ("HoreKa Instruct", hk_instruct)]:
+        print(f"{name:20s}: {len(data['steps']):5d} datapoints, steps {data['steps'][0]}-{data['steps'][-1]}")
 
     # --- Plot style ---
     plt.rcParams.update({
@@ -198,11 +241,6 @@ def main():
         'hk_think': 'Think (HoreKa 2×4)',
         'hk_instruct': 'Instruct (HoreKa 2×4)',
     }
-
-    datasets = [
-        ('ki_think', ki_think), ('ki_instruct', ki_instruct),
-        ('hk_think', hk_think), ('hk_instruct', hk_instruct),
-    ]
 
     # ====== Figure 1: TPS/device over steps ======
     fig, axes = plt.subplots(1, 2, figsize=(14, 5), sharey=True)
@@ -230,8 +268,9 @@ def main():
     axes[1].grid(True, alpha=0.3)
 
     plt.tight_layout()
-    fig.savefig(FIGURES / 'throughput_tps.png', bbox_inches='tight')
-    print(f"Saved {FIGURES / 'throughput_tps.png'}")
+    for out_dir in [FIGURES, EVAL_FIGURES]:
+        fig.savefig(out_dir / 'throughput_tps.png', bbox_inches='tight')
+    print(f"Saved throughput_tps.png")
     plt.close()
 
     # ====== Figure 2: MFU (H200-corrected) over steps ======
@@ -256,77 +295,9 @@ def main():
         ax.set_ylim(50, 100)
 
     plt.tight_layout()
-    fig.savefig(FIGURES / 'throughput_mfu.png', bbox_inches='tight')
-    print(f"Saved {FIGURES / 'throughput_mfu.png'}")
-    plt.close()
-
-    # ====== Figure 3: Cumulative wall-clock time ======
-    fig, axes = plt.subplots(1, 2, figsize=(14, 5))
-    fig.suptitle('Cumulative Wall-Clock Time over Training', fontsize=14, fontweight='bold')
-
-    # Think
-    for key, data in [('ki_think', ki_think), ('hk_think', hk_think)]:
-        wall = compute_wall_clock(data['steps'], bps[key])
-        axes[0].plot(data['steps'], wall, color=colors[key], linewidth=2, label=labels[key])
-    axes[0].set_title('Think SFT')
-    axes[0].set_xlabel('Training Step')
-    axes[0].set_ylabel('Wall-Clock Time (hours)')
-    axes[0].legend()
-    axes[0].grid(True, alpha=0.3)
-
-    # Instruct
-    for key, data in [('ki_instruct', ki_instruct), ('hk_instruct', hk_instruct)]:
-        wall = compute_wall_clock(data['steps'], bps[key])
-        axes[1].plot(data['steps'], wall, color=colors[key], linewidth=2, label=labels[key])
-    axes[1].set_title('Instruct SFT')
-    axes[1].set_xlabel('Training Step')
-    axes[1].set_ylabel('Wall-Clock Time (hours)')
-    axes[1].legend()
-    axes[1].grid(True, alpha=0.3)
-
-    plt.tight_layout()
-    fig.savefig(FIGURES / 'throughput_wallclock.png', bbox_inches='tight')
-    print(f"Saved {FIGURES / 'throughput_wallclock.png'}")
-    plt.close()
-
-    # ====== Figure 4: Combined overview (2x2) ======
-    fig, axes = plt.subplots(2, 2, figsize=(14, 10))
-    fig.suptitle('OLMo-3-7B SFT Training Throughput', fontsize=15, fontweight='bold', y=0.98)
-
-    # Row 0: TPS
-    for idx, (model, pairs) in enumerate([
-        ('Think SFT', [('ki_think', ki_think), ('hk_think', hk_think)]),
-        ('Instruct SFT', [('ki_instruct', ki_instruct), ('hk_instruct', hk_instruct)]),
-    ]):
-        ax = axes[0, idx]
-        for key, data in pairs:
-            ax.scatter(data['steps'], data['tps'], alpha=0.1, s=3, color=colors[key])
-            ax.plot(data['steps'], data['tps_avg'], color=colors[key], linewidth=1.5,
-                    label=f"{labels[key]} ({data['tps_avg'][-1]:,.0f})")
-        ax.set_title(model)
-        ax.set_ylabel('TPS / device')
-        ax.legend(fontsize=8, loc='lower right')
-        ax.grid(True, alpha=0.3)
-
-    # Row 1: MFU
-    for idx, (model, pairs) in enumerate([
-        ('Think SFT', [('ki_think', ki_think), ('hk_think', hk_think)]),
-        ('Instruct SFT', [('ki_instruct', ki_instruct), ('hk_instruct', hk_instruct)]),
-    ]):
-        ax = axes[1, idx]
-        for key, data in pairs:
-            ax.scatter(data['steps'], data['mfu'], alpha=0.1, s=3, color=colors[key])
-            ax.plot(data['steps'], data['mfu_avg'], color=colors[key], linewidth=1.5,
-                    label=f"{labels[key]} ({data['mfu_avg'][-1]:.1f}%)")
-        ax.set_xlabel('Training Step')
-        ax.set_ylabel('MFU (%) — H200 basis')
-        ax.legend(fontsize=8, loc='lower right')
-        ax.grid(True, alpha=0.3)
-        ax.set_ylim(50, 100)
-
-    plt.tight_layout()
-    fig.savefig(FIGURES / 'throughput_overview.png', bbox_inches='tight')
-    print(f"Saved {FIGURES / 'throughput_overview.png'}")
+    for out_dir in [FIGURES, EVAL_FIGURES]:
+        fig.savefig(out_dir / 'throughput_mfu.png', bbox_inches='tight')
+    print(f"Saved throughput_mfu.png")
     plt.close()
 
 
