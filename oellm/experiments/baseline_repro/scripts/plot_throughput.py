@@ -212,11 +212,25 @@ def main():
     # Load v2 data only (production runs used for evaluation)
     #
     # Think v2: started on kislurm (steps 0-35K), checkpoint transferred to
-    # HoreKa to finish (steps 36K-42,856). Merge both wandb sources.
+    # HoreKa to finish (steps 36K-42,856). Merge all sources:
+    # 1. kislurm wandb sessions (steps 10-35,273)
+    # 2. kislurm SLURM log for the gap session (steps 35,260-36,518)
+    # 3. HoreKa wandb sessions (steps 36,010-42,850)
     v2_think_local = parse_wandb_multi(
         CKPT / "dolci-think-sft-v2/wandb/wandb"
     )
+    v2_think_gap = parse_grep_metrics(ROOT / "logs/kislurm_think_v2_gap_metrics.txt")
     v2_think_horeka = parse_grep_metrics(ROOT / "logs/horeka_think_v2_metrics.txt")
+    # Merge gap data into local (both are kislurm)
+    for k in v2_think_local:
+        v2_think_local[k] = np.concatenate([v2_think_local[k], v2_think_gap[k]])
+    order = np.argsort(v2_think_local['steps'], kind='stable')
+    for k in v2_think_local:
+        v2_think_local[k] = v2_think_local[k][order]
+    _, unique_idx = np.unique(v2_think_local['steps'], return_index=True)
+    for k in v2_think_local:
+        v2_think_local[k] = v2_think_local[k][unique_idx]
+
     v2_think = {
         'steps': np.concatenate([v2_think_local['steps'], v2_think_horeka['steps']]),
         'tps': np.concatenate([v2_think_local['tps'], v2_think_horeka['tps']]),
@@ -256,8 +270,11 @@ def main():
         std = windows.std(axis=1)
         return mean, std
 
-    # Split Think v2 into kislurm and HoreKa segments for color-coding
-    # HoreKa data starts at step 36010
+    # Split Think v2 into kislurm and HoreKa segments for color-coding.
+    # kislurm wandb ends at step 35,273; HoreKa wandb starts at step 36,010.
+    # Steps 35,274–36,009 (~736 steps, 1.7%) were trained on kislurm but
+    # wandb wasn't logging — no per-step data exists for this window.
+    # We connect the segments with a dashed line to indicate the gap.
     horeka_start = v2_think_horeka['steps'][0] if len(v2_think_horeka['steps']) > 0 else 36010
     ki_mask = v2_think['steps'] < horeka_start
     hk_mask = v2_think['steps'] >= horeka_start

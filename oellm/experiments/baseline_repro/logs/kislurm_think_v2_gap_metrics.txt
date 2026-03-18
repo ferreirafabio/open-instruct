@@ -1,0 +1,630 @@
+2026-02-22 05:13:16.941	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35260/42856,epoch=2,eta=1d11h18m]
+    throughput/device/MFU=454.9
+    throughput/device/MFU (actual avg)=466.3
+    throughput/device/TPS=7,641
+    throughput/device/TPS (actual avg)=7,833
+2026-02-22 05:16:05.338	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35270/42856,epoch=2,eta=1d11h23m]
+    throughput/device/MFU=458.8
+    throughput/device/MFU (actual avg)=464.8
+    throughput/device/TPS=7,706
+    throughput/device/TPS (actual avg)=7,807
+2026-02-22 05:18:52.997	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35280/42856,epoch=2,eta=1d11h19m]
+    throughput/device/MFU=457.8
+    throughput/device/MFU (actual avg)=465.0
+    throughput/device/TPS=7,690
+    throughput/device/TPS (actual avg)=7,810
+2026-02-22 05:21:39.914	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35290/42856,epoch=2,eta=1d11h13m]
+    throughput/device/MFU=464.2
+    throughput/device/MFU (actual avg)=465.6
+    throughput/device/TPS=7,797
+    throughput/device/TPS (actual avg)=7,821
+2026-02-22 05:24:27.585	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35300/42856,epoch=2,eta=1d11h11m]
+    throughput/device/MFU=475.0
+    throughput/device/MFU (actual avg)=465.6
+    throughput/device/TPS=7,979
+    throughput/device/TPS (actual avg)=7,820
+2026-02-22 05:27:14.361	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35310/42856,epoch=2,eta=1d11h6m]
+    throughput/device/MFU=470.4
+    throughput/device/MFU (actual avg)=465.9
+    throughput/device/TPS=7,901
+    throughput/device/TPS (actual avg)=7,827
+2026-02-22 05:30:02.901	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35320/42856,epoch=2,eta=1d11h5m]
+    throughput/device/MFU=462.1
+    throughput/device/MFU (actual avg)=465.5
+    throughput/device/TPS=7,762
+    throughput/device/TPS (actual avg)=7,819
+2026-02-22 05:32:51.152	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35330/42856,epoch=2,eta=1d11h4m]
+    throughput/device/MFU=460.2
+    throughput/device/MFU (actual avg)=465.3
+    throughput/device/TPS=7,731
+    throughput/device/TPS (actual avg)=7,816
+2026-02-22 05:35:37.227	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35340/42856,epoch=2,eta=1d10h59m]
+    throughput/device/MFU=474.9
+    throughput/device/MFU (actual avg)=465.8
+    throughput/device/TPS=7,977
+    throughput/device/TPS (actual avg)=7,824
+2026-02-22 05:38:25.492	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35350/42856,epoch=2,eta=1d10h57m]
+    throughput/device/MFU=463.0
+    throughput/device/MFU (actual avg)=465.6
+    throughput/device/TPS=7,777
+    throughput/device/TPS (actual avg)=7,821
+2026-02-22 05:41:12.895	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35360/42856,epoch=2,eta=1d10h54m]
+    throughput/device/MFU=458.6
+    throughput/device/MFU (actual avg)=465.6
+    throughput/device/TPS=7,703
+    throughput/device/TPS (actual avg)=7,821
+2026-02-22 05:44:01.291	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35370/42856,epoch=2,eta=1d10h52m]
+    throughput/device/MFU=464.1
+    throughput/device/MFU (actual avg)=465.4
+    throughput/device/TPS=7,795
+    throughput/device/TPS (actual avg)=7,818
+2026-02-22 05:46:49.799	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35380/42856,epoch=2,eta=1d10h50m]
+    throughput/device/MFU=457.4
+    throughput/device/MFU (actual avg)=465.2
+    throughput/device/TPS=7,684
+    throughput/device/TPS (actual avg)=7,815
+2026-02-22 05:49:36.912	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35390/42856,epoch=2,eta=1d10h47m]
+    throughput/device/MFU=460.3
+    throughput/device/MFU (actual avg)=465.4
+    throughput/device/TPS=7,732
+    throughput/device/TPS (actual avg)=7,817
+2026-02-22 05:52:57.405	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35400/42856,epoch=2,eta=1d11h11m]
+    throughput/device/MFU=160.1
+    throughput/device/MFU (actual avg)=459.4
+    throughput/device/TPS=2,689
+    throughput/device/TPS (actual avg)=7,717
+2026-02-22 05:55:43.961	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35410/42856,epoch=2,eta=1d11h6m]
+    throughput/device/MFU=469.7
+    throughput/device/MFU (actual avg)=459.9
+    throughput/device/TPS=7,890
+    throughput/device/TPS (actual avg)=7,725
+2026-02-22 05:58:31.830	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35420/42856,epoch=2,eta=1d11h2m]
+    throughput/device/MFU=466.3
+    throughput/device/MFU (actual avg)=460.2
+    throughput/device/TPS=7,833
+    throughput/device/TPS (actual avg)=7,730
+2026-02-22 06:01:19.507	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35430/42856,epoch=2,eta=1d10h57m]
+    throughput/device/MFU=459.8
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,724
+    throughput/device/TPS (actual avg)=7,735
+2026-02-22 06:04:05.740	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35440/42856,epoch=2,eta=1d10h53m]
+    throughput/device/MFU=465.7
+    throughput/device/MFU (actual avg)=460.9
+    throughput/device/TPS=7,823
+    throughput/device/TPS (actual avg)=7,742
+2026-02-22 06:06:52.961	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35450/42856,epoch=2,eta=1d10h48m]
+    throughput/device/MFU=472.7
+    throughput/device/MFU (actual avg)=461.2
+    throughput/device/TPS=7,941
+    throughput/device/TPS (actual avg)=7,747
+2026-02-22 06:09:40.788	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35460/42856,epoch=2,eta=1d10h45m]
+    throughput/device/MFU=470.2
+    throughput/device/MFU (actual avg)=461.4
+    throughput/device/TPS=7,899
+    throughput/device/TPS (actual avg)=7,750
+2026-02-22 06:12:28.533	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35470/42856,epoch=2,eta=1d10h41m]
+    throughput/device/MFU=462.7
+    throughput/device/MFU (actual avg)=461.6
+    throughput/device/TPS=7,772
+    throughput/device/TPS (actual avg)=7,753
+2026-02-22 06:15:16.666	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35480/42856,epoch=2,eta=1d10h38m]
+    throughput/device/MFU=461.8
+    throughput/device/MFU (actual avg)=461.7
+    throughput/device/TPS=7,757
+    throughput/device/TPS (actual avg)=7,755
+2026-02-22 06:18:03.980	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35490/42856,epoch=2,eta=1d10h34m]
+    throughput/device/MFU=459.5
+    throughput/device/MFU (actual avg)=461.9
+    throughput/device/TPS=7,719
+    throughput/device/TPS (actual avg)=7,758
+2026-02-22 06:20:51.827	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35500/42856,epoch=2,eta=1d10h31m]
+    throughput/device/MFU=467.3
+    throughput/device/MFU (actual avg)=462.0
+    throughput/device/TPS=7,849
+    throughput/device/TPS (actual avg)=7,760
+2026-02-22 06:23:40.250	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35510/42856,epoch=2,eta=1d10h28m]
+    throughput/device/MFU=468.4
+    throughput/device/MFU (actual avg)=462.0
+    throughput/device/TPS=7,868
+    throughput/device/TPS (actual avg)=7,761
+2026-02-22 06:26:27.064	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35520/42856,epoch=2,eta=1d10h24m]
+    throughput/device/MFU=471.8
+    throughput/device/MFU (actual avg)=462.2
+    throughput/device/TPS=7,925
+    throughput/device/TPS (actual avg)=7,764
+2026-02-22 06:29:15.292	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35530/42856,epoch=2,eta=1d10h21m]
+    throughput/device/MFU=461.2
+    throughput/device/MFU (actual avg)=462.3
+    throughput/device/TPS=7,747
+    throughput/device/TPS (actual avg)=7,765
+2026-02-22 06:32:01.442	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35540/42856,epoch=2,eta=1d10h17m]
+    throughput/device/MFU=475.5
+    throughput/device/MFU (actual avg)=462.5
+    throughput/device/TPS=7,988
+    throughput/device/TPS (actual avg)=7,770
+2026-02-22 06:35:53.869	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35550/42856,epoch=2,eta=1d10h22m]
+    throughput/device/MFU=209.5
+    throughput/device/MFU (actual avg)=460.8
+    throughput/device/TPS=3,518
+    throughput/device/TPS (actual avg)=7,740
+2026-02-22 06:38:41.582	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35560/42856,epoch=2,eta=1d10h36m]
+    throughput/device/MFU=466.0
+    throughput/device/MFU (actual avg)=457.0
+    throughput/device/TPS=7,828
+    throughput/device/TPS (actual avg)=7,677
+2026-02-22 06:41:30.017	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35570/42856,epoch=2,eta=1d10h32m]
+    throughput/device/MFU=457.7
+    throughput/device/MFU (actual avg)=457.2
+    throughput/device/TPS=7,688
+    throughput/device/TPS (actual avg)=7,680
+2026-02-22 06:44:17.497	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35580/42856,epoch=2,eta=1d10h28m]
+    throughput/device/MFU=464.4
+    throughput/device/MFU (actual avg)=457.5
+    throughput/device/TPS=7,800
+    throughput/device/TPS (actual avg)=7,685
+2026-02-22 06:47:04.508	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35590/42856,epoch=2,eta=1d10h24m]
+    throughput/device/MFU=472.6
+    throughput/device/MFU (actual avg)=457.8
+    throughput/device/TPS=7,938
+    throughput/device/TPS (actual avg)=7,689
+2026-02-22 06:49:52.438	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35600/42856,epoch=2,eta=1d10h21m]
+    throughput/device/MFU=467.9
+    throughput/device/MFU (actual avg)=458.0
+    throughput/device/TPS=7,860
+    throughput/device/TPS (actual avg)=7,693
+2026-02-22 06:52:40.588	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35610/42856,epoch=2,eta=1d10h17m]
+    throughput/device/MFU=458.9
+    throughput/device/MFU (actual avg)=458.1
+    throughput/device/TPS=7,708
+    throughput/device/TPS (actual avg)=7,695
+2026-02-22 06:55:28.578	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35620/42856,epoch=2,eta=1d10h13m]
+    throughput/device/MFU=464.7
+    throughput/device/MFU (actual avg)=458.3
+    throughput/device/TPS=7,806
+    throughput/device/TPS (actual avg)=7,698
+2026-02-22 06:58:16.651	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35630/42856,epoch=2,eta=1d10h10m]
+    throughput/device/MFU=462.1
+    throughput/device/MFU (actual avg)=458.5
+    throughput/device/TPS=7,762
+    throughput/device/TPS (actual avg)=7,701
+2026-02-22 07:01:03.346	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35640/42856,epoch=2,eta=1d10h6m]
+    throughput/device/MFU=462.9
+    throughput/device/MFU (actual avg)=458.7
+    throughput/device/TPS=7,776
+    throughput/device/TPS (actual avg)=7,705
+2026-02-22 07:03:49.911	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35650/42856,epoch=2,eta=1d10h2m]
+    throughput/device/MFU=468.8
+    throughput/device/MFU (actual avg)=458.9
+    throughput/device/TPS=7,875
+    throughput/device/TPS (actual avg)=7,709
+2026-02-22 07:06:37.008	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35660/42856,epoch=2,eta=1d9h58m]
+    throughput/device/MFU=477.8
+    throughput/device/MFU (actual avg)=459.1
+    throughput/device/TPS=8,025
+    throughput/device/TPS (actual avg)=7,712
+2026-02-22 07:09:24.243	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35670/42856,epoch=2,eta=1d9h55m]
+    throughput/device/MFU=471.4
+    throughput/device/MFU (actual avg)=459.3
+    throughput/device/TPS=7,919
+    throughput/device/TPS (actual avg)=7,715
+2026-02-22 07:12:10.608	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35680/42856,epoch=2,eta=1d9h51m]
+    throughput/device/MFU=466.0
+    throughput/device/MFU (actual avg)=459.5
+    throughput/device/TPS=7,828
+    throughput/device/TPS (actual avg)=7,719
+2026-02-22 07:14:57.875	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35690/42856,epoch=2,eta=1d9h47m]
+    throughput/device/MFU=468.1
+    throughput/device/MFU (actual avg)=459.7
+    throughput/device/TPS=7,862
+    throughput/device/TPS (actual avg)=7,722
+2026-02-22 07:18:05.331	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35700/42856,epoch=2,eta=1d9h49m]
+    throughput/device/MFU=217.5
+    throughput/device/MFU (actual avg)=458.7
+    throughput/device/TPS=3,653
+    throughput/device/TPS (actual avg)=7,705
+2026-02-22 07:20:52.762	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35710/42856,epoch=2,eta=1d9h46m]
+    throughput/device/MFU=468.8
+    throughput/device/MFU (actual avg)=458.8
+    throughput/device/TPS=7,874
+    throughput/device/TPS (actual avg)=7,706
+2026-02-22 07:23:40.726	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35720/42856,epoch=2,eta=1d9h42m]
+    throughput/device/MFU=460.4
+    throughput/device/MFU (actual avg)=458.9
+    throughput/device/TPS=7,733
+    throughput/device/TPS (actual avg)=7,708
+2026-02-22 07:26:29.374	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35730/42856,epoch=2,eta=1d9h39m]
+    throughput/device/MFU=466.9
+    throughput/device/MFU (actual avg)=459.0
+    throughput/device/TPS=7,843
+    throughput/device/TPS (actual avg)=7,710
+2026-02-22 07:29:17.133	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35740/42856,epoch=2,eta=1d9h36m]
+    throughput/device/MFU=462.1
+    throughput/device/MFU (actual avg)=459.1
+    throughput/device/TPS=7,763
+    throughput/device/TPS (actual avg)=7,712
+2026-02-22 07:32:05.659	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35750/42856,epoch=2,eta=1d9h33m]
+    throughput/device/MFU=457.5
+    throughput/device/MFU (actual avg)=459.2
+    throughput/device/TPS=7,685
+    throughput/device/TPS (actual avg)=7,713
+2026-02-22 07:34:53.817	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35760/42856,epoch=2,eta=1d9h29m]
+    throughput/device/MFU=464.0
+    throughput/device/MFU (actual avg)=459.3
+    throughput/device/TPS=7,793
+    throughput/device/TPS (actual avg)=7,715
+2026-02-22 07:37:41.475	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35770/42856,epoch=2,eta=1d9h26m]
+    throughput/device/MFU=466.6
+    throughput/device/MFU (actual avg)=459.4
+    throughput/device/TPS=7,838
+    throughput/device/TPS (actual avg)=7,717
+2026-02-22 07:40:28.813	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35780/42856,epoch=2,eta=1d9h23m]
+    throughput/device/MFU=468.1
+    throughput/device/MFU (actual avg)=459.5
+    throughput/device/TPS=7,863
+    throughput/device/TPS (actual avg)=7,719
+2026-02-22 07:43:16.290	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35790/42856,epoch=2,eta=1d9h19m]
+    throughput/device/MFU=474.4
+    throughput/device/MFU (actual avg)=459.6
+    throughput/device/TPS=7,969
+    throughput/device/TPS (actual avg)=7,721
+2026-02-22 07:46:04.082	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35800/42856,epoch=2,eta=1d9h16m]
+    throughput/device/MFU=465.2
+    throughput/device/MFU (actual avg)=459.7
+    throughput/device/TPS=7,814
+    throughput/device/TPS (actual avg)=7,722
+2026-02-22 07:48:51.841	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35810/42856,epoch=2,eta=1d9h13m]
+    throughput/device/MFU=469.8
+    throughput/device/MFU (actual avg)=459.8
+    throughput/device/TPS=7,891
+    throughput/device/TPS (actual avg)=7,724
+2026-02-22 07:51:39.319	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35820/42856,epoch=2,eta=1d9h10m]
+    throughput/device/MFU=459.9
+    throughput/device/MFU (actual avg)=459.9
+    throughput/device/TPS=7,726
+    throughput/device/TPS (actual avg)=7,726
+2026-02-22 07:54:26.885	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35830/42856,epoch=2,eta=1d9h6m]
+    throughput/device/MFU=471.8
+    throughput/device/MFU (actual avg)=460.0
+    throughput/device/TPS=7,925
+    throughput/device/TPS (actual avg)=7,727
+2026-02-22 07:57:14.044	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35840/42856,epoch=2,eta=1d9h3m]
+    throughput/device/MFU=474.7
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=7,973
+    throughput/device/TPS (actual avg)=7,729
+2026-02-22 08:00:22.876	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35850/42856,epoch=2,eta=1d9h4m]
+    throughput/device/MFU=218.9
+    throughput/device/MFU (actual avg)=459.4
+    throughput/device/TPS=3,677
+    throughput/device/TPS (actual avg)=7,716
+2026-02-22 08:03:10.190	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35860/42856,epoch=2,eta=1d9h1m]
+    throughput/device/MFU=467.9
+    throughput/device/MFU (actual avg)=459.4
+    throughput/device/TPS=7,859
+    throughput/device/TPS (actual avg)=7,716
+2026-02-22 08:05:58.478	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35870/42856,epoch=2,eta=1d8h58m]
+    throughput/device/MFU=467.2
+    throughput/device/MFU (actual avg)=459.4
+    throughput/device/TPS=7,848
+    throughput/device/TPS (actual avg)=7,718
+2026-02-22 08:08:45.833	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35880/42856,epoch=2,eta=1d8h54m]
+    throughput/device/MFU=461.6
+    throughput/device/MFU (actual avg)=459.6
+    throughput/device/TPS=7,754
+    throughput/device/TPS (actual avg)=7,719
+2026-02-22 08:11:33.659	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35890/42856,epoch=2,eta=1d8h51m]
+    throughput/device/MFU=463.8
+    throughput/device/MFU (actual avg)=459.6
+    throughput/device/TPS=7,791
+    throughput/device/TPS (actual avg)=7,721
+2026-02-22 08:14:21.111	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35900/42856,epoch=2,eta=1d8h48m]
+    throughput/device/MFU=461.1
+    throughput/device/MFU (actual avg)=459.7
+    throughput/device/TPS=7,745
+    throughput/device/TPS (actual avg)=7,722
+2026-02-22 08:17:08.511	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35910/42856,epoch=2,eta=1d8h45m]
+    throughput/device/MFU=465.4
+    throughput/device/MFU (actual avg)=459.8
+    throughput/device/TPS=7,817
+    throughput/device/TPS (actual avg)=7,724
+2026-02-22 08:19:56.376	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35920/42856,epoch=2,eta=1d8h41m]
+    throughput/device/MFU=463.6
+    throughput/device/MFU (actual avg)=459.9
+    throughput/device/TPS=7,788
+    throughput/device/TPS (actual avg)=7,725
+2026-02-22 08:22:43.380	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35930/42856,epoch=2,eta=1d8h38m]
+    throughput/device/MFU=465.1
+    throughput/device/MFU (actual avg)=460.0
+    throughput/device/TPS=7,812
+    throughput/device/TPS (actual avg)=7,727
+2026-02-22 08:25:31.647	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35940/42856,epoch=2,eta=1d8h35m]
+    throughput/device/MFU=466.3
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=7,833
+    throughput/device/TPS (actual avg)=7,728
+2026-02-22 08:28:19.321	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35950/42856,epoch=2,eta=1d8h32m]
+    throughput/device/MFU=467.6
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=7,854
+    throughput/device/TPS (actual avg)=7,729
+2026-02-22 08:31:05.495	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35960/42856,epoch=2,eta=1d8h29m]
+    throughput/device/MFU=473.9
+    throughput/device/MFU (actual avg)=460.3
+    throughput/device/TPS=7,960
+    throughput/device/TPS (actual avg)=7,731
+2026-02-22 08:33:53.198	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35970/42856,epoch=2,eta=1d8h25m]
+    throughput/device/MFU=466.4
+    throughput/device/MFU (actual avg)=460.3
+    throughput/device/TPS=7,835
+    throughput/device/TPS (actual avg)=7,732
+2026-02-22 08:36:40.690	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35980/42856,epoch=2,eta=1d8h22m]
+    throughput/device/MFU=463.4
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,785
+    throughput/device/TPS (actual avg)=7,734
+2026-02-22 08:39:27.678	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=35990/42856,epoch=2,eta=1d8h19m]
+    throughput/device/MFU=466.0
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,827
+    throughput/device/TPS (actual avg)=7,735
+2026-02-22 08:42:36.600	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36000/42856,epoch=2,eta=1d8h19m]
+    throughput/device/MFU=217.1
+    throughput/device/MFU (actual avg)=459.9
+    throughput/device/TPS=3,647
+    throughput/device/TPS (actual avg)=7,725
+2026-02-22 08:45:24.334	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36010/42856,epoch=2,eta=1d8h16m]
+    throughput/device/MFU=454.9
+    throughput/device/MFU (actual avg)=459.9
+    throughput/device/TPS=7,641
+    throughput/device/TPS (actual avg)=7,725
+2026-02-22 08:48:12.055	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36020/42856,epoch=2,eta=1d8h13m]
+    throughput/device/MFU=466.3
+    throughput/device/MFU (actual avg)=459.9
+    throughput/device/TPS=7,833
+    throughput/device/TPS (actual avg)=7,726
+2026-02-22 08:50:59.642	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36030/42856,epoch=2,eta=1d8h10m]
+    throughput/device/MFU=470.5
+    throughput/device/MFU (actual avg)=460.0
+    throughput/device/TPS=7,904
+    throughput/device/TPS (actual avg)=7,727
+2026-02-22 08:53:47.098	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36040/42856,epoch=2,eta=1d8h7m]
+    throughput/device/MFU=468.6
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=7,871
+    throughput/device/TPS (actual avg)=7,728
+2026-02-22 08:56:35.083	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36050/42856,epoch=2,eta=1d8h4m]
+    throughput/device/MFU=466.1
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=7,829
+    throughput/device/TPS (actual avg)=7,729
+2026-02-22 08:59:22.896	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36060/42856,epoch=2,eta=1d8h1m]
+    throughput/device/MFU=465.6
+    throughput/device/MFU (actual avg)=460.2
+    throughput/device/TPS=7,820
+    throughput/device/TPS (actual avg)=7,730
+2026-02-22 09:02:09.845	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36070/42856,epoch=2,eta=1d7h57m]
+    throughput/device/MFU=471.0
+    throughput/device/MFU (actual avg)=460.3
+    throughput/device/TPS=7,911
+    throughput/device/TPS (actual avg)=7,732
+2026-02-22 09:04:57.349	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36080/42856,epoch=2,eta=1d7h54m]
+    throughput/device/MFU=462.6
+    throughput/device/MFU (actual avg)=460.3
+    throughput/device/TPS=7,770
+    throughput/device/TPS (actual avg)=7,733
+2026-02-22 09:07:45.465	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36090/42856,epoch=2,eta=1d7h51m]
+    throughput/device/MFU=470.1
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,897
+    throughput/device/TPS (actual avg)=7,733
+2026-02-22 09:10:33.154	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36100/42856,epoch=2,eta=1d7h48m]
+    throughput/device/MFU=458.6
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,703
+    throughput/device/TPS (actual avg)=7,734
+2026-02-22 09:13:21.675	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36110/42856,epoch=2,eta=1d7h45m]
+    throughput/device/MFU=467.5
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,852
+    throughput/device/TPS (actual avg)=7,735
+2026-02-22 09:16:09.626	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36120/42856,epoch=2,eta=1d7h42m]
+    throughput/device/MFU=467.6
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,855
+    throughput/device/TPS (actual avg)=7,736
+2026-02-22 09:18:57.346	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36130/42856,epoch=2,eta=1d7h39m]
+    throughput/device/MFU=458.7
+    throughput/device/MFU (actual avg)=460.6
+    throughput/device/TPS=7,706
+    throughput/device/TPS (actual avg)=7,737
+2026-02-22 09:21:46.032	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36140/42856,epoch=2,eta=1d7h36m]
+    throughput/device/MFU=465.4
+    throughput/device/MFU (actual avg)=460.6
+    throughput/device/TPS=7,818
+    throughput/device/TPS (actual avg)=7,737
+2026-02-22 09:24:54.280	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36150/42856,epoch=2,eta=1d7h36m]
+    throughput/device/MFU=217.5
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=3,653
+    throughput/device/TPS (actual avg)=7,728
+2026-02-22 09:27:42.036	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36160/42856,epoch=2,eta=1d7h33m]
+    throughput/device/MFU=464.4
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=7,800
+    throughput/device/TPS (actual avg)=7,728
+2026-02-22 09:30:30.656	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36170/42856,epoch=2,eta=1d7h30m]
+    throughput/device/MFU=466.2
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=7,830
+    throughput/device/TPS (actual avg)=7,729
+2026-02-22 09:33:19.091	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36180/42856,epoch=2,eta=1d7h27m]
+    throughput/device/MFU=468.0
+    throughput/device/MFU (actual avg)=460.1
+    throughput/device/TPS=7,862
+    throughput/device/TPS (actual avg)=7,729
+2026-02-22 09:36:06.102	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36190/42856,epoch=2,eta=1d7h24m]
+    throughput/device/MFU=462.2
+    throughput/device/MFU (actual avg)=460.2
+    throughput/device/TPS=7,764
+    throughput/device/TPS (actual avg)=7,731
+2026-02-22 09:38:53.458	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36200/42856,epoch=2,eta=1d7h21m]
+    throughput/device/MFU=475.0
+    throughput/device/MFU (actual avg)=460.3
+    throughput/device/TPS=7,979
+    throughput/device/TPS (actual avg)=7,732
+2026-02-22 09:41:39.836	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36210/42856,epoch=2,eta=1d7h18m]
+    throughput/device/MFU=469.8
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,892
+    throughput/device/TPS (actual avg)=7,733
+2026-02-22 09:44:27.987	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36220/42856,epoch=2,eta=1d7h15m]
+    throughput/device/MFU=457.1
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,677
+    throughput/device/TPS (actual avg)=7,734
+2026-02-22 09:47:15.237	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36230/42856,epoch=2,eta=1d7h11m]
+    throughput/device/MFU=469.7
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,890
+    throughput/device/TPS (actual avg)=7,735
+2026-02-22 09:50:02.982	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36240/42856,epoch=2,eta=1d7h8m]
+    throughput/device/MFU=463.4
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,784
+    throughput/device/TPS (actual avg)=7,736
+2026-02-22 09:52:50.455	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36250/42856,epoch=2,eta=1d7h5m]
+    throughput/device/MFU=462.0
+    throughput/device/MFU (actual avg)=460.6
+    throughput/device/TPS=7,761
+    throughput/device/TPS (actual avg)=7,736
+2026-02-22 09:55:39.216	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36260/42856,epoch=2,eta=1d7h3m]
+    throughput/device/MFU=459.8
+    throughput/device/MFU (actual avg)=460.6
+    throughput/device/TPS=7,724
+    throughput/device/TPS (actual avg)=7,737
+2026-02-22 09:58:27.747	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36270/42856,epoch=2,eta=1d7h]
+    throughput/device/MFU=454.5
+    throughput/device/MFU (actual avg)=460.6
+    throughput/device/TPS=7,634
+    throughput/device/TPS (actual avg)=7,737
+2026-02-22 10:01:15.430	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36280/42856,epoch=2,eta=1d6h57m]
+    throughput/device/MFU=467.5
+    throughput/device/MFU (actual avg)=460.7
+    throughput/device/TPS=7,852
+    throughput/device/TPS (actual avg)=7,738
+2026-02-22 10:04:03.420	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36290/42856,epoch=2,eta=1d6h54m]
+    throughput/device/MFU=464.8
+    throughput/device/MFU (actual avg)=460.7
+    throughput/device/TPS=7,808
+    throughput/device/TPS (actual avg)=7,739
+2026-02-22 10:07:10.990	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36300/42856,epoch=2,eta=1d6h53m]
+    throughput/device/MFU=220.7
+    throughput/device/MFU (actual avg)=460.3
+    throughput/device/TPS=3,706
+    throughput/device/TPS (actual avg)=7,731
+2026-02-22 10:09:58.205	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36310/42856,epoch=2,eta=1d6h50m]
+    throughput/device/MFU=461.1
+    throughput/device/MFU (actual avg)=460.3
+    throughput/device/TPS=7,745
+    throughput/device/TPS (actual avg)=7,732
+2026-02-22 10:12:46.632	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36320/42856,epoch=2,eta=1d6h47m]
+    throughput/device/MFU=459.8
+    throughput/device/MFU (actual avg)=460.3
+    throughput/device/TPS=7,723
+    throughput/device/TPS (actual avg)=7,732
+2026-02-22 10:15:34.185	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36330/42856,epoch=2,eta=1d6h44m]
+    throughput/device/MFU=464.3
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,799
+    throughput/device/TPS (actual avg)=7,733
+2026-02-22 10:18:21.148	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36340/42856,epoch=2,eta=1d6h41m]
+    throughput/device/MFU=470.4
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,902
+    throughput/device/TPS (actual avg)=7,734
+2026-02-22 10:21:08.649	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36350/42856,epoch=2,eta=1d6h38m]
+    throughput/device/MFU=459.1
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,711
+    throughput/device/TPS (actual avg)=7,735
+2026-02-22 10:23:56.698	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36360/42856,epoch=2,eta=1d6h35m]
+    throughput/device/MFU=456.0
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,659
+    throughput/device/TPS (actual avg)=7,735
+2026-02-22 10:26:45.675	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36370/42856,epoch=2,eta=1d6h32m]
+    throughput/device/MFU=461.3
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,749
+    throughput/device/TPS (actual avg)=7,736
+2026-02-22 10:29:32.840	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36380/42856,epoch=2,eta=1d6h29m]
+    throughput/device/MFU=467.5
+    throughput/device/MFU (actual avg)=460.6
+    throughput/device/TPS=7,853
+    throughput/device/TPS (actual avg)=7,736
+2026-02-22 10:32:19.807	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36390/42856,epoch=2,eta=1d6h26m]
+    throughput/device/MFU=462.3
+    throughput/device/MFU (actual avg)=460.6
+    throughput/device/TPS=7,765
+    throughput/device/TPS (actual avg)=7,737
+2026-02-22 10:35:07.931	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36400/42856,epoch=2,eta=1d6h23m]
+    throughput/device/MFU=469.7
+    throughput/device/MFU (actual avg)=460.7
+    throughput/device/TPS=7,890
+    throughput/device/TPS (actual avg)=7,738
+2026-02-22 10:37:56.629	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36410/42856,epoch=2,eta=1d6h20m]
+    throughput/device/MFU=460.5
+    throughput/device/MFU (actual avg)=460.7
+    throughput/device/TPS=7,735
+    throughput/device/TPS (actual avg)=7,738
+2026-02-22 10:40:45.464	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36420/42856,epoch=2,eta=1d6h17m]
+    throughput/device/MFU=465.6
+    throughput/device/MFU (actual avg)=460.7
+    throughput/device/TPS=7,821
+    throughput/device/TPS (actual avg)=7,738
+2026-02-22 10:43:33.894	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36430/42856,epoch=2,eta=1d6h14m]
+    throughput/device/MFU=463.2
+    throughput/device/MFU (actual avg)=460.7
+    throughput/device/TPS=7,781
+    throughput/device/TPS (actual avg)=7,739
+2026-02-22 10:46:20.727	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36440/42856,epoch=2,eta=1d6h11m]
+    throughput/device/MFU=469.6
+    throughput/device/MFU (actual avg)=460.8
+    throughput/device/TPS=7,887
+    throughput/device/TPS (actual avg)=7,740
+2026-02-22 10:49:28.578	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36450/42856,epoch=2,eta=1d6h10m]
+    throughput/device/MFU=221.9
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=3,728
+    throughput/device/TPS (actual avg)=7,733
+2026-02-22 10:52:17.305	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36460/42856,epoch=2,eta=1d6h7m]
+    throughput/device/MFU=452.6
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,603
+    throughput/device/TPS (actual avg)=7,733
+2026-02-22 10:55:05.063	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36470/42856,epoch=2,eta=1d6h4m]
+    throughput/device/MFU=461.7
+    throughput/device/MFU (actual avg)=460.4
+    throughput/device/TPS=7,755
+    throughput/device/TPS (actual avg)=7,734
+2026-02-22 10:57:51.814	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36480/42856,epoch=2,eta=1d6h1m]
+    throughput/device/MFU=472.7
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,940
+    throughput/device/TPS (actual avg)=7,735
+2026-02-22 11:00:39.035	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36490/42856,epoch=2,eta=1d5h58m]
+    throughput/device/MFU=468.3
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,867
+    throughput/device/TPS (actual avg)=7,735
+2026-02-22 11:03:27.388	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36500/42856,epoch=2,eta=1d5h55m]
+    throughput/device/MFU=466.9
+    throughput/device/MFU (actual avg)=460.5
+    throughput/device/TPS=7,843
+    throughput/device/TPS (actual avg)=7,736
+2026-02-22 11:06:14.128	dlc2gpu20:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=36510/42856,epoch=2,eta=1d5h52m]
+    throughput/device/MFU=464.7
+    throughput/device/MFU (actual avg)=460.6
+    throughput/device/TPS=7,805
+    throughput/device/TPS (actual avg)=7,737
