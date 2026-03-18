@@ -1,0 +1,1626 @@
+2026-02-25 18:58:20.109	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=10/3252,epoch=1,eta=13h26m]
+    throughput/device/MFU=507.8
+    throughput/device/MFU (actual avg)=523.5
+    throughput/device/TPS=8,530
+    throughput/device/TPS (actual avg)=8,794
+2026-02-25 19:00:50.366	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=20/3252,epoch=1,eta=13h27m]
+    throughput/device/MFU=534.3
+    throughput/device/MFU (actual avg)=521.3
+    throughput/device/TPS=8,974
+    throughput/device/TPS (actual avg)=8,756
+2026-02-25 19:03:20.558	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=30/3252,epoch=1,eta=13h25m]
+    throughput/device/MFU=531.2
+    throughput/device/MFU (actual avg)=520.7
+    throughput/device/TPS=8,923
+    throughput/device/TPS (actual avg)=8,746
+2026-02-25 19:05:47.794	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=40/3252,epoch=1,eta=13h19m]
+    throughput/device/MFU=543.4
+    throughput/device/MFU (actual avg)=523.0
+    throughput/device/TPS=9,127
+    throughput/device/TPS (actual avg)=8,785
+2026-02-25 19:08:14.516	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=50/3252,epoch=1,eta=13h14m]
+    throughput/device/MFU=570.4
+    throughput/device/MFU (actual avg)=524.8
+    throughput/device/TPS=9,581
+    throughput/device/TPS (actual avg)=8,815
+2026-02-25 19:10:44.378	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=60/3252,epoch=1,eta=13h12m]
+    throughput/device/MFU=532.8
+    throughput/device/MFU (actual avg)=524.1
+    throughput/device/TPS=8,949
+    throughput/device/TPS (actual avg)=8,803
+2026-02-25 19:13:08.167	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=70/3252,epoch=1,eta=13h6m]
+    throughput/device/MFU=555.2
+    throughput/device/MFU (actual avg)=526.7
+    throughput/device/TPS=9,326
+    throughput/device/TPS (actual avg)=8,847
+2026-02-25 19:15:35.720	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=80/3252,epoch=1,eta=13h3m]
+    throughput/device/MFU=530.2
+    throughput/device/MFU (actual avg)=527.0
+    throughput/device/TPS=8,906
+    throughput/device/TPS (actual avg)=8,852
+2026-02-25 19:18:03.119	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=90/3252,epoch=1,eta=13h]
+    throughput/device/MFU=527.6
+    throughput/device/MFU (actual avg)=527.2
+    throughput/device/TPS=8,862
+    throughput/device/TPS (actual avg)=8,856
+2026-02-25 19:20:31.865	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=100/3252,epoch=1,eta=12h58m]
+    throughput/device/MFU=536.5
+    throughput/device/MFU (actual avg)=527.0
+    throughput/device/TPS=9,013
+    throughput/device/TPS (actual avg)=8,852
+2026-02-25 19:23:01.358	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=110/3252,epoch=1,eta=12h56m]
+    throughput/device/MFU=487.7
+    throughput/device/MFU (actual avg)=526.5
+    throughput/device/TPS=8,192
+    throughput/device/TPS (actual avg)=8,844
+2026-02-25 19:25:29.654	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=120/3252,epoch=1,eta=12h54m]
+    throughput/device/MFU=553.8
+    throughput/device/MFU (actual avg)=526.5
+    throughput/device/TPS=9,302
+    throughput/device/TPS (actual avg)=8,843
+2026-02-25 19:27:58.397	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=130/3252,epoch=1,eta=12h52m]
+    throughput/device/MFU=516.4
+    throughput/device/MFU (actual avg)=526.3
+    throughput/device/TPS=8,675
+    throughput/device/TPS (actual avg)=8,841
+2026-02-25 19:30:29.871	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=140/3252,epoch=1,eta=12h50m]
+    throughput/device/MFU=530.7
+    throughput/device/MFU (actual avg)=525.5
+    throughput/device/TPS=8,915
+    throughput/device/TPS (actual avg)=8,827
+2026-02-25 19:33:13.245	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=150/3252,epoch=1,eta=12h53m]
+    throughput/device/MFU=278.2
+    throughput/device/MFU (actual avg)=522.2
+    throughput/device/TPS=4,674
+    throughput/device/TPS (actual avg)=8,772
+2026-02-25 19:35:42.162	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=160/3252,epoch=1,eta=12h50m]
+    throughput/device/MFU=525.9
+    throughput/device/MFU (actual avg)=522.1
+    throughput/device/TPS=8,834
+    throughput/device/TPS (actual avg)=8,770
+2026-02-25 19:38:13.457	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=170/3252,epoch=1,eta=12h48m]
+    throughput/device/MFU=514.3
+    throughput/device/MFU (actual avg)=521.7
+    throughput/device/TPS=8,638
+    throughput/device/TPS (actual avg)=8,764
+2026-02-25 19:40:43.729	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=180/3252,epoch=1,eta=12h46m]
+    throughput/device/MFU=514.8
+    throughput/device/MFU (actual avg)=521.6
+    throughput/device/TPS=8,647
+    throughput/device/TPS (actual avg)=8,761
+2026-02-25 19:43:14.592	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=190/3252,epoch=1,eta=12h44m]
+    throughput/device/MFU=499.3
+    throughput/device/MFU (actual avg)=521.3
+    throughput/device/TPS=8,388
+    throughput/device/TPS (actual avg)=8,757
+2026-02-25 19:45:46.012	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=200/3252,epoch=1,eta=12h42m]
+    throughput/device/MFU=485.0
+    throughput/device/MFU (actual avg)=521.0
+    throughput/device/TPS=8,146
+    throughput/device/TPS (actual avg)=8,752
+2026-02-25 19:48:13.798	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=210/3252,epoch=1,eta=12h39m]
+    throughput/device/MFU=533.4
+    throughput/device/MFU (actual avg)=521.4
+    throughput/device/TPS=8,960
+    throughput/device/TPS (actual avg)=8,758
+2026-02-25 19:50:45.782	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=220/3252,epoch=1,eta=12h37m]
+    throughput/device/MFU=480.1
+    throughput/device/MFU (actual avg)=521.0
+    throughput/device/TPS=8,064
+    throughput/device/TPS (actual avg)=8,751
+2026-02-25 19:53:16.307	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=230/3252,epoch=1,eta=12h35m]
+    throughput/device/MFU=509.8
+    throughput/device/MFU (actual avg)=520.9
+    throughput/device/TPS=8,563
+    throughput/device/TPS (actual avg)=8,750
+2026-02-25 19:55:48.643	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=240/3252,epoch=1,eta=12h33m]
+    throughput/device/MFU=510.0
+    throughput/device/MFU (actual avg)=520.5
+    throughput/device/TPS=8,566
+    throughput/device/TPS (actual avg)=8,743
+2026-02-25 19:58:18.637	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=250/3252,epoch=1,eta=12h30m]
+    throughput/device/MFU=525.3
+    throughput/device/MFU (actual avg)=520.5
+    throughput/device/TPS=8,824
+    throughput/device/TPS (actual avg)=8,743
+2026-02-25 20:00:47.551	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=260/3252,epoch=1,eta=12h28m]
+    throughput/device/MFU=527.0
+    throughput/device/MFU (actual avg)=520.6
+    throughput/device/TPS=8,852
+    throughput/device/TPS (actual avg)=8,745
+2026-02-25 20:03:18.563	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=270/3252,epoch=1,eta=12h25m]
+    throughput/device/MFU=536.4
+    throughput/device/MFU (actual avg)=520.5
+    throughput/device/TPS=9,010
+    throughput/device/TPS (actual avg)=8,743
+2026-02-25 20:05:47.818	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=280/3252,epoch=1,eta=12h23m]
+    throughput/device/MFU=544.0
+    throughput/device/MFU (actual avg)=520.6
+    throughput/device/TPS=9,139
+    throughput/device/TPS (actual avg)=8,744
+2026-02-25 20:08:18.446	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=290/3252,epoch=1,eta=12h20m]
+    throughput/device/MFU=537.8
+    throughput/device/MFU (actual avg)=520.5
+    throughput/device/TPS=9,034
+    throughput/device/TPS (actual avg)=8,743
+2026-02-25 20:11:01.331	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=300/3252,epoch=1,eta=12h20m]
+    throughput/device/MFU=283.7
+    throughput/device/MFU (actual avg)=519.0
+    throughput/device/TPS=4,765
+    throughput/device/TPS (actual avg)=8,718
+2026-02-25 20:13:27.858	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=310/3252,epoch=1,eta=12h17m]
+    throughput/device/MFU=516.0
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=8,668
+    throughput/device/TPS (actual avg)=8,725
+2026-02-25 20:15:53.855	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=320/3252,epoch=1,eta=12h14m]
+    throughput/device/MFU=545.6
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=9,164
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 20:18:26.209	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=330/3252,epoch=1,eta=12h12m]
+    throughput/device/MFU=523.7
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,797
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 20:20:55.640	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=340/3252,epoch=1,eta=12h9m]
+    throughput/device/MFU=487.3
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,185
+    throughput/device/TPS (actual avg)=8,730
+2026-02-25 20:23:23.407	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=350/3252,epoch=1,eta=12h6m]
+    throughput/device/MFU=553.1
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=9,291
+    throughput/device/TPS (actual avg)=8,734
+2026-02-25 20:25:55.119	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=360/3252,epoch=1,eta=12h4m]
+    throughput/device/MFU=538.7
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,049
+    throughput/device/TPS (actual avg)=8,731
+2026-02-25 20:28:29.386	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=370/3252,epoch=1,eta=12h2m]
+    throughput/device/MFU=478.7
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=8,041
+    throughput/device/TPS (actual avg)=8,724
+2026-02-25 20:30:58.039	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=380/3252,epoch=1,eta=11h59m]
+    throughput/device/MFU=499.0
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,382
+    throughput/device/TPS (actual avg)=8,727
+2026-02-25 20:33:29.862	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=390/3252,epoch=1,eta=11h57m]
+    throughput/device/MFU=511.0
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=8,584
+    throughput/device/TPS (actual avg)=8,724
+2026-02-25 20:36:00.312	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=400/3252,epoch=1,eta=11h54m]
+    throughput/device/MFU=547.5
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=9,197
+    throughput/device/TPS (actual avg)=8,724
+2026-02-25 20:38:28.857	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=410/3252,epoch=1,eta=11h52m]
+    throughput/device/MFU=534.0
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,970
+    throughput/device/TPS (actual avg)=8,726
+2026-02-25 20:40:59.359	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=420/3252,epoch=1,eta=11h49m]
+    throughput/device/MFU=512.0
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,600
+    throughput/device/TPS (actual avg)=8,726
+2026-02-25 20:43:25.658	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=430/3252,epoch=1,eta=11h46m]
+    throughput/device/MFU=573.5
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,634
+    throughput/device/TPS (actual avg)=8,731
+2026-02-25 20:45:53.720	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=440/3252,epoch=1,eta=11h44m]
+    throughput/device/MFU=509.7
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,562
+    throughput/device/TPS (actual avg)=8,734
+2026-02-25 20:48:35.221	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=450/3252,epoch=1,eta=11h42m]
+    throughput/device/MFU=291.3
+    throughput/device/MFU (actual avg)=519.1
+    throughput/device/TPS=4,893
+    throughput/device/TPS (actual avg)=8,719
+2026-02-25 20:51:04.085	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=460/3252,epoch=1,eta=11h40m]
+    throughput/device/MFU=528.4
+    throughput/device/MFU (actual avg)=519.2
+    throughput/device/TPS=8,877
+    throughput/device/TPS (actual avg)=8,721
+2026-02-25 20:53:34.554	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=470/3252,epoch=1,eta=11h37m]
+    throughput/device/MFU=539.0
+    throughput/device/MFU (actual avg)=519.2
+    throughput/device/TPS=9,055
+    throughput/device/TPS (actual avg)=8,721
+2026-02-25 20:56:06.072	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=480/3252,epoch=1,eta=11h35m]
+    throughput/device/MFU=518.4
+    throughput/device/MFU (actual avg)=519.1
+    throughput/device/TPS=8,708
+    throughput/device/TPS (actual avg)=8,719
+2026-02-25 20:58:34.998	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=490/3252,epoch=1,eta=11h32m]
+    throughput/device/MFU=536.6
+    throughput/device/MFU (actual avg)=519.2
+    throughput/device/TPS=9,013
+    throughput/device/TPS (actual avg)=8,721
+2026-02-25 21:01:04.781	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=500/3252,epoch=1,eta=11h30m]
+    throughput/device/MFU=527.6
+    throughput/device/MFU (actual avg)=519.2
+    throughput/device/TPS=8,863
+    throughput/device/TPS (actual avg)=8,722
+2026-02-25 21:03:34.157	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=510/3252,epoch=1,eta=11h27m]
+    throughput/device/MFU=512.7
+    throughput/device/MFU (actual avg)=519.3
+    throughput/device/TPS=8,612
+    throughput/device/TPS (actual avg)=8,723
+2026-02-25 21:06:01.294	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=520/3252,epoch=1,eta=11h24m]
+    throughput/device/MFU=534.6
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,980
+    throughput/device/TPS (actual avg)=8,726
+2026-02-25 21:08:28.613	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=530/3252,epoch=1,eta=11h21m]
+    throughput/device/MFU=532.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,949
+    throughput/device/TPS (actual avg)=8,729
+2026-02-25 21:10:59.569	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=540/3252,epoch=1,eta=11h19m]
+    throughput/device/MFU=541.3
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,092
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 21:13:30.084	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=550/3252,epoch=1,eta=11h16m]
+    throughput/device/MFU=560.9
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,421
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 21:16:00.448	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=560/3252,epoch=1,eta=11h14m]
+    throughput/device/MFU=509.5
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,559
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 21:18:31.593	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=570/3252,epoch=1,eta=11h12m]
+    throughput/device/MFU=503.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,460
+    throughput/device/TPS (actual avg)=8,727
+2026-02-25 21:20:59.758	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=580/3252,epoch=1,eta=11h9m]
+    throughput/device/MFU=509.4
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,556
+    throughput/device/TPS (actual avg)=8,729
+2026-02-25 21:23:29.270	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=590/3252,epoch=1,eta=11h6m]
+    throughput/device/MFU=510.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,573
+    throughput/device/TPS (actual avg)=8,729
+2026-02-25 21:26:11.686	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=600/3252,epoch=1,eta=11h5m]
+    throughput/device/MFU=285.3
+    throughput/device/MFU (actual avg)=519.0
+    throughput/device/TPS=4,793
+    throughput/device/TPS (actual avg)=8,718
+2026-02-25 21:28:41.431	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=610/3252,epoch=1,eta=11h2m]
+    throughput/device/MFU=507.6
+    throughput/device/MFU (actual avg)=519.0
+    throughput/device/TPS=8,526
+    throughput/device/TPS (actual avg)=8,718
+2026-02-25 21:31:09.159	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=620/3252,epoch=1,eta=11h]
+    throughput/device/MFU=519.9
+    throughput/device/MFU (actual avg)=519.2
+    throughput/device/TPS=8,734
+    throughput/device/TPS (actual avg)=8,721
+2026-02-25 21:33:37.704	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=630/3252,epoch=1,eta=10h57m]
+    throughput/device/MFU=536.1
+    throughput/device/MFU (actual avg)=519.3
+    throughput/device/TPS=9,005
+    throughput/device/TPS (actual avg)=8,722
+2026-02-25 21:36:05.474	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=640/3252,epoch=1,eta=10h54m]
+    throughput/device/MFU=523.0
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=8,786
+    throughput/device/TPS (actual avg)=8,724
+2026-02-25 21:38:32.077	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=650/3252,epoch=1,eta=10h51m]
+    throughput/device/MFU=544.6
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,148
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 21:41:02.071	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=660/3252,epoch=1,eta=10h49m]
+    throughput/device/MFU=485.3
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,152
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 21:43:32.381	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=670/3252,epoch=1,eta=10h46m]
+    throughput/device/MFU=507.1
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,519
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 21:46:05.459	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=680/3252,epoch=1,eta=10h44m]
+    throughput/device/MFU=567.9
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=9,540
+    throughput/device/TPS (actual avg)=8,725
+2026-02-25 21:48:34.676	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=690/3252,epoch=1,eta=10h42m]
+    throughput/device/MFU=561.4
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,431
+    throughput/device/TPS (actual avg)=8,726
+2026-02-25 21:51:05.754	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=700/3252,epoch=1,eta=10h39m]
+    throughput/device/MFU=542.0
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=9,105
+    throughput/device/TPS (actual avg)=8,725
+2026-02-25 21:53:35.060	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=710/3252,epoch=1,eta=10h37m]
+    throughput/device/MFU=544.1
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,139
+    throughput/device/TPS (actual avg)=8,726
+2026-02-25 21:56:02.306	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=720/3252,epoch=1,eta=10h34m]
+    throughput/device/MFU=561.3
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,429
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 21:58:30.954	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=730/3252,epoch=1,eta=10h31m]
+    throughput/device/MFU=577.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,704
+    throughput/device/TPS (actual avg)=8,730
+2026-02-25 22:01:00.776	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=740/3252,epoch=1,eta=10h29m]
+    throughput/device/MFU=508.9
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,549
+    throughput/device/TPS (actual avg)=8,730
+2026-02-25 22:03:44.135	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=750/3252,epoch=1,eta=10h27m]
+    throughput/device/MFU=293.8
+    throughput/device/MFU (actual avg)=519.1
+    throughput/device/TPS=4,935
+    throughput/device/TPS (actual avg)=8,720
+2026-02-25 22:06:13.668	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=760/3252,epoch=1,eta=10h24m]
+    throughput/device/MFU=490.6
+    throughput/device/MFU (actual avg)=519.1
+    throughput/device/TPS=8,240
+    throughput/device/TPS (actual avg)=8,720
+2026-02-25 22:08:42.846	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=770/3252,epoch=1,eta=10h22m]
+    throughput/device/MFU=504.7
+    throughput/device/MFU (actual avg)=519.2
+    throughput/device/TPS=8,478
+    throughput/device/TPS (actual avg)=8,721
+2026-02-25 22:11:07.642	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=780/3252,epoch=1,eta=10h19m]
+    throughput/device/MFU=542.3
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=9,109
+    throughput/device/TPS (actual avg)=8,725
+2026-02-25 22:13:35.049	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=790/3252,epoch=1,eta=10h16m]
+    throughput/device/MFU=543.0
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,122
+    throughput/device/TPS (actual avg)=8,727
+2026-02-25 22:15:59.083	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=800/3252,epoch=1,eta=10h14m]
+    throughput/device/MFU=549.5
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,229
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 22:18:28.288	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=810/3252,epoch=1,eta=10h11m]
+    throughput/device/MFU=513.3
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,621
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 22:20:56.051	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=820/3252,epoch=1,eta=10h9m]
+    throughput/device/MFU=529.8
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,900
+    throughput/device/TPS (actual avg)=8,734
+2026-02-25 22:23:24.651	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=830/3252,epoch=1,eta=10h6m]
+    throughput/device/MFU=509.7
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,562
+    throughput/device/TPS (actual avg)=8,735
+2026-02-25 22:25:53.519	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=840/3252,epoch=1,eta=10h3m]
+    throughput/device/MFU=537.9
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=9,036
+    throughput/device/TPS (actual avg)=8,736
+2026-02-25 22:28:18.194	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=850/3252,epoch=1,eta=10h1m]
+    throughput/device/MFU=511.3
+    throughput/device/MFU (actual avg)=520.3
+    throughput/device/TPS=8,588
+    throughput/device/TPS (actual avg)=8,740
+2026-02-25 22:30:49.888	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=860/3252,epoch=1,eta=9h58m]
+    throughput/device/MFU=490.1
+    throughput/device/MFU (actual avg)=520.2
+    throughput/device/TPS=8,233
+    throughput/device/TPS (actual avg)=8,738
+2026-02-25 22:33:21.451	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=870/3252,epoch=1,eta=9h56m]
+    throughput/device/MFU=491.8
+    throughput/device/MFU (actual avg)=520.2
+    throughput/device/TPS=8,261
+    throughput/device/TPS (actual avg)=8,737
+2026-02-25 22:35:51.221	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=880/3252,epoch=1,eta=9h53m]
+    throughput/device/MFU=542.3
+    throughput/device/MFU (actual avg)=520.2
+    throughput/device/TPS=9,109
+    throughput/device/TPS (actual avg)=8,737
+2026-02-25 22:38:21.245	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=890/3252,epoch=1,eta=9h51m]
+    throughput/device/MFU=479.6
+    throughput/device/MFU (actual avg)=520.2
+    throughput/device/TPS=8,056
+    throughput/device/TPS (actual avg)=8,737
+2026-02-25 22:41:04.498	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=900/3252,epoch=1,eta=9h49m]
+    throughput/device/MFU=282.2
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=4,740
+    throughput/device/TPS (actual avg)=8,729
+2026-02-25 22:43:33.893	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=910/3252,epoch=1,eta=9h46m]
+    throughput/device/MFU=539.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,068
+    throughput/device/TPS (actual avg)=8,729
+2026-02-25 22:46:00.828	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=920/3252,epoch=1,eta=9h44m]
+    throughput/device/MFU=527.0
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,852
+    throughput/device/TPS (actual avg)=8,731
+2026-02-25 22:48:30.521	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=930/3252,epoch=1,eta=9h41m]
+    throughput/device/MFU=516.5
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,676
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 22:50:59.609	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=940/3252,epoch=1,eta=9h39m]
+    throughput/device/MFU=516.1
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,669
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 22:53:27.866	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=950/3252,epoch=1,eta=9h36m]
+    throughput/device/MFU=527.3
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,858
+    throughput/device/TPS (actual avg)=8,733
+2026-02-25 22:55:58.484	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=960/3252,epoch=1,eta=9h34m]
+    throughput/device/MFU=510.6
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,577
+    throughput/device/TPS (actual avg)=8,733
+2026-02-25 22:58:27.421	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=970/3252,epoch=1,eta=9h31m]
+    throughput/device/MFU=503.7
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,461
+    throughput/device/TPS (actual avg)=8,734
+2026-02-25 23:00:54.803	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=980/3252,epoch=1,eta=9h28m]
+    throughput/device/MFU=529.6
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,897
+    throughput/device/TPS (actual avg)=8,735
+2026-02-25 23:03:22.517	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=990/3252,epoch=1,eta=9h26m]
+    throughput/device/MFU=520.9
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=8,750
+    throughput/device/TPS (actual avg)=8,737
+2026-02-25 23:06:02.862	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1000/3252,epoch=1,eta=9h24m]
+    throughput/device/MFU=276.5
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=4,644
+    throughput/device/TPS (actual avg)=8,731
+2026-02-25 23:08:31.173	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1010/3252,epoch=1,eta=9h21m]
+    throughput/device/MFU=544.5
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,146
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 23:11:00.975	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1020/3252,epoch=1,eta=9h19m]
+    throughput/device/MFU=496.1
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,334
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 23:13:28.716	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1030/3252,epoch=1,eta=9h16m]
+    throughput/device/MFU=522.1
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,770
+    throughput/device/TPS (actual avg)=8,733
+2026-02-25 23:16:00.232	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1040/3252,epoch=1,eta=9h14m]
+    throughput/device/MFU=500.8
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,412
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 23:18:42.304	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1050/3252,epoch=1,eta=9h11m]
+    throughput/device/MFU=305.3
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=5,128
+    throughput/device/TPS (actual avg)=8,727
+2026-02-25 23:21:12.316	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1060/3252,epoch=1,eta=9h9m]
+    throughput/device/MFU=528.8
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,883
+    throughput/device/TPS (actual avg)=8,726
+2026-02-25 23:23:39.874	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1070/3252,epoch=1,eta=9h6m]
+    throughput/device/MFU=494.7
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,311
+    throughput/device/TPS (actual avg)=8,727
+2026-02-25 23:26:07.388	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1080/3252,epoch=1,eta=9h4m]
+    throughput/device/MFU=510.5
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,575
+    throughput/device/TPS (actual avg)=8,729
+2026-02-25 23:28:38.679	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1090/3252,epoch=1,eta=9h1m]
+    throughput/device/MFU=480.9
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,077
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 23:31:09.177	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1100/3252,epoch=1,eta=8h59m]
+    throughput/device/MFU=504.3
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,470
+    throughput/device/TPS (actual avg)=8,728
+2026-02-25 23:33:35.602	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1110/3252,epoch=1,eta=8h56m]
+    throughput/device/MFU=532.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,950
+    throughput/device/TPS (actual avg)=8,730
+2026-02-25 23:36:02.603	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1120/3252,epoch=1,eta=8h54m]
+    throughput/device/MFU=490.7
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,243
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 23:38:33.103	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1130/3252,epoch=1,eta=8h51m]
+    throughput/device/MFU=538.7
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,050
+    throughput/device/TPS (actual avg)=8,731
+2026-02-25 23:41:02.543	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1140/3252,epoch=1,eta=8h49m]
+    throughput/device/MFU=509.8
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,563
+    throughput/device/TPS (actual avg)=8,732
+2026-02-25 23:43:27.247	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1150/3252,epoch=1,eta=8h46m]
+    throughput/device/MFU=522.0
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,768
+    throughput/device/TPS (actual avg)=8,734
+2026-02-25 23:45:55.900	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1160/3252,epoch=1,eta=8h43m]
+    throughput/device/MFU=560.1
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=9,409
+    throughput/device/TPS (actual avg)=8,735
+2026-02-25 23:48:26.531	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1170/3252,epoch=1,eta=8h41m]
+    throughput/device/MFU=505.0
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,482
+    throughput/device/TPS (actual avg)=8,735
+2026-02-25 23:50:55.964	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1180/3252,epoch=1,eta=8h38m]
+    throughput/device/MFU=502.0
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,432
+    throughput/device/TPS (actual avg)=8,735
+2026-02-25 23:53:25.057	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1190/3252,epoch=1,eta=8h36m]
+    throughput/device/MFU=546.9
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=9,187
+    throughput/device/TPS (actual avg)=8,736
+2026-02-25 23:56:05.978	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1200/3252,epoch=1,eta=8h34m]
+    throughput/device/MFU=289.9
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=4,869
+    throughput/device/TPS (actual avg)=8,731
+2026-02-25 23:58:36.889	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1210/3252,epoch=1,eta=8h31m]
+    throughput/device/MFU=488.6
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,207
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 00:01:07.173	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1220/3252,epoch=1,eta=8h29m]
+    throughput/device/MFU=563.9
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,473
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 00:03:37.944	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1230/3252,epoch=1,eta=8h26m]
+    throughput/device/MFU=522.3
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,774
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 00:06:11.462	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1240/3252,epoch=1,eta=8h24m]
+    throughput/device/MFU=487.0
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,180
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 00:08:41.594	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1250/3252,epoch=1,eta=8h21m]
+    throughput/device/MFU=487.0
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,180
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 00:11:07.834	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1260/3252,epoch=1,eta=8h19m]
+    throughput/device/MFU=515.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,664
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 00:13:32.511	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1270/3252,epoch=1,eta=8h16m]
+    throughput/device/MFU=526.2
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,839
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 00:15:58.783	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1280/3252,epoch=1,eta=8h13m]
+    throughput/device/MFU=543.9
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=9,136
+    throughput/device/TPS (actual avg)=8,734
+2026-02-26 00:18:28.258	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1290/3252,epoch=1,eta=8h11m]
+    throughput/device/MFU=483.3
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,118
+    throughput/device/TPS (actual avg)=8,734
+2026-02-26 00:20:59.419	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1300/3252,epoch=1,eta=8h8m]
+    throughput/device/MFU=479.6
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,055
+    throughput/device/TPS (actual avg)=8,734
+2026-02-26 00:23:31.714	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1310/3252,epoch=1,eta=8h6m]
+    throughput/device/MFU=505.5
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,491
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 00:26:00.844	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1320/3252,epoch=1,eta=8h3m]
+    throughput/device/MFU=507.9
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,532
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 00:28:30.152	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1330/3252,epoch=1,eta=8h1m]
+    throughput/device/MFU=519.5
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,727
+    throughput/device/TPS (actual avg)=8,734
+2026-02-26 00:30:55.759	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1340/3252,epoch=1,eta=7h58m]
+    throughput/device/MFU=557.0
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=9,357
+    throughput/device/TPS (actual avg)=8,736
+2026-02-26 00:33:37.210	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1350/3252,epoch=1,eta=7h56m]
+    throughput/device/MFU=286.3
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=4,809
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 00:36:05.571	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1360/3252,epoch=1,eta=7h54m]
+    throughput/device/MFU=532.4
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,943
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 00:38:37.596	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1370/3252,epoch=1,eta=7h51m]
+    throughput/device/MFU=537.8
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,033
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 00:41:10.146	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1380/3252,epoch=1,eta=7h49m]
+    throughput/device/MFU=504.0
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,466
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 00:43:35.039	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1390/3252,epoch=1,eta=7h46m]
+    throughput/device/MFU=568.8
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,554
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 00:46:03.868	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1400/3252,epoch=1,eta=7h44m]
+    throughput/device/MFU=488.2
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,200
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 00:48:29.096	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1410/3252,epoch=1,eta=7h41m]
+    throughput/device/MFU=514.9
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,649
+    throughput/device/TPS (actual avg)=8,734
+2026-02-26 00:51:01.431	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1420/3252,epoch=1,eta=7h38m]
+    throughput/device/MFU=522.5
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,777
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 00:53:31.571	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1430/3252,epoch=1,eta=7h36m]
+    throughput/device/MFU=516.3
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,673
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 00:55:58.134	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1440/3252,epoch=1,eta=7h33m]
+    throughput/device/MFU=533.8
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,967
+    throughput/device/TPS (actual avg)=8,735
+2026-02-26 00:58:30.055	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1450/3252,epoch=1,eta=7h31m]
+    throughput/device/MFU=507.3
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,522
+    throughput/device/TPS (actual avg)=8,734
+2026-02-26 01:00:55.972	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1460/3252,epoch=1,eta=7h28m]
+    throughput/device/MFU=548.0
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=9,205
+    throughput/device/TPS (actual avg)=8,736
+2026-02-26 01:03:24.435	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1470/3252,epoch=1,eta=7h26m]
+    throughput/device/MFU=514.2
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=8,638
+    throughput/device/TPS (actual avg)=8,736
+2026-02-26 01:05:52.104	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1480/3252,epoch=1,eta=7h23m]
+    throughput/device/MFU=514.7
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=8,646
+    throughput/device/TPS (actual avg)=8,737
+2026-02-26 01:08:21.305	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1490/3252,epoch=1,eta=7h21m]
+    throughput/device/MFU=523.8
+    throughput/device/MFU (actual avg)=520.2
+    throughput/device/TPS=8,798
+    throughput/device/TPS (actual avg)=8,738
+2026-02-26 01:11:04.994	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1500/3252,epoch=1,eta=7h19m]
+    throughput/device/MFU=282.1
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=4,738
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 01:13:36.670	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1510/3252,epoch=1,eta=7h16m]
+    throughput/device/MFU=508.6
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,544
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 01:16:05.533	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1520/3252,epoch=1,eta=7h14m]
+    throughput/device/MFU=515.6
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,662
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 01:18:33.602	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1530/3252,epoch=1,eta=7h11m]
+    throughput/device/MFU=559.8
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=9,404
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 01:21:01.014	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1540/3252,epoch=1,eta=7h8m]
+    throughput/device/MFU=503.2
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,453
+    throughput/device/TPS (actual avg)=8,734
+2026-02-26 01:23:28.410	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1550/3252,epoch=1,eta=7h6m]
+    throughput/device/MFU=538.8
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=9,050
+    throughput/device/TPS (actual avg)=8,735
+2026-02-26 01:25:59.142	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1560/3252,epoch=1,eta=7h3m]
+    throughput/device/MFU=502.9
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,448
+    throughput/device/TPS (actual avg)=8,735
+2026-02-26 01:28:29.460	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1570/3252,epoch=1,eta=7h1m]
+    throughput/device/MFU=509.7
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,561
+    throughput/device/TPS (actual avg)=8,734
+2026-02-26 01:30:56.340	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1580/3252,epoch=1,eta=6h58m]
+    throughput/device/MFU=559.3
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=9,395
+    throughput/device/TPS (actual avg)=8,736
+2026-02-26 01:33:25.206	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1590/3252,epoch=1,eta=6h56m]
+    throughput/device/MFU=504.3
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=8,471
+    throughput/device/TPS (actual avg)=8,736
+2026-02-26 01:35:55.891	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1600/3252,epoch=1,eta=6h53m]
+    throughput/device/MFU=511.6
+    throughput/device/MFU (actual avg)=520.1
+    throughput/device/TPS=8,594
+    throughput/device/TPS (actual avg)=8,736
+2026-02-26 01:38:27.639	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1610/3252,epoch=1,eta=6h51m]
+    throughput/device/MFU=489.3
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,220
+    throughput/device/TPS (actual avg)=8,735
+2026-02-26 01:40:58.341	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1620/3252,epoch=1,eta=6h48m]
+    throughput/device/MFU=514.3
+    throughput/device/MFU (actual avg)=520.0
+    throughput/device/TPS=8,639
+    throughput/device/TPS (actual avg)=8,735
+2026-02-26 01:43:51.676	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1630/3252,epoch=2,eta=6h46m]
+    throughput/device/MFU=526.0
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,835
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 01:46:20.910	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1640/3252,epoch=2,eta=6h44m]
+    throughput/device/MFU=537.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,032
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 01:49:01.209	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1650/3252,epoch=2,eta=6h41m]
+    throughput/device/MFU=283.9
+    throughput/device/MFU (actual avg)=519.3
+    throughput/device/TPS=4,769
+    throughput/device/TPS (actual avg)=8,723
+2026-02-26 01:51:26.664	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1660/3252,epoch=2,eta=6h39m]
+    throughput/device/MFU=550.8
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=9,252
+    throughput/device/TPS (actual avg)=8,725
+2026-02-26 01:53:55.044	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1670/3252,epoch=2,eta=6h36m]
+    throughput/device/MFU=519.1
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,720
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 01:56:26.216	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1680/3252,epoch=2,eta=6h34m]
+    throughput/device/MFU=541.4
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=9,094
+    throughput/device/TPS (actual avg)=8,725
+2026-02-26 01:58:56.303	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1690/3252,epoch=2,eta=6h31m]
+    throughput/device/MFU=543.4
+    throughput/device/MFU (actual avg)=519.4
+    throughput/device/TPS=9,128
+    throughput/device/TPS (actual avg)=8,725
+2026-02-26 02:01:22.151	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1700/3252,epoch=2,eta=6h29m]
+    throughput/device/MFU=545.2
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,158
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 02:03:53.124	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1710/3252,epoch=2,eta=6h26m]
+    throughput/device/MFU=513.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,628
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 02:06:21.359	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1720/3252,epoch=2,eta=6h24m]
+    throughput/device/MFU=525.3
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,825
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 02:08:49.300	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1730/3252,epoch=2,eta=6h21m]
+    throughput/device/MFU=546.1
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,173
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 02:11:18.242	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1740/3252,epoch=2,eta=6h19m]
+    throughput/device/MFU=523.2
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,788
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 02:13:45.336	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1750/3252,epoch=2,eta=6h16m]
+    throughput/device/MFU=552.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,285
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 02:16:13.831	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1760/3252,epoch=2,eta=6h14m]
+    throughput/device/MFU=506.9
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,514
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 02:18:41.512	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1770/3252,epoch=2,eta=6h11m]
+    throughput/device/MFU=523.4
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,792
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 02:21:12.954	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1780/3252,epoch=2,eta=6h9m]
+    throughput/device/MFU=561.5
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,432
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 02:23:42.306	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1790/3252,epoch=2,eta=6h6m]
+    throughput/device/MFU=507.2
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,520
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 02:26:25.673	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1800/3252,epoch=2,eta=6h4m]
+    throughput/device/MFU=286.5
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=4,812
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 02:28:54.011	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1810/3252,epoch=2,eta=6h1m]
+    throughput/device/MFU=548.6
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,216
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 02:31:25.289	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1820/3252,epoch=2,eta=5h59m]
+    throughput/device/MFU=514.0
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,634
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 02:33:53.474	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1830/3252,epoch=2,eta=5h56m]
+    throughput/device/MFU=533.9
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,969
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 02:36:23.612	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1840/3252,epoch=2,eta=5h54m]
+    throughput/device/MFU=524.2
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,805
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 02:38:57.314	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1850/3252,epoch=2,eta=5h51m]
+    throughput/device/MFU=527.5
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,860
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 02:41:23.287	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1860/3252,epoch=2,eta=5h49m]
+    throughput/device/MFU=505.0
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,483
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 02:43:50.908	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1870/3252,epoch=2,eta=5h46m]
+    throughput/device/MFU=543.4
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,128
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 02:46:16.987	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1880/3252,epoch=2,eta=5h44m]
+    throughput/device/MFU=528.6
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,879
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 02:48:47.651	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1890/3252,epoch=2,eta=5h41m]
+    throughput/device/MFU=538.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,049
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 02:51:18.543	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1900/3252,epoch=2,eta=5h39m]
+    throughput/device/MFU=522.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,779
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 02:53:46.876	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1910/3252,epoch=2,eta=5h36m]
+    throughput/device/MFU=536.5
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,012
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 02:56:15.403	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1920/3252,epoch=2,eta=5h34m]
+    throughput/device/MFU=504.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,478
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 02:58:44.811	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1930/3252,epoch=2,eta=5h31m]
+    throughput/device/MFU=509.6
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,560
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 03:01:14.904	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1940/3252,epoch=2,eta=5h29m]
+    throughput/device/MFU=527.9
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,867
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 03:03:54.332	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1950/3252,epoch=2,eta=5h26m]
+    throughput/device/MFU=295.7
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=4,966
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 03:06:23.754	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1960/3252,epoch=2,eta=5h24m]
+    throughput/device/MFU=511.3
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,589
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 03:08:55.522	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1970/3252,epoch=2,eta=5h21m]
+    throughput/device/MFU=528.9
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,884
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 03:11:23.269	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1980/3252,epoch=2,eta=5h19m]
+    throughput/device/MFU=527.8
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,866
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 03:13:54.071	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=1990/3252,epoch=2,eta=5h16m]
+    throughput/device/MFU=520.6
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,745
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 03:16:33.719	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2000/3252,epoch=2,eta=5h14m]
+    throughput/device/MFU=317.3
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=5,330
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 03:19:02.118	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2010/3252,epoch=2,eta=5h11m]
+    throughput/device/MFU=530.1
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,904
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 03:21:32.412	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2020/3252,epoch=2,eta=5h9m]
+    throughput/device/MFU=492.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,276
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 03:24:01.634	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2030/3252,epoch=2,eta=5h6m]
+    throughput/device/MFU=502.9
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,447
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 03:26:33.046	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2040/3252,epoch=2,eta=5h4m]
+    throughput/device/MFU=576.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,688
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 03:28:59.859	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2050/3252,epoch=2,eta=5h1m]
+    throughput/device/MFU=531.3
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,925
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 03:31:27.925	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2060/3252,epoch=2,eta=4h59m]
+    throughput/device/MFU=541.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,099
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 03:33:53.630	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2070/3252,epoch=2,eta=4h56m]
+    throughput/device/MFU=558.1
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,374
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 03:36:22.398	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2080/3252,epoch=2,eta=4h54m]
+    throughput/device/MFU=523.9
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,800
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 03:38:50.211	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2090/3252,epoch=2,eta=4h51m]
+    throughput/device/MFU=533.9
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,968
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 03:41:29.505	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2100/3252,epoch=2,eta=4h49m]
+    throughput/device/MFU=302.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=5,085
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 03:43:57.148	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2110/3252,epoch=2,eta=4h46m]
+    throughput/device/MFU=555.0
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,323
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 03:46:24.811	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2120/3252,epoch=2,eta=4h44m]
+    throughput/device/MFU=544.0
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,139
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 03:48:53.996	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2130/3252,epoch=2,eta=4h41m]
+    throughput/device/MFU=544.3
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,143
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 03:51:22.387	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2140/3252,epoch=2,eta=4h39m]
+    throughput/device/MFU=545.5
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,162
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 03:53:51.286	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2150/3252,epoch=2,eta=4h36m]
+    throughput/device/MFU=545.3
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,160
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 03:56:19.022	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2160/3252,epoch=2,eta=4h33m]
+    throughput/device/MFU=514.2
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,637
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 03:58:49.608	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2170/3252,epoch=2,eta=4h31m]
+    throughput/device/MFU=521.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,764
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:01:18.882	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2180/3252,epoch=2,eta=4h28m]
+    throughput/device/MFU=522.2
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,772
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:03:48.013	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2190/3252,epoch=2,eta=4h26m]
+    throughput/device/MFU=517.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,696
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:06:17.699	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2200/3252,epoch=2,eta=4h23m]
+    throughput/device/MFU=539.1
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,056
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 04:08:50.435	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2210/3252,epoch=2,eta=4h21m]
+    throughput/device/MFU=492.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,271
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:11:18.419	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2220/3252,epoch=2,eta=4h18m]
+    throughput/device/MFU=505.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,496
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:13:42.739	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2230/3252,epoch=2,eta=4h16m]
+    throughput/device/MFU=526.0
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,835
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 04:16:12.726	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2240/3252,epoch=2,eta=4h13m]
+    throughput/device/MFU=523.2
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,788
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 04:18:54.705	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2250/3252,epoch=2,eta=4h11m]
+    throughput/device/MFU=283.3
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=4,759
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 04:21:22.676	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2260/3252,epoch=2,eta=4h8m]
+    throughput/device/MFU=520.9
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,751
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 04:23:51.539	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2270/3252,epoch=2,eta=4h6m]
+    throughput/device/MFU=563.3
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,462
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:26:21.707	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2280/3252,epoch=2,eta=4h3m]
+    throughput/device/MFU=502.2
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,435
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:28:51.596	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2290/3252,epoch=2,eta=4h1m]
+    throughput/device/MFU=534.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,977
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:31:17.346	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2300/3252,epoch=2,eta=3h58m]
+    throughput/device/MFU=532.8
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,950
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 04:33:48.511	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2310/3252,epoch=2,eta=3h56m]
+    throughput/device/MFU=521.7
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,763
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 04:36:23.397	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2320/3252,epoch=2,eta=3h53m]
+    throughput/device/MFU=481.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,093
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 04:38:53.007	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2330/3252,epoch=2,eta=3h51m]
+    throughput/device/MFU=527.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,866
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 04:41:25.173	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2340/3252,epoch=2,eta=3h48m]
+    throughput/device/MFU=514.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,641
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 04:43:56.506	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2350/3252,epoch=2,eta=3h46m]
+    throughput/device/MFU=519.8
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,731
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 04:46:26.130	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2360/3252,epoch=2,eta=3h43m]
+    throughput/device/MFU=543.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,135
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 04:48:56.643	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2370/3252,epoch=2,eta=3h41m]
+    throughput/device/MFU=531.8
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,933
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 04:51:26.288	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2380/3252,epoch=2,eta=3h38m]
+    throughput/device/MFU=528.0
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,870
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 04:54:00.687	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2390/3252,epoch=2,eta=3h36m]
+    throughput/device/MFU=509.8
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,564
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 04:56:40.227	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2400/3252,epoch=2,eta=3h34m]
+    throughput/device/MFU=289.4
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=4,860
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 04:59:09.207	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2410/3252,epoch=2,eta=3h31m]
+    throughput/device/MFU=539.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,066
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 05:01:38.611	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2420/3252,epoch=2,eta=3h29m]
+    throughput/device/MFU=531.7
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,931
+    throughput/device/TPS (actual avg)=8,726
+2026-02-26 05:04:06.134	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2430/3252,epoch=2,eta=3h26m]
+    throughput/device/MFU=542.5
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=9,113
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 05:06:34.882	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2440/3252,epoch=2,eta=3h23m]
+    throughput/device/MFU=518.6
+    throughput/device/MFU (actual avg)=519.5
+    throughput/device/TPS=8,711
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 05:09:04.811	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2450/3252,epoch=2,eta=3h21m]
+    throughput/device/MFU=503.8
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,462
+    throughput/device/TPS (actual avg)=8,727
+2026-02-26 05:11:33.615	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2460/3252,epoch=2,eta=3h18m]
+    throughput/device/MFU=572.1
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=9,609
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 05:14:03.210	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2470/3252,epoch=2,eta=3h16m]
+    throughput/device/MFU=525.3
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,824
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 05:16:31.847	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2480/3252,epoch=2,eta=3h13m]
+    throughput/device/MFU=533.6
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,963
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 05:18:57.128	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2490/3252,epoch=2,eta=3h11m]
+    throughput/device/MFU=523.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,796
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 05:21:27.012	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2500/3252,epoch=2,eta=3h8m]
+    throughput/device/MFU=520.6
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,744
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 05:23:56.931	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2510/3252,epoch=2,eta=3h6m]
+    throughput/device/MFU=532.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,943
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 05:26:24.589	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2520/3252,epoch=2,eta=3h3m]
+    throughput/device/MFU=525.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,832
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 05:28:55.566	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2530/3252,epoch=2,eta=3h1m]
+    throughput/device/MFU=530.5
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,911
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 05:31:24.375	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2540/3252,epoch=2,eta=2h58m]
+    throughput/device/MFU=525.5
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,828
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 05:34:02.889	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2550/3252,epoch=2,eta=2h56m]
+    throughput/device/MFU=283.9
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=4,768
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 05:36:31.656	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2560/3252,epoch=2,eta=2h53m]
+    throughput/device/MFU=516.0
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,667
+    throughput/device/TPS (actual avg)=8,728
+2026-02-26 05:38:55.452	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2570/3252,epoch=2,eta=2h51m]
+    throughput/device/MFU=525.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,826
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 05:41:21.771	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2580/3252,epoch=2,eta=2h48m]
+    throughput/device/MFU=551.2
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,258
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 05:43:50.749	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2590/3252,epoch=2,eta=2h46m]
+    throughput/device/MFU=560.0
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,407
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 05:46:24.702	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2600/3252,epoch=2,eta=2h43m]
+    throughput/device/MFU=488.9
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,213
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 05:48:52.179	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2610/3252,epoch=2,eta=2h41m]
+    throughput/device/MFU=560.9
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,421
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 05:51:26.262	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2620/3252,epoch=2,eta=2h38m]
+    throughput/device/MFU=484.1
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,131
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 05:53:52.325	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2630/3252,epoch=2,eta=2h36m]
+    throughput/device/MFU=562.6
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,450
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 05:56:20.597	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2640/3252,epoch=2,eta=2h33m]
+    throughput/device/MFU=512.0
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,600
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 05:58:49.594	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2650/3252,epoch=2,eta=2h31m]
+    throughput/device/MFU=515.9
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,666
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 06:01:19.470	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2660/3252,epoch=2,eta=2h28m]
+    throughput/device/MFU=547.4
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,196
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 06:03:46.249	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2670/3252,epoch=2,eta=2h26m]
+    throughput/device/MFU=522.1
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,770
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:06:13.453	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2680/3252,epoch=2,eta=2h23m]
+    throughput/device/MFU=557.4
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=9,363
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 06:08:42.672	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2690/3252,epoch=2,eta=2h21m]
+    throughput/device/MFU=522.9
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,783
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 06:11:24.553	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2700/3252,epoch=2,eta=2h18m]
+    throughput/device/MFU=293.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=4,927
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 06:13:52.887	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2710/3252,epoch=2,eta=2h16m]
+    throughput/device/MFU=524.3
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,807
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 06:16:19.015	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2720/3252,epoch=2,eta=2h13m]
+    throughput/device/MFU=549.4
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,228
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:18:50.705	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2730/3252,epoch=2,eta=2h11m]
+    throughput/device/MFU=510.6
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,578
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 06:21:22.493	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2740/3252,epoch=2,eta=2h8m]
+    throughput/device/MFU=543.3
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,127
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 06:23:49.620	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2750/3252,epoch=2,eta=2h6m]
+    throughput/device/MFU=511.5
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,591
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:26:17.533	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2760/3252,epoch=2,eta=2h3m]
+    throughput/device/MFU=502.1
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,435
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:28:45.604	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2770/3252,epoch=2,eta=2h1m]
+    throughput/device/MFU=553.9
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=9,304
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:31:15.490	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2780/3252,epoch=2,eta=1h58m]
+    throughput/device/MFU=511.4
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,591
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:33:47.163	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2790/3252,epoch=2,eta=1h56m]
+    throughput/device/MFU=555.3
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,328
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:36:15.187	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2800/3252,epoch=2,eta=1h53m]
+    throughput/device/MFU=492.5
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,274
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 06:38:46.618	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2810/3252,epoch=2,eta=1h51m]
+    throughput/device/MFU=540.0
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=9,070
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:41:17.181	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2820/3252,epoch=2,eta=1h48m]
+    throughput/device/MFU=496.8
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,345
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:43:43.799	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2830/3252,epoch=2,eta=1h46m]
+    throughput/device/MFU=532.3
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,942
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 06:46:14.571	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2840/3252,epoch=2,eta=1h43m]
+    throughput/device/MFU=527.7
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,864
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 06:48:54.165	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2850/3252,epoch=2,eta=1h41m]
+    throughput/device/MFU=294.5
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=4,947
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 06:51:21.249	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2860/3252,epoch=2,eta=1h38m]
+    throughput/device/MFU=557.3
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,361
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 06:53:49.442	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2870/3252,epoch=2,eta=1h36m]
+    throughput/device/MFU=489.9
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,230
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:56:20.153	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2880/3252,epoch=2,eta=1h33m]
+    throughput/device/MFU=496.9
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,347
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 06:58:47.819	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2890/3252,epoch=2,eta=1h31m]
+    throughput/device/MFU=527.6
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,862
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:01:14.639	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2900/3252,epoch=2,eta=1h28m]
+    throughput/device/MFU=534.1
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,971
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 07:03:45.531	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2910/3252,epoch=2,eta=1h26m]
+    throughput/device/MFU=529.1
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,888
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 07:06:16.986	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2920/3252,epoch=2,eta=1h23m]
+    throughput/device/MFU=502.1
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,434
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:08:44.673	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2930/3252,epoch=2,eta=1h21m]
+    throughput/device/MFU=555.6
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=9,333
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 07:11:13.832	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2940/3252,epoch=2,eta=1h18m]
+    throughput/device/MFU=528.2
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,873
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 07:13:45.741	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2950/3252,epoch=2,eta=1h16m]
+    throughput/device/MFU=504.3
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,471
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 07:16:17.385	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2960/3252,epoch=2,eta=1h13m]
+    throughput/device/MFU=479.8
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,060
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:18:45.970	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2970/3252,epoch=2,eta=1h11m]
+    throughput/device/MFU=495.4
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,322
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 07:21:12.917	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2980/3252,epoch=2,eta=1h8m]
+    throughput/device/MFU=547.1
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=9,191
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 07:23:43.541	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=2990/3252,epoch=2,eta=1h6m]
+    throughput/device/MFU=534.3
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,974
+    throughput/device/TPS (actual avg)=8,733
+2026-02-26 07:26:28.029	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3000/3252,epoch=2,eta=1h3m]
+    throughput/device/MFU=280.8
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=4,716
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 07:28:53.929	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3010/3252,epoch=2,eta=1h1m]
+    throughput/device/MFU=522.1
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,771
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 07:31:22.204	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3020/3252,epoch=2,eta=58m]
+    throughput/device/MFU=551.5
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,264
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:33:51.549	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3030/3252,epoch=2,eta=56m]
+    throughput/device/MFU=514.3
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,640
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:36:21.763	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3040/3252,epoch=2,eta=53m]
+    throughput/device/MFU=511.3
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,589
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:38:53.385	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3050/3252,epoch=2,eta=51m]
+    throughput/device/MFU=516.3
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,673
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 07:41:22.837	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3060/3252,epoch=2,eta=48m]
+    throughput/device/MFU=517.7
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,696
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:43:50.502	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3070/3252,epoch=2,eta=46m]
+    throughput/device/MFU=576.1
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,677
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:46:19.605	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3080/3252,epoch=2,eta=43m]
+    throughput/device/MFU=541.7
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,099
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:48:49.324	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3090/3252,epoch=2,eta=41m]
+    throughput/device/MFU=516.9
+    throughput/device/MFU (actual avg)=519.9
+    throughput/device/TPS=8,683
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:51:22.997	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3100/3252,epoch=2,eta=38m]
+    throughput/device/MFU=512.4
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,608
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:53:55.745	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3110/3252,epoch=2,eta=36m]
+    throughput/device/MFU=475.0
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=7,978
+    throughput/device/TPS (actual avg)=8,731
+2026-02-26 07:56:22.577	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3120/3252,epoch=2,eta=33m]
+    throughput/device/MFU=533.1
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,955
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 07:58:52.486	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3130/3252,epoch=2,eta=31m]
+    throughput/device/MFU=522.7
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=8,779
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 08:01:23.036	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3140/3252,epoch=2,eta=28m]
+    throughput/device/MFU=542.4
+    throughput/device/MFU (actual avg)=519.8
+    throughput/device/TPS=9,111
+    throughput/device/TPS (actual avg)=8,732
+2026-02-26 08:04:08.115	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3150/3252,epoch=2,eta=26m]
+    throughput/device/MFU=288.5
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=4,845
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 08:06:38.655	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3160/3252,epoch=2,eta=23m]
+    throughput/device/MFU=531.4
+    throughput/device/MFU (actual avg)=519.6
+    throughput/device/TPS=8,927
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 08:09:05.597	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3170/3252,epoch=2,eta=21m]
+    throughput/device/MFU=506.7
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,512
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 08:11:33.918	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3180/3252,epoch=2,eta=18m]
+    throughput/device/MFU=521.0
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,752
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 08:14:05.931	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3190/3252,epoch=2,eta=16m]
+    throughput/device/MFU=515.0
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,651
+    throughput/device/TPS (actual avg)=8,729
+2026-02-26 08:16:33.189	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3200/3252,epoch=2,eta=13m]
+    throughput/device/MFU=493.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,288
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 08:19:02.219	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3210/3252,epoch=2,eta=11m]
+    throughput/device/MFU=500.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,406
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 08:21:35.048	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3220/3252,epoch=2,eta=8m]
+    throughput/device/MFU=525.4
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,825
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 08:24:03.771	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3230/3252,epoch=2,eta=6m]
+    throughput/device/MFU=479.2
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,049
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 08:26:34.861	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3240/3252,epoch=2,eta=3m]
+    throughput/device/MFU=505.6
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=8,493
+    throughput/device/TPS (actual avg)=8,730
+2026-02-26 08:29:01.817	hkn1952.localdomain:0	olmo_core.train.callbacks.console_logger:67	INFO	[step=3250/3252,epoch=2,eta=1m]
+    throughput/device/MFU=546.0
+    throughput/device/MFU (actual avg)=519.7
+    throughput/device/TPS=9,171
+    throughput/device/TPS (actual avg)=8,730
+H>
