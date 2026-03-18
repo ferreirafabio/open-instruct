@@ -263,16 +263,24 @@ def main():
         return steps[mask], {k: v[mask] for k, v in data.items()}
 
     def rolling_stats(values, window=50):
-        """Compute rolling median with 10th-90th percentile band."""
-        from numpy.lib.stride_tricks import sliding_window_view
-        if len(values) < window:
-            window = max(1, len(values) // 3)
-        pad = window // 2
-        padded = np.pad(values, (pad, window - 1 - pad), mode='edge')
-        windows = sliding_window_view(padded, window)
-        median = np.median(windows, axis=1)
-        p10 = np.percentile(windows, 10, axis=1)
-        p90 = np.percentile(windows, 90, axis=1)
+        """Compute rolling median with 10th-90th percentile band.
+
+        Uses adaptive window at edges to avoid padding artifacts.
+        """
+        n = len(values)
+        if n < window:
+            window = max(1, n // 3)
+        half = window // 2
+        median = np.empty(n)
+        p10 = np.empty(n)
+        p90 = np.empty(n)
+        for i in range(n):
+            lo = max(0, i - half)
+            hi = min(n, i + half + 1)
+            chunk = values[lo:hi]
+            median[i] = np.median(chunk)
+            p10[i] = np.percentile(chunk, 10)
+            p90[i] = np.percentile(chunk, 90)
         return median, p10, p90
 
     # Split Think v2 into kislurm and HoreKa segments for color-coding.
