@@ -531,9 +531,9 @@ Throughput metrics for the v2 production runs (used for all evaluations above). 
 
 ### Throughput Plots
 
-![TPS over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_tps.png?v=3)
+![TPS over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_tps.png?v=4)
 
-![MFU over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_mfu.png?v=3)
+![MFU over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_mfu.png?v=4)
 
 ### MFU Calculation
 
