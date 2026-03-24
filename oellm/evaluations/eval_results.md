@@ -481,7 +481,7 @@ Throughput metrics for the v2 production runs (used for all evaluations above). 
 
 **Metric definitions:**
 - **TPS (Tokens Per Second)**: Number of tokens one GPU processes per second. Total cluster throughput = TPS/device × 8 GPUs.
-- **MFU (Model FLOPs Utilization)**: Percentage of the GPU's theoretical peak compute used for training (forward + backward FLOPs per the PaLM convention). 72% means 72% of the H200's 989.5 TFLOPS (BF16 dense) is doing useful matrix math; the rest is memory transfers, synchronization, and idle time.
+- **MFU (Model FLOPs Utilization)**: Percentage of the GPU's theoretical peak compute used for training (forward + backward FLOPs per the PaLM convention, corrected for sliding-window attention). See [MFU Calculation](#mfu-calculation) below for the full derivation.
 - **Wall-clock**: Total training compute time = `total_steps × avg_step_time`. Excludes SLURM queue waits and restart overhead.
 
 ### Hardware & Configuration
@@ -513,7 +513,7 @@ Throughput metrics for the v2 production runs (used for all evaluations above). 
 | Steps/hour | 212 | 240 |
 | Tokens/GPU-hour | 27.7M | 31.4M |
 | | | |
-| **MFU (H200 BF16 dense)** | **72.3%** | **81.9%** |
+| **MFU (H200 BF16 dense)** | **46.0%** | **52.1%** |
 | Data loading overhead | 0.15% | 0.15% |
 | | | |
 | GPU active memory | 110.5 GiB (79.0%) | 110.5 GiB (79.0%) |
@@ -531,7 +531,41 @@ Throughput metrics for the v2 production runs (used for all evaluations above). 
 
 ### Throughput Plots
 
-![TPS over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_tps.png?v=2)
+![TPS over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_tps.png?v=3)
 
-![MFU over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_mfu.png?v=2)
+![MFU over training steps](https://raw.githubusercontent.com/ferreirafabio/open-instruct/main/oellm/evaluations/figures/throughput_mfu.png?v=3)
+
+### MFU Calculation
+
+The MFU values are corrected from OLMo-core's wandb output, which has two bugs:
+
+**Bug 1 — Wrong GPU peak:** OLMo-core's `speed_monitor.py` has no `"H200"` case. Since `"NVIDIA H200"` doesn't match `"H100"`, it falls to the A100 default: `312e12 × 0.5 = 156 TFLOPS`. The correct H200 SXM BF16 dense peak is `1979 / 2 = 989.5 TFLOPS` ([NVIDIA spec](https://www.nvidia.com/en-us/data-center/h200/), [Megatron-LM #1565](https://github.com/NVIDIA/Megatron-LM/issues/1565)).
+
+**Bug 2 — Sliding-window attention not accounted for:** OLMo-core's `num_flops_per_token` formula treats all 32 layers as full attention. But OLMo-3-7B uses a `[sliding, sliding, sliding, full]` repeating pattern = **24 sliding-window layers (w=4,096) + 8 full-attention layers** (from `config.json` `layer_types`).
+
+**Corrected FLOPs per token:**
+
+```
+MFU = flops_per_token × TPS_per_device / peak_FLOPS_per_device          (PaLM, Appendix B)
+
+flops_per_token = 6 × N_non_embedding + attention_flops
+
+N_non_embedding   = 6,887,575,552                                       (training log 27036779)
+peak_FLOPS        = 989.5 × 10¹²                                       (H200 SXM BF16 dense)
+
+Dense matmul term:
+  6 × 6,887,575,552 = 41,325,453,312
+
+Attention term (corrected for sliding window):
+  Full-attention layers (8):   12 × 8  × 32 × 128 × 32,768 = 12,884,901,888
+  Sliding-window layers (24):  12 × 24 × 32 × 128 × 4,096  =  4,831,838,208
+  Total attention:                                           = 17,716,740,096
+
+Total flops_per_token = 41,325,453,312 + 17,716,740,096 = 59,042,193,408
+
+Think MFU    = 59,042,193,408 × 7,704  / 989.5 × 10¹² = 46.0%
+Instruct MFU = 59,042,193,408 × 8,731  / 989.5 × 10¹² = 52.1%
+```
+
+For comparison, OLMo-core's uncorrected formula (all full attention) gives `flops_per_token = 92,865,060,864`, which combined with the wrong A100 peak yields wandb values of ~460% — correcting only the peak gives 72%/82%, but correcting both gives the accurate **46%/52%**. Plotting code: [`plot_throughput.py`](../experiments/baseline_repro/scripts/plot_throughput.py).
 

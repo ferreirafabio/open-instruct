@@ -23,10 +23,30 @@ FIGURES.mkdir(exist_ok=True)
 EVAL_FIGURES = ROOT.parent.parent / "evaluations" / "figures"
 EVAL_FIGURES.mkdir(exist_ok=True)
 
-# MFU correction: OLMo-core used A100 peak (156 TFLOPS) instead of H200 (989.5 TFLOPS)
+# MFU correction: two bugs in OLMo-core's speed_monitor
+#
+# Bug 1: No H200 case → falls to A100 peak (156 TFLOPS) instead of H200 (989.5 TFLOPS)
+# Bug 2: num_flops_per_token assumes all 32 layers use full attention, but OLMo-3-7B
+#         has 24 sliding-window layers (w=4096) + 8 full-attention layers.
+#         This overcounts attention FLOPs: 51.5B vs 17.7B per token.
+#
+# Sources:
+#   - A100 fallback: training log "Device: NVIDIA H200, Device peak FLOPS: 156000000000000"
+#   - H200 BF16 dense: 1979 TFLOPS with sparsity / 2 = 989.5 TFLOPS (NVIDIA spec)
+#   - Layer types: models/baselines/Olmo-3-7B-Think-SFT/config.json (pattern=[4096,4096,4096,-1])
+#   - Non-embedding params: 6,887,575,552 (training log 27036779)
+
 A100_PEAK = 156e12
 H200_PEAK = 989.5e12
-MFU_CORRECTION = A100_PEAK / H200_PEAK
+
+# OLMo-core's uncorrected flops_per_token (all 32 layers full attention at seq_len=32768):
+#   6 * 6,887,575,552 + 12 * 32 * 32 * 128 * 32768 = 92,865,060,864
+# Corrected (24 sliding w=4096, 8 full at seq_len=32768):
+#   6 * 6,887,575,552 + 12*(8*32*128*32768 + 24*32*128*4096) = 59,042,193,408
+OLMO_CORE_FLOPS_PER_TOKEN = 92_865_060_864
+CORRECTED_FLOPS_PER_TOKEN = 59_042_193_408
+
+MFU_CORRECTION = (A100_PEAK / H200_PEAK) * (CORRECTED_FLOPS_PER_TOKEN / OLMO_CORE_FLOPS_PER_TOKEN)
 
 
 def _parse_single_log(text: str) -> dict:
@@ -353,7 +373,7 @@ def main():
     axes[0].set_ylabel('MFU (%)')
     axes[0].legend(loc='lower right')
     axes[0].grid(True, alpha=0.3)
-    axes[0].set_ylim(50, 100)
+    axes[0].set_ylim(30, 70)
 
     # Instruct (right) — all HoreKa (larger window: fewer datapoints than Think)
     steps_f, inst_f = filter_outliers(v2_instruct['steps'], v2_instruct)
@@ -367,7 +387,7 @@ def main():
     axes[1].set_ylabel('MFU (%)')
     axes[1].legend(loc='lower right')
     axes[1].grid(True, alpha=0.3)
-    axes[1].set_ylim(50, 100)
+    axes[1].set_ylim(30, 70)
 
     plt.tight_layout()
     for out_dir in [FIGURES, EVAL_FIGURES]:
