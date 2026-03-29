@@ -34,21 +34,21 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 ### Full experiment matrix
 
-| Exp. | En/EU | EU % | Samples | ELO LMArena† (Q3) | ELO LMArena† (Q3.5) | ELO LMArena w/o en§ (Q3.5) | ELO ComparIA‡ | m-arena-EU WR% | arena-hard (en) WR% |
-|---|---|---|---|---|---|---|---|---|---|
-| **Instruct-SFT (ours)** | — | — | — | 766±54 | — | — | 247±40 | 50% (ref) | 50% (ref) |
-| **A1-90en** | 90/10 | 1.25% | 94.7k | 613±89 | 701.8±9.8 | 261.2±35.4 | 224±40 | **54.8%** | 14.1% |
-| **A2-80en** | 80/20 | 2.5% | 93.6k | 600±110 | 702.1±10.8 | 241.5±29.3 | 233±37 | **57.2%** | 12.4% |
-| **A3-70en** | 70/30 | 3.75% | 91.7k | **709±48** | 702.5±10.4 | 234.9±33.2 | **235±39** | **58.8%** | 13.3% |
-| **B1-90en** | 90/10 | 1.25% | 491k | 633±75 | 708.9±11.2 | 192.7±33.5 | 604±4 | 53.6% | 13.0% |
-| **B2-80en** | 80/20 | 2.5% | 473k | 595±136 | 715.2±9.8 | 205.5±29.8 | 582±5 | 52.9% | 14.2% |
-| **C0-100en** | 100/0 | — | 94.7k | 524±142 | 673.7±11.0 | 163.2±41.0 | 540±5 | 48.9% | 11.8% |
-| **D1-90en** | 90/10 | 1.25% | 94.7k | **755±50** | **746.8±10.0** | 190.3±39.0 | **716±4** | **63.4%** | **54.6%** |
-| **D2-80en** | 80/20 | 2.5% | 93.6k | **777±41** | **757.1±8.4** | 219.2±31.5 | **739±3** | **62.0%** | **54.6%** |
-| **D3-70en** | 70/30 | 3.75% | 91.7k | 729±90 | **749.7±7.8** | 195.2±37.7 | **760±3** | **63.5%** | **54.3%** |
-| **E1-90en** | 90/10 | 1.25% | 491k | **808±51** | **760.1±7.0** | **258.3±29.2** | **765±3** | **59.9%** | **57.0%** |
-| **E2-80en** | 80/20 | 2.5% | 474k | 661±130 | **748.2±8.5** | **253.1±32.6** | 600±4 | **56.6%** | **58.2%** |
-| **E3-70en** | 70/30 | 3.75% | 455k | 688±79 | **755.3±8.3** | 212.2±36.4 | 596±4 | 53.1% | **58.6%** |
+| Exp. | En/EU | Samples | ELO† Q3 | ELO† Q3.5 | ELO w/o en | ComparIA‡ | EU WR% | en WR% |
+|---|---|---|---|---|---|---|---|---|
+| **Baseline** | — | — | 766±54 | — | — | 247±40 | 50% | 50% |
+| **A1-90en** | 90/10 | 94.7k | 613±89 | 702±10 | 261±35 | 224±40 | **54.8%** | 14.1% |
+| **A2-80en** | 80/20 | 93.6k | 600±110 | 702±11 | 242±29 | 233±37 | **57.2%** | 12.4% |
+| **A3-70en** | 70/30 | 91.7k | **709±48** | 703±10 | 235±33 | **235±39** | **58.8%** | 13.3% |
+| **B1-90en** | 90/10 | 491k | 633±75 | 709±11 | 193±34 | 604±4 | 53.6% | 13.0% |
+| **B2-80en** | 80/20 | 473k | 595±136 | 715±10 | 206±30 | 582±5 | 52.9% | 14.2% |
+| **C0-100en** | 100/0 | 94.7k | 524±142 | 674±11 | 163±41 | 540±5 | 48.9% | 11.8% |
+| **D1-90en** | 90/10 | 94.7k | **755±50** | **747±10** | 190±39 | **716±4** | **63.4%** | **54.6%** |
+| **D2-80en** | 80/20 | 93.6k | **777±41** | **757±8** | 219±32 | **739±3** | **62.0%** | **54.6%** |
+| **D3-70en** | 70/30 | 91.7k | 729±90 | **750±8** | 195±38 | **760±3** | **63.5%** | **54.3%** |
+| **E1-90en** | 90/10 | 491k | **808±51** | **760±7** | **258±29** | **765±3** | **59.9%** | **57.0%** |
+| **E2-80en** | 80/20 | 474k | 661±130 | **748±9** | **253±33** | 600±4 | **56.6%** | **58.2%** |
+| **E3-70en** | 70/30 | 455k | 688±79 | **755±8** | 212±36 | 596±4 | 53.1% | **58.6%** |
 
 **Sample counts**: Fusion-synth has 94,721 rows across 10 languages, setting the dataset size for Tracks A/D. At 90/10, Czech (1,295 available) fits within its 1.25% share → 94.7k samples. At 80/20 and 70/30, Czech and Dutch (2,800) are capped below their required shares, reducing totals to 93.6k and 91.7k. Track A and D have identical EU distributions — only the English source differs (fusion-synth vs Dolci replay). C0 (100% English) = exactly 94.7k. All sampling is random (not sequential) with a fixed seed (42) for reproducibility.
 
@@ -58,9 +58,9 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 †**ELO LMArena**: Bradley-Terry, 100 bootstraps, ~2.1k battles. Balanced at 200 battles/language, 12 EU languages. Q3 = Qwen3-30B-A3B-Instruct-2507, Q3.5 = Qwen3.5-27B (dense). Q3.5 CIs are much tighter (±7-11 vs ±41-142).
 
-§**ELO LMArena w/o en**: Same as † but excluding English battles (11 languages, ~1.9k battles). Only measured with Q3.5 judge.
+**ELO w/o en**: Same as † but excluding English battles (11 languages, ~1.9k battles). Only measured with Q3.5 judge.
 
-‡**ELO ComparIA**: Bradley-Terry, 100 bootstraps, 20k battles. All languages, predominantly French (~92%).
+‡**ComparIA**: Bradley-Terry, 100 bootstraps, 20k battles. All languages, predominantly French (~92%).
 
 ### Track A: Per-language winrate (m-arena-hard-EU)
 
