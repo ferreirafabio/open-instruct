@@ -62,11 +62,29 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 ‡**ComparIA**: Bradley-Terry, 100 bootstraps, 20k battles. All languages, predominantly French (~92%).
 
-### Track A: Per-language winrate (m-arena-hard-EU, Q3 judge)
+### Per-language winrate from Elo battles (Q3.5 judge, LMArena)
+
+Winrate of our model vs LMArena arena opponents (GPT-4o, Claude, Gemini, etc.), from the balanced Elo judge cache (200 battles/language). Winrates are low (~10-40%) as expected for a 7B model vs frontier models.
+
+| Model | en | de | es | fr | it | pt | pl | nl | cs | ro | el | uk | ALL |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **A2-80en** | 15.8 | 7.5 | 20.0 | 9.5 | 21.5 | 15.0 | 12.5 | 15.8 | 10.8 | 16.4 | 6.2 | 11.5 | 13.8 |
+| **A3-70en** | 16.2 | 9.0 | 16.8 | 13.8 | 19.8 | 17.0 | 15.5 | 13.8 | 13.0 | 20.9 | 7.7 | 9.2 | 14.4 |
+| **D1-90en** | **41.8** | 6.5 | 19.2 | 13.5 | 20.5 | 16.0 | 13.0 | 19.5 | 12.5 | **30.9** | 5.4 | 11.2 | 17.4 |
+| **D2-80en** | **35.0** | 9.8 | 21.5 | 11.8 | 24.2 | 13.5 | 11.8 | 16.2 | 16.8 | **29.1** | 6.2 | 14.0 | 17.4 |
+| **D3-70en** | **40.2** | 9.2 | 22.0 | 10.0 | 21.5 | 19.8 | 14.5 | 16.2 | 10.0 | **28.2** | 6.2 | 10.5 | 17.3 |
+| **E1-90en** | **38.2** | **13.5** | 21.0 | 13.8 | **25.5** | 16.2 | 17.0 | **20.0** | 10.5 | **29.1** | 9.2 | 11.8 | **18.7** |
+| **E3-70en** | **38.8** | 11.2 | 17.2 | 14.8 | 21.8 | 16.8 | 14.8 | 18.5 | 12.8 | **28.2** | 8.5 | 12.5 | 17.9 |
+
+D-track's advantage over A-track comes almost entirely from **English** (19–24pp gap) and **Romanian** (7–13pp gap). On other trained EU languages, A and D perform within ±5pp. This explains why D-track w/o English Elo is lower: remove English, and D-track loses its main advantage.
+
+### Per-language winrate vs baseline (m-arena-hard-EU, Q3 judge)
 
 Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qwen3-30B-A3B-Instruct-2507.
 
 `[T]` = trained language, `[H]` = held-out (zero-shot). "uk" = Ukrainian.
+
+**Track A:**
 
 | Language | A1-90en | A2-80en | A3-70en |
 |---|---:|---:|---:|
@@ -83,7 +101,7 @@ Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qw
 | el [H] | 51.3% | 50.9% | 49.8% |
 | uk | 52.0% | 48.6% | 54.0% |
 
-### Track B/C: Per-language winrate (m-arena-hard-EU, Q3 judge)
+**Track B/C:**
 
 | Language | B1-90en | B2-80en | C0-100en |
 |---|---:|---:|---:|
@@ -100,7 +118,7 @@ Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qw
 | el [H] | 51.9% | 53.8% | 54.2% |
 | uk | 45.5% | 46.5% | 46.4% |
 
-### Track D: Per-language winrate (m-arena-hard-EU, Q3 judge)
+**Track D:**
 
 | Language | D1-90en | D2-80en | D3-70en |
 |---|---:|---:|---:|
@@ -117,7 +135,7 @@ Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qw
 | el [H] | **62.0%** | 51.2% | 51.5% |
 | uk | 54.1% | 49.9% | 50.2% |
 
-### Track E: Per-language winrate (m-arena-hard-EU, Q3 judge)
+**Track E:**
 
 | Language | E1-90en | E2-80en | E3-70en |
 |---|---:|---:|---:|
@@ -133,22 +151,6 @@ Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qw
 | ro [H] | 48.8% | 54.9% | 49.1% |
 | el [H] | 46.1% | 49.9% | 43.8% |
 | uk | 45.3% | 53.2% | 47.2% |
-
-### Per-language winrate from Elo battles (Qwen3.5-27B judge, LMArena)
-
-Raw winrate of our model vs LMArena arena opponents, computed from the judge cache of the balanced Elo runs (200 battles/language, 12 EU languages). Unlike m-arena-hard-EU (which is our model vs baseline), this is our model vs the full arena field (GPT-4o, Claude, Gemini, etc.), so winrates are low (~10-40%) for a 7B model.
-
-| Model | en | de | es | fr | it | pt | pl | nl | cs | ro | el | uk | ALL |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **A2-80en** | 15.8 | 7.5 | 20.0 | 9.5 | 21.5 | 15.0 | 12.5 | 15.8 | 10.8 | 16.4 | 6.2 | 11.5 | 13.8 |
-| **A3-70en** | 16.2 | 9.0 | 16.8 | 13.8 | 19.8 | 17.0 | 15.5 | 13.8 | 13.0 | 20.9 | 7.7 | 9.2 | 14.4 |
-| **D1-90en** | **41.8** | 6.5 | 19.2 | 13.5 | 20.5 | 16.0 | 13.0 | 19.5 | 12.5 | **30.9** | 5.4 | 11.2 | 17.4 |
-| **D2-80en** | **35.0** | 9.8 | 21.5 | 11.8 | 24.2 | 13.5 | 11.8 | 16.2 | 16.8 | **29.1** | 6.2 | 14.0 | 17.4 |
-| **D3-70en** | **40.2** | 9.2 | 22.0 | 10.0 | 21.5 | 19.8 | 14.5 | 16.2 | 10.0 | **28.2** | 6.2 | 10.5 | 17.3 |
-| **E1-90en** | **38.2** | **13.5** | 21.0 | 13.8 | **25.5** | 16.2 | 17.0 | **20.0** | 10.5 | **29.1** | 9.2 | 11.8 | **18.7** |
-| **E3-70en** | **38.8** | 11.2 | 17.2 | 14.8 | 21.8 | 16.8 | 14.8 | 18.5 | 12.8 | **28.2** | 8.5 | 12.5 | 17.9 |
-
-D-track's advantage over A-track comes almost entirely from **English** (19–24pp gap) and **Romanian** (7–13pp gap). On other trained EU languages, A and D perform within ±5pp. This explains why D-track w/o English Elo is lower: remove English, and D-track loses its main advantage.
 
 ### Key findings
 
