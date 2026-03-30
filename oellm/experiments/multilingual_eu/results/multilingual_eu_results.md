@@ -34,7 +34,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 ### Full experiment matrix
 
-| Exp. | En/EU | Samples | Elo LMArena† (Q3) | Elo LMArena† (Q3.5) | Elo LMArena w/o en (Q3.5) | Elo ComparIA‡ | m-arena-hard-EU WR% | arena-hard (en) WR% |
+| Exp. | En/EU | Samples | Elo LMArena† (Q3) | Elo LMArena† (Q3.5) | Elo LMArena w/o en (Q3.5) | Elo ComparIA‡ (Q3) | m-arena-hard-EU WR% | arena-hard (en) WR% |
 |---|---|---|---|---|---|---|---|---|
 | **Baseline** | — | — | 766±54 | — | — | 247±40 | 50% | 50% |
 | **A1-90en** | 90/10 | 94.7k | 613±89 | 709±10 | 261±35 | 224±40 | **54.8%** | 14.1% |
