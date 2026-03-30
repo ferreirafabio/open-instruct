@@ -36,7 +36,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 | Exp. | En/EU | Samples | Elo LMArena† (Q3) | Elo LMArena† (Q3.5) | Elo LMArena w/o en (Q3.5) | Elo ComparIA‡ (Q3) | m-arena-hard-EU WR% | arena-hard (en) WR% |
 |---|---|---|---|---|---|---|---|---|
-| **Baseline** | — | — | 766±54 | — | — | 247±40 | 50% | 50% |
+| **Baseline** | — | — | 766±54 | 741±9 | — | 247±40 | 50% | 50% |
 | **A1-90en** | 90/10 | 94.7k | 613±89 | 709±10 | 261±35 | 224±40 | **54.8%** | 14.1% |
 | **A2-80en** | 80/20 | 93.6k | 600±110 | 700±10 | 242±29 | 233±37 | **57.2%** | 12.4% |
 | **A3-70en** | 70/30 | 91.7k | **709±48** | 708±10 | 235±33 | **235±39** | **58.8%** | 13.3% |
@@ -158,9 +158,9 @@ D-track's advantage over A-track comes almost entirely from **English** (26–19
 ### Key findings
 
 **Track A** (English/EU ratio):
-1. **More EU data helps**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
+1. **More EU data helps multilingual**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
 2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
-3. **Elo (balanced, w/ en)**: With language-balanced battles, A3 (709) approaches the baseline (766). A1 (613) and A2 (600) remain below — English regression still hurts on the English portion of battles.
+3. **A-track Elo clusters at 700-709 (Q3.5)**: All three A-track models perform similarly on balanced Elo, ~40 points below the baseline (741). The English regression caps their overall score.
 4. **Transfer**: Romanian (60-65%) transfers well despite not being in training data. Greek (50-51%, different script) does not.
 5. **Czech** performs best (74%) — likely underrepresented in the baseline.
 6. **French barely moves** (46-53%).
@@ -171,20 +171,42 @@ D-track's advantage over A-track comes almost entirely from **English** (26–19
 
 **Track C** (English-only control):
 9. **English regresses without EU data**: C0-100en (no EU data at all) drops English to 11.8% on arena-hard.
-10. **C0 EU winrate below parity**: 48.9% overall on m-arena-hard-EU.
+10. **C0 Elo (690 Q3.5) is only ~10-20 points below A-track (700-709)**: continued SFT on English-only data produces similar overall Elo to A-track. The Q3 CIs (524±142) made C0 look much worse than it is.
 
 **Track D** (Dolci English replay):
 11. **Dolci replay preserves English**: D1 (54.6%), D2 (54.6%), D3 (54.3%) all maintain English arena-hard winrate across all EU ratios.
-12. **D2-80en Elo (777±41 Q3, 757±8 Q3.5)** exceeds or matches the baseline.
+12. **D-track Elo is remarkably stable at 748 (Q3.5)**: D1=748, D2=748, D3=748. The English/EU ratio (90/80/70%) has almost zero effect when using Dolci replay. This exceeds the baseline (741±9).
 13. **EU winrates**: D3 (63.5%) ≈ D1 (63.4%) > D2 (62.0%) on m-arena-hard-EU. Per-language, D3 leads on de (75.8%), es (72.0%), fr (63.9%), it (63.0%).
 14. **D-track w/o English Elo (190-219)** is lower than A-track (235-261). Per-language analysis confirms: D-track's advantage is **entirely from English** (26pp gap) and **Romanian** (15pp gap). On the 8 trained EU languages, A and D perform within ±5pp — Dolci replay preserves English but doesn't improve multilingual transfer beyond what A-track achieves.
 15. **Greek**: D1 (62.0%) does not replicate in D2 (51.2%) or D3 (51.5%).
 
 **Track E** (Dolci replay at scale):
-16. **E1-90en achieves the highest Elo** (808±51 Q3, 760±7 Q3.5). English: 57.0% on arena-hard.
+16. **E1-90en achieves the highest Elo** (808±51 Q3, 764±8 Q3.5). English: 57.0% on arena-hard.
 17. **E1 w/o English Elo (258±29) is the highest** across all models — E-track scales better for multilingual when removing the English advantage.
 18. **E2/E3 m-arena-hard-EU drop**: E2 (56.6%) and E3 (53.1%) are below E1 and their Track D counterparts. French drops sharply: E2 41.2%, E3 39.2% (vs E1 61.3%).
-19. **Q3.5 judge tightens CIs dramatically**: Qwen3.5-27B produces ±7-11 CIs vs Qwen3-30B-A3B's ±41-142. Rankings remain consistent (D/E > A/B > C) but the variance gap between models is much smaller.
+
+**Cross-track insights (Q3.5 Elo)**:
+19. **Q3.5 judge reveals clear performance tiers**: E-track (754-764) > D-track (748, all identical) > baseline (741) > B2 (729) > A/B1 (700-709) > C0 (690). The tight CIs (±8-12) make these separations reliable, unlike Q3 (±41-142).
+20. **Dolci replay eliminates ratio sensitivity**: D1/D2/D3 produce identical Elo (748) despite 90/80/70% English. The English source (Dolci replay vs fusion-synth) matters far more than the ratio.
+21. **The entire D-track advantage is English preservation**: Per-language analysis shows D and A perform within ±5pp on all trained EU languages. D-track's ~48 Elo advantage over A-track (748 vs 700) comes from English (26pp gap) and Romanian transfer (15pp gap).
+
+### Next steps
+
+**Incoming: high-quality Dolci translations** (gemma3-27b-it, [tracking issue](https://github.com/OpenEuroLLM/Taskboard/issues/193)):
+- **Dolci-Think-SFT-7B** → 7 languages (cs, de, it, fr, fi, es, sv) — ETA end of March/early April
+- **Dolci-Instruct-SFT** → same 7 languages — AI Sweden starting soon
+
+These are significantly higher quality than our current NLLB-200-distilled-600M translations. Since the per-language analysis shows EU language winrates are modest (6-22% vs arena field), better translations may be the bottleneck.
+
+**Track F (planned)**: High-quality Dolci-Instruct translations with Dolci replay
+- Same design as Track D (Dolci English replay), but EU data = gemma3-27b-it translations
+- Languages: cs, de, it, fr, fi, es, sv (7 high-quality) + pl, nl (NLLB, 2)
+- Ratio: 90/10 only (D-track showed ratio doesn't matter with Dolci replay)
+- **Purpose**: Isolate translation quality effect. If F1 >> D1 on EU languages, translation quality was the bottleneck.
+
+**Track G (planned)**: High-quality Dolci-Think translations
+- Same as F but using Dolci-Think-SFT translations
+- **Purpose**: Compare Think vs Instruct as multilingual data source.
 
 ### Code
 
