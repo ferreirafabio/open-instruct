@@ -62,7 +62,9 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 ‡**ComparIA**: Bradley-Terry, 100 bootstraps, 20k battles. All languages, predominantly French (~92%).
 
-### Track A: Per-language winrate (m-arena-hard-EU)
+### Track A: Per-language winrate (m-arena-hard-EU, Q3 judge)
+
+Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qwen3-30B-A3B-Instruct-2507.
 
 `[T]` = trained language, `[H]` = held-out (zero-shot). "uk" = Ukrainian.
 
@@ -81,7 +83,7 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 | el [H] | 51.3% | 50.9% | 49.8% |
 | uk | 52.0% | 48.6% | 54.0% |
 
-### Track B/C: Per-language winrate (m-arena-hard-EU)
+### Track B/C: Per-language winrate (m-arena-hard-EU, Q3 judge)
 
 | Language | B1-90en | B2-80en | C0-100en |
 |---|---:|---:|---:|
@@ -98,7 +100,7 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 | el [H] | 51.9% | 53.8% | 54.2% |
 | uk | 45.5% | 46.5% | 46.4% |
 
-### Track D: Per-language winrate (m-arena-hard-EU)
+### Track D: Per-language winrate (m-arena-hard-EU, Q3 judge)
 
 | Language | D1-90en | D2-80en | D3-70en |
 |---|---:|---:|---:|
@@ -115,7 +117,7 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 | el [H] | **62.0%** | 51.2% | 51.5% |
 | uk | 54.1% | 49.9% | 50.2% |
 
-### Track E: Per-language winrate (m-arena-hard-EU)
+### Track E: Per-language winrate (m-arena-hard-EU, Q3 judge)
 
 | Language | E1-90en | E2-80en | E3-70en |
 |---|---:|---:|---:|
@@ -146,49 +148,16 @@ Raw winrate of our model vs LMArena arena opponents, computed from the judge cac
 | **E1-90en** | **38.2** | **13.5** | 21.0 | 13.8 | **25.5** | 16.2 | 17.0 | **20.0** | 10.5 | **29.1** | 9.2 | 11.8 | **18.7** |
 | **E3-70en** | **38.8** | 11.2 | 17.2 | 14.8 | 21.8 | 16.8 | 14.8 | 18.5 | 12.8 | **28.2** | 8.5 | 12.5 | 17.9 |
 
-**A-track vs D-track difference** (positive = A better):
-
-| Comparison | en | de | es | fr | it | pt | pl | nl | cs | ro | el | uk | ALL |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| A2 − D1 | **-26.0** | +1.0 | +0.8 | -4.0 | +1.0 | -1.0 | -0.5 | -3.8 | -1.8 | -14.5 | +0.8 | +0.3 | -3.6 |
-| A3 − D2 | **-18.7** | -0.8 | -4.7 | +2.0 | -4.5 | +3.5 | +3.8 | -2.5 | -3.8 | -8.2 | +1.5 | -4.8 | -3.0 |
-
-D-track's advantage over A-track comes almost entirely from **English** (26–19pp gap) and **Romanian** (8–15pp gap). On other EU languages, A and D perform within ±5pp of each other. This explains why D-track w/o English Elo is lower than expected: remove English, and D-track loses its main advantage.
+D-track's advantage over A-track comes almost entirely from **English** (19–24pp gap) and **Romanian** (7–13pp gap). On other trained EU languages, A and D perform within ±5pp. This explains why D-track w/o English Elo is lower: remove English, and D-track loses its main advantage.
 
 ### Key findings
 
-**Track A** (English/EU ratio):
-1. **More EU data helps multilingual**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
-2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
-3. **A-track Elo clusters at 700-709 (Q3.5)**: All three A-track models perform similarly on balanced Elo, ~40 points below the baseline (741). The English regression caps their overall score.
-4. **Transfer**: Romanian (60-65%) transfers well despite not being in training data. Greek (50-51%, different script) does not.
-5. **Czech** performs best (74%) — likely underrepresented in the baseline.
-6. **French barely moves** (46-53%).
-
-**Track B** (data scaling):
-7. **More data does not help**: B1 (53.6%) and B2 (52.9%) score below their Track A counterparts A1 (54.8%) and A2 (57.2%) on m-arena-hard-EU, despite ~5× more data.
-8. **English regression persists**: B1 (13.0%) and B2 (14.2%) show the same ~37pp English drop as Track A.
-
-**Track C** (English-only control):
-9. **English regresses without EU data**: C0-100en (no EU data at all) drops English to 11.8% on arena-hard.
-10. **C0 Elo (690 Q3.5) is only ~10-20 points below A-track (700-709)**: continued SFT on English-only data produces similar overall Elo to A-track. The Q3 CIs (524±142) made C0 look much worse than it is.
-
-**Track D** (Dolci English replay):
-11. **Dolci replay preserves English**: D1 (54.6%), D2 (54.6%), D3 (54.3%) all maintain English arena-hard winrate across all EU ratios.
-12. **D-track Elo is remarkably stable at 748 (Q3.5)**: D1=748, D2=748, D3=748. The English/EU ratio (90/80/70%) has almost zero effect when using Dolci replay. This exceeds the baseline (741±9).
-13. **EU winrates**: D3 (63.5%) ≈ D1 (63.4%) > D2 (62.0%) on m-arena-hard-EU. Per-language, D3 leads on de (75.8%), es (72.0%), fr (63.9%), it (63.0%).
-14. **D-track w/o English Elo (190-219)** is lower than A-track (235-261). Per-language analysis confirms: D-track's advantage is **entirely from English** (26pp gap) and **Romanian** (15pp gap). On the 8 trained EU languages, A and D perform within ±5pp — Dolci replay preserves English but doesn't improve multilingual transfer beyond what A-track achieves.
-15. **Greek**: D1 (62.0%) does not replicate in D2 (51.2%) or D3 (51.5%).
-
-**Track E** (Dolci replay at scale):
-16. **E1-90en achieves the highest Elo** (808±51 Q3, 764±8 Q3.5). English: 57.0% on arena-hard.
-17. **E1 w/o English Elo (258±29) is the highest** across all models — E-track scales better for multilingual when removing the English advantage.
-18. **E2/E3 m-arena-hard-EU drop**: E2 (56.6%) and E3 (53.1%) are below E1 and their Track D counterparts. French drops sharply: E2 41.2%, E3 39.2% (vs E1 61.3%).
-
-**Cross-track insights (Q3.5 Elo)**:
-19. **Q3.5 judge reveals clear performance tiers**: E-track (754-764) > D-track (748, all identical) > baseline (741) > B2 (729) > A/B1 (700-709) > C0 (690). The tight CIs (±8-12) make these separations reliable, unlike Q3 (±41-142).
-20. **Dolci replay eliminates ratio sensitivity**: D1/D2/D3 produce identical Elo (748) despite 90/80/70% English. The English source (Dolci replay vs fusion-synth) matters far more than the ratio.
-21. **The entire D-track advantage is English preservation**: Per-language analysis shows D and A perform within ±5pp on all trained EU languages. D-track's ~48 Elo advantage over A-track (748 vs 700) comes from English (26pp gap) and Romanian transfer (15pp gap).
+1. **Dolci replay (Track D) preserves English**: D-track maintains ~55% English arena-hard winrate (vs A-track's ~13%). D-track Elo is stable at 748 regardless of EN/EU ratio — the English source matters, the ratio doesn't.
+2. **D-track advantage is entirely English**: Per-language Elo analysis shows A and D within ±5pp on all trained EU languages. The ~48 Elo gap (748 vs 700) comes from English (19-24pp) and Romanian transfer (7-13pp).
+3. **Scaling helps modestly (Track E)**: E1 achieves the highest Elo (764 Q3.5). E2/E3 drop on French (41%/39% vs E1's 61%) — more EU data at scale hurts some languages.
+4. **More diverse data doesn't help (Track B)**: B-track (5× more data from wildchat/lmsys/oasst2) scores below A-track on m-arena-hard-EU despite 5× samples.
+5. **Continued SFT itself causes English forgetting (Track C)**: C0 (100% English, no EU data) still drops English to 12%. C0 Elo (690) is only 10-20 points below A-track (700-709).
+6. **Q3.5 Elo tiers**: E-track (754-764) > D-track (748) > baseline (741) > A/B (700-729) > C0 (690). CIs of ±8-12 (vs Q3's ±41-142) make these separations reliable.
 
 ### Next steps
 
