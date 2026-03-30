@@ -1,4 +1,4 @@
-"""Per-language winrate analysis from ELO judge caches.
+"""Per-language winrate analysis from Elo judge caches.
 
 Reads judge cache CSV files (from estimate_elo_ratings.py runs with Qwen3.5-27B)
 and computes per-language winrate for each model. No GPU needed.
@@ -118,7 +118,7 @@ def analyze_model(cache_file: str) -> pd.DataFrame:
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Per-language ELO winrate analysis")
+    parser = argparse.ArgumentParser(description="Per-language Elo winrate analysis")
     parser.add_argument(
         "--models",
         nargs="*",

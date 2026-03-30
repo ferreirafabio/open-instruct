@@ -118,7 +118,7 @@ fi
 # Cleanup vllm server on exit
 trap "kill $VLLM_PID 2>/dev/null || true; wait $VLLM_PID 2>/dev/null || true" EXIT
 
-# === Run ELO evaluation ===
+# === Run Elo evaluation ===
 cd "$OPENJURY_DIR"
 
 # Note: judge uses ChatOpenAI/ prefix → routes to OPENAI_BASE_URL (our vllm server)

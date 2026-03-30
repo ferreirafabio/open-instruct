@@ -7,7 +7,7 @@
 #SBATCH --requeue
 # no node exclusions
 
-# ELO Rating estimation using Qwen3.5-27B judge (LMArena, with English)
+# Elo Rating estimation using Qwen3.5-27B judge (LMArena, with English)
 # Judge runs as vllm serve background process; evaluated model uses VLLM in-process.
 # Balanced: 200 battles/language × 12 EU languages = ~2,400 battles per model
 #
@@ -85,7 +85,7 @@ export NO_PROXY="localhost,127.0.0.1"
 
 echo ""
 echo "=============================================="
-echo "ELO RATING ESTIMATION (Qwen3.5-27B judge)"
+echo "Elo RATING ESTIMATION (Qwen3.5-27B judge)"
 echo "=============================================="
 echo "Job ID:           ${SLURM_JOB_ID:-local}"
 echo "Array Task ID:    ${SLURM_ARRAY_TASK_ID:-N/A}"
@@ -138,7 +138,7 @@ fi
 # Cleanup vllm server on exit
 trap "kill $VLLM_PID 2>/dev/null || true; wait $VLLM_PID 2>/dev/null || true" EXIT
 
-# === Run ELO evaluation ===
+# === Run Elo evaluation ===
 cd "$OPENJURY_DIR"
 
 $VENV_PYTHON judgearena/estimate_elo_ratings.py \
@@ -157,5 +157,5 @@ $VENV_PYTHON judgearena/estimate_elo_ratings.py \
 
 echo ""
 echo "=============================================="
-echo "ELO Estimation Complete: $MODEL_SYMLINK (Qwen3.5-27B judge)"
+echo "Elo Estimation Complete: $MODEL_SYMLINK (Qwen3.5-27B judge)"
 echo "=============================================="

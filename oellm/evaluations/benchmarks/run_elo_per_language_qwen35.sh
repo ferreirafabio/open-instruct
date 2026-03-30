@@ -7,7 +7,7 @@
 #SBATCH --requeue
 # no node exclusions
 
-# Per-language ELO using Qwen3.5-27B judge (LMArena, single language per job)
+# Per-language Elo using Qwen3.5-27B judge (LMArena, single language per job)
 # Array encodes: model_index * 11 + language_index
 # 12 models × 11 non-English languages = 132 jobs (array 0-131)
 #
@@ -88,7 +88,7 @@ export NO_PROXY="localhost,127.0.0.1"
 
 echo ""
 echo "=============================================="
-echo "PER-LANGUAGE ELO (Qwen3.5-27B judge)"
+echo "PER-LANGUAGE Elo (Qwen3.5-27B judge)"
 echo "=============================================="
 echo "Job ID:           ${SLURM_JOB_ID}"
 echo "Array Task ID:    ${TASK_ID} (model=$MODEL_IDX, lang=$LANG_IDX)"
@@ -137,7 +137,7 @@ fi
 
 trap "kill $VLLM_PID 2>/dev/null || true; wait $VLLM_PID 2>/dev/null || true" EXIT
 
-# Run ELO evaluation for single language
+# Run Elo evaluation for single language
 cd "$OPENJURY_DIR"
 
 $VENV_PYTHON judgearena/estimate_elo_ratings.py \
@@ -156,5 +156,5 @@ $VENV_PYTHON judgearena/estimate_elo_ratings.py \
 
 echo ""
 echo "=============================================="
-echo "Per-language ELO Complete: $MODEL_SYMLINK / $LANGUAGE"
+echo "Per-language Elo Complete: $MODEL_SYMLINK / $LANGUAGE"
 echo "=============================================="

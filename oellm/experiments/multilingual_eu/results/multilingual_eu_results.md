@@ -16,7 +16,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 |---|---|
 | **Base checkpoint** | OLMo-3-7B-Instruct-SFT (reproduced, [details](https://github.com/allenai/open-instruct/issues/1352#issuecomment-2823953936)) |
 | **Judge (winrate)** | Qwen3-30B-A3B-Instruct-2507 (VLLM, both orderings, 8k max tokens) |
-| **Judge (ELO)** | Qwen3-30B-A3B-Instruct-2507 (Q3) and Qwen3.5-27B (Q3.5, via vllm serve) |
+| **Judge (Elo)** | Qwen3-30B-A3B-Instruct-2507 (Q3) and Qwen3.5-27B (Q3.5, via vllm serve) |
 | **Benchmarks** | m-arena-hard-EU (6000 prompts, 12 EU languages), arena-hard (500 prompts, English) |
 | **Training languages** | en + de, es, fr, it, pt, pl, nl, cs (ratio varies by experiment) |
 | **Eval languages** | en, de, es, fr, it, pt, pl, nl, cs, ro, el, uk (12 languages in m-arena-hard-EU) |
@@ -34,7 +34,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 ### Full experiment matrix
 
-| Exp. | En/EU | Samples | ELO LMArena† (Q3) | ELO LMArena† (Q3.5) | ELO LMArena w/o en (Q3.5) | ELO ComparIA‡ | m-arena-hard-EU WR% | arena-hard (en) WR% |
+| Exp. | En/EU | Samples | Elo LMArena† (Q3) | Elo LMArena† (Q3.5) | Elo LMArena w/o en (Q3.5) | Elo ComparIA‡ | m-arena-hard-EU WR% | arena-hard (en) WR% |
 |---|---|---|---|---|---|---|---|---|
 | **Baseline** | — | — | 766±54 | — | — | 247±40 | 50% | 50% |
 | **A1-90en** | 90/10 | 94.7k | 613±89 | 709±10 | 261±35 | 224±40 | **54.8%** | 14.1% |
@@ -56,9 +56,9 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
-†**ELO LMArena**: Bradley-Terry, 100 bootstraps, ~2.1k battles. Balanced at 200 battles/language, 12 EU languages. Q3 = Qwen3-30B-A3B-Instruct-2507, Q3.5 = Qwen3.5-27B (dense). Q3.5 CIs are much tighter (±7-11 vs ±41-142).
+†**Elo LMArena**: Bradley-Terry, 100 bootstraps, ~2.1k battles. Balanced at 200 battles/language, 12 EU languages. Q3 = Qwen3-30B-A3B-Instruct-2507, Q3.5 = Qwen3.5-27B (dense). Q3.5 CIs are much tighter (±7-11 vs ±41-142).
 
-**ELO w/o en**: Same as † but excluding English battles (11 languages, ~1.9k battles). Only measured with Q3.5 judge.
+**Elo w/o en**: Same as † but excluding English battles (11 languages, ~1.9k battles). Only measured with Q3.5 judge.
 
 ‡**ComparIA**: Bradley-Terry, 100 bootstraps, 20k battles. All languages, predominantly French (~92%).
 
@@ -132,9 +132,9 @@ Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 | el [H] | 46.1% | 49.9% | 43.8% |
 | uk | 45.3% | 53.2% | 47.2% |
 
-### Per-language winrate from ELO battles (Qwen3.5-27B judge, LMArena)
+### Per-language winrate from Elo battles (Qwen3.5-27B judge, LMArena)
 
-Raw winrate of our model vs LMArena arena opponents, computed from the judge cache of the balanced ELO runs (200 battles/language, 12 EU languages). Unlike m-arena-hard-EU (which is our model vs baseline), this is our model vs the full arena field (GPT-4o, Claude, Gemini, etc.), so winrates are low (~10-40%) for a 7B model.
+Raw winrate of our model vs LMArena arena opponents, computed from the judge cache of the balanced Elo runs (200 battles/language, 12 EU languages). Unlike m-arena-hard-EU (which is our model vs baseline), this is our model vs the full arena field (GPT-4o, Claude, Gemini, etc.), so winrates are low (~10-40%) for a 7B model.
 
 | Model | en | de | es | fr | it | pt | pl | nl | cs | ro | el | uk | ALL |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -153,14 +153,14 @@ Raw winrate of our model vs LMArena arena opponents, computed from the judge cac
 | A2 − D1 | **-26.0** | +1.0 | +0.8 | -4.0 | +1.0 | -1.0 | -0.5 | -3.8 | -1.8 | -14.5 | +0.8 | +0.3 | -3.6 |
 | A3 − D2 | **-18.7** | -0.8 | -4.7 | +2.0 | -4.5 | +3.5 | +3.8 | -2.5 | -3.8 | -8.2 | +1.5 | -4.8 | -3.0 |
 
-D-track's advantage over A-track comes almost entirely from **English** (26–19pp gap) and **Romanian** (8–15pp gap). On other EU languages, A and D perform within ±5pp of each other. This explains why D-track w/o English ELO is lower than expected: remove English, and D-track loses its main advantage.
+D-track's advantage over A-track comes almost entirely from **English** (26–19pp gap) and **Romanian** (8–15pp gap). On other EU languages, A and D perform within ±5pp of each other. This explains why D-track w/o English Elo is lower than expected: remove English, and D-track loses its main advantage.
 
 ### Key findings
 
 **Track A** (English/EU ratio):
 1. **More EU data helps**: A3 (30% EU) = 58.8% > A2 (20%) = 57.2% > A1 (10%) = 54.8% on m-arena-hard-EU.
 2. **Severe English regression**: All models drop to ~13% winrate on arena-hard (~-37pp). The degradation is roughly constant regardless of EU ratio, suggesting continued training itself causes forgetting.
-3. **ELO (balanced, w/ en)**: With language-balanced battles, A3 (709) approaches the baseline (766). A1 (613) and A2 (600) remain below — English regression still hurts on the English portion of battles.
+3. **Elo (balanced, w/ en)**: With language-balanced battles, A3 (709) approaches the baseline (766). A1 (613) and A2 (600) remain below — English regression still hurts on the English portion of battles.
 4. **Transfer**: Romanian (60-65%) transfers well despite not being in training data. Greek (50-51%, different script) does not.
 5. **Czech** performs best (74%) — likely underrepresented in the baseline.
 6. **French barely moves** (46-53%).
@@ -175,14 +175,14 @@ D-track's advantage over A-track comes almost entirely from **English** (26–19
 
 **Track D** (Dolci English replay):
 11. **Dolci replay preserves English**: D1 (54.6%), D2 (54.6%), D3 (54.3%) all maintain English arena-hard winrate across all EU ratios.
-12. **D2-80en ELO (777±41 Q3, 757±8 Q3.5)** exceeds or matches the baseline.
+12. **D2-80en Elo (777±41 Q3, 757±8 Q3.5)** exceeds or matches the baseline.
 13. **EU winrates**: D3 (63.5%) ≈ D1 (63.4%) > D2 (62.0%) on m-arena-hard-EU. Per-language, D3 leads on de (75.8%), es (72.0%), fr (63.9%), it (63.0%).
-14. **D-track w/o English ELO (190-219)** is lower than A-track (235-261). Per-language analysis confirms: D-track's advantage is **entirely from English** (26pp gap) and **Romanian** (15pp gap). On the 8 trained EU languages, A and D perform within ±5pp — Dolci replay preserves English but doesn't improve multilingual transfer beyond what A-track achieves.
+14. **D-track w/o English Elo (190-219)** is lower than A-track (235-261). Per-language analysis confirms: D-track's advantage is **entirely from English** (26pp gap) and **Romanian** (15pp gap). On the 8 trained EU languages, A and D perform within ±5pp — Dolci replay preserves English but doesn't improve multilingual transfer beyond what A-track achieves.
 15. **Greek**: D1 (62.0%) does not replicate in D2 (51.2%) or D3 (51.5%).
 
 **Track E** (Dolci replay at scale):
-16. **E1-90en achieves the highest ELO** (808±51 Q3, 760±7 Q3.5). English: 57.0% on arena-hard.
-17. **E1 w/o English ELO (258±29) is the highest** across all models — E-track scales better for multilingual when removing the English advantage.
+16. **E1-90en achieves the highest Elo** (808±51 Q3, 760±7 Q3.5). English: 57.0% on arena-hard.
+17. **E1 w/o English Elo (258±29) is the highest** across all models — E-track scales better for multilingual when removing the English advantage.
 18. **E2/E3 m-arena-hard-EU drop**: E2 (56.6%) and E3 (53.1%) are below E1 and their Track D counterparts. French drops sharply: E2 41.2%, E3 39.2% (vs E1 61.3%).
 19. **Q3.5 judge tightens CIs dramatically**: Qwen3.5-27B produces ±7-11 CIs vs Qwen3-30B-A3B's ±41-142. Rankings remain consistent (D/E > A/B > C) but the variance gap between models is much smaller.
 
