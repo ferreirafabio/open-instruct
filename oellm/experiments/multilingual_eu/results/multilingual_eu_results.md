@@ -37,18 +37,18 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | Exp. | En/EU | Samples | Elo LMArena† (Q3) | Elo LMArena† (Q3.5) | Elo LMArena w/o en (Q3.5) | Elo ComparIA‡ (Q3) | m-arena-hard-EU WR% | arena-hard (en) WR% |
 |---|---|---|---|---|---|---|---|---|
 | **Baseline** | — | — | 766±54 | 741±9 | 722±10 | 247±40 | 50% | 50% |
-| **A1-90en** | 90/10 | 94.7k | 613±89 | 709±10 | 261±35 | 224±40 | **54.8%** | 14.1% |
-| **A2-80en** | 80/20 | 93.6k | 600±110 | 700±10 | 242±29 | 233±37 | **57.2%** | 12.4% |
-| **A3-70en** | 70/30 | 91.7k | **709±48** | 708±10 | 235±33 | **235±39** | **58.8%** | 13.3% |
-| **B1-90en** | 90/10 | 491k | 633±75 | 701±11 | 193±34 | 604±4 | 53.6% | 13.0% |
-| **B2-80en** | 80/20 | 473k | 595±136 | 729±11 | 206±30 | 582±5 | 52.9% | 14.2% |
-| **C0-100en** | 100/0 | 94.7k | 524±142 | 690±12 | 163±41 | 540±5 | 48.9% | 11.8% |
-| **D1-90en** | 90/10 | 94.7k | **755±50** | **748±10** | 190±39 | **716±4** | **63.4%** | **54.6%** |
-| **D2-80en** | 80/20 | 93.6k | **777±41** | **748±9** | 219±32 | **739±3** | **62.0%** | **54.6%** |
-| **D3-70en** | 70/30 | 91.7k | 729±90 | **748±8** | 195±38 | **760±3** | **63.5%** | **54.3%** |
-| **E1-90en** | 90/10 | 491k | **808±51** | **764±8** | **258±29** | **765±3** | **59.9%** | **57.0%** |
-| **E2-80en** | 80/20 | 474k | 661±130 | **755±8** | **253±33** | 600±4 | **56.6%** | **58.2%** |
-| **E3-70en** | 70/30 | 455k | 688±79 | **754±10** | 212±36 | 596±4 | 53.1% | **58.6%** |
+| **A1-90en** | 90/10 | 94.7k | 613±89 | 702±10 | 692±10 | 224±40 | **54.8%** | 14.1% |
+| **A2-80en** | 80/20 | 93.6k | 600±110 | 704±11 | 703±11 | 233±37 | **57.2%** | 12.4% |
+| **A3-70en** | 70/30 | 91.7k | **709±48** | 713±10 | 689±11 | **235±39** | **58.8%** | 13.3% |
+| **B1-90en** | 90/10 | 491k | 633±75 | 720±9 | 708±10 | 604±4 | 53.6% | 13.0% |
+| **B2-80en** | 80/20 | 473k | 595±136 | 722±9 | 722±10 | 582±5 | 52.9% | 14.2% |
+| **C0-100en** | 100/0 | 94.7k | 524±142 | 670±11 | 681±11 | 540±5 | 48.9% | 11.8% |
+| **D1-90en** | 90/10 | 94.7k | **755±50** | **751±8** | 716±11 | **716±4** | **63.4%** | **54.6%** |
+| **D2-80en** | 80/20 | 93.6k | **777±41** | **751±8** | **725±12** | **739±3** | **62.0%** | **54.6%** |
+| **D3-70en** | 70/30 | 91.7k | 729±90 | **753±9** | **731±11** | **760±3** | **63.5%** | **54.3%** |
+| **E1-90en** | 90/10 | 491k | **808±51** | **758±9** | **740±9** | **765±3** | **59.9%** | **57.0%** |
+| **E2-80en** | 80/20 | 474k | 661±130 | **759±8** | **725±9** | 600±4 | **56.6%** | **58.2%** |
+| **E3-70en** | 70/30 | 455k | 688±79 | **751±9** | **726±9** | 596±4 | 53.1% | **58.6%** |
 
 **Sample counts**: Fusion-synth has 94,721 rows across 10 languages, setting the dataset size for Tracks A/D. At 90/10, Czech (1,295 available) fits within its 1.25% share → 94.7k samples. At 80/20 and 70/30, Czech and Dutch (2,800) are capped below their required shares, reducing totals to 93.6k and 91.7k. Track A and D have identical EU distributions — only the English source differs (fusion-synth vs Dolci replay). C0 (100% English) = exactly 94.7k. All sampling is random (not sequential) with a fixed seed (42) for reproducibility.
 
@@ -155,11 +155,11 @@ Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qw
 ### Key findings
 
 1. **Dolci replay (Track D) preserves English**: D-track maintains ~55% English arena-hard winrate (vs A-track's ~13%). D-track Elo is stable at 748 regardless of EN/EU ratio — the English source matters, the ratio doesn't.
-2. **D-track advantage is entirely English**: Per-language Elo analysis shows A and D within ±5pp on all trained EU languages. The ~48 Elo gap (748 vs 700) comes from English (19-24pp) and Romanian transfer (7-13pp).
+2. **D-track advantage holds with and without English**: D-track leads both w/ en (751 vs A-track 702-713) and w/o en (716-731 vs A-track 689-703). Per-language Elo battle analysis shows the gap is largest on English (19-24pp) and Romanian (7-13pp), with ±5pp on other trained EU languages.
 3. **Scaling helps modestly (Track E)**: E1 achieves the highest Elo (764 Q3.5). E2/E3 drop on French (41%/39% vs E1's 61%) — more EU data at scale hurts some languages.
 4. **More diverse data doesn't help (Track B)**: B-track (5× more data from wildchat/lmsys/oasst2) scores below A-track on m-arena-hard-EU despite 5× samples.
 5. **Continued SFT itself causes English forgetting (Track C)**: C0 (100% English, no EU data) still drops English to 12%. C0 Elo (690) is only 10-20 points below A-track (700-709).
-6. **Q3.5 Elo tiers**: E-track (754-764) > D-track (748) > baseline (741) > A/B (700-729) > C0 (690). CIs of ±8-12 (vs Q3's ±41-142) make these separations reliable.
+6. **Q3.5 Elo tiers** (w/ en): E-track (751-759) > D-track (751-753) > baseline (741) > A/B (702-722) > C0 (670). W/o en: E1 (740) > D3 (731) > D2 (725) ≈ E2/E3 (725-726) > baseline (722) > D1 (716) > B1 (708) > A (689-703) > C0 (681). CIs of ±8-12 (vs Q3's ±41-142) make these separations reliable.
 
 ### Next steps
 
