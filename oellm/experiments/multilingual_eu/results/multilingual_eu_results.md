@@ -56,13 +56,13 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **F4-25en** | 25/75 | 500k | — | tba | tba | tba | — | tba | tba |
 | **F5-0en** | 0/100 | 500k | — | tba | tba | tba | — | tba | tba |
 
+† LMArena Elo: Bradley-Terry, 100 bootstraps, 200 battles/lang. Q3 = Qwen3-30B-A3B, Q3.5 = Qwen3.5-27B. "en" = English-only (200 battles). "w/o en" = 11 non-English languages.
+‡ ComparIA Elo: Bradley-Terry, 100 bootstraps, 20k battles, mostly French (~92%).
+EU WR% = m-arena-hard-EU winrate vs baseline. en WR% = arena-hard (English) winrate vs baseline. 50% = parity.
+
 **Sample counts**: Fusion-synth has 94,721 rows across 10 languages, setting the dataset size for Tracks A/D. At 90/10, Czech (1,295 available) fits within its 1.25% share → 94.7k samples. At 80/20 and 70/30, Czech and Dutch (2,800) are capped below their required shares, reducing totals to 93.6k and 91.7k. Track A and D have identical EU distributions — only the English source differs (fusion-synth vs Dolci replay). C0 (100% English) = exactly 94.7k. All sampling is random (not sequential) with a fixed seed (42) for reproducibility.
 
 **~490k** (Track B) = ~5× Track A to test data scaling. Target is 500k, but Czech (1,295) and Dutch (2,800) are capped at what's available, giving actual totals of ~491k (B1) and ~473k (B2).
-
-Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
-
-†**Elo**: LMArena Bradley-Terry, 100 bootstraps, 200 battles/lang. Q3 = Qwen3-30B-A3B, Q3.5 = Qwen3.5-27B. **Elo en**: English-only (200 battles). **w/o en**: 11 non-English languages. ‡**Elo‡**: ComparIA, 20k battles, mostly French. **EU WR%**: m-arena-hard-EU winrate vs baseline. **en WR%**: arena-hard (English) winrate vs baseline.
 
 ### Per-language winrate from Elo battles (Q3.5 judge, LMArena)
 
