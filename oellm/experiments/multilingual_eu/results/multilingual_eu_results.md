@@ -35,7 +35,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 ### Full experiment matrix
 
-| Exp. | En/EU | Samples | Elo LMArena† (Q3) | Elo LMArena† (Q3.5) | Elo en-only (Q3.5) | Elo LMArena w/o en (Q3.5) | Elo ComparIA‡ (Q3) | m-arena-hard-EU WR% | arena-hard (en) WR% |
+| Exp. | En/EU | N | Elo† Q3 | Elo† Q3.5 | Elo en Q3.5 | Elo w/o en Q3.5 | Elo‡ Q3 | EU WR% | en WR% |
 |---|---|---|---|---|---|---|---|---|---|
 | **Baseline** | — | — | 766±54 | 741±9 | **950±21** | 722±10 | 247±40 | 50% | 50% |
 | **A1-90en** | 90/10 | 94.7k | 613±89 | 702±10 | 771±32 | 692±10 | 224±40 | **54.8%** | 14.1% |
@@ -62,13 +62,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
-†**Elo LMArena**: Bradley-Terry, 100 bootstraps, ~2.1k battles. Balanced at 200 battles/language, 12 EU languages. Q3 = Qwen3-30B-A3B-Instruct-2507, Q3.5 = Qwen3.5-27B (dense). Q3.5 CIs are much tighter (±7-11 vs ±41-142).
-
-**Elo en-only**: English-only Elo (200 English battles, Q3.5 judge). Isolates English performance in the Bradley-Terry model. CIs wider (±20-32) than multilingual (±8-12) due to fewer battles.
-
-**Elo w/o en**: Same as † but excluding English battles (11 languages, ~1.9k battles). Only measured with Q3.5 judge.
-
-‡**ComparIA**: Bradley-Terry, 100 bootstraps, 20k battles. All languages, predominantly French (~92%).
+†**Elo**: LMArena Bradley-Terry, 100 bootstraps, 200 battles/lang. Q3 = Qwen3-30B-A3B, Q3.5 = Qwen3.5-27B. **Elo en**: English-only (200 battles). **w/o en**: 11 non-English languages. ‡**Elo‡**: ComparIA, 20k battles, mostly French. **EU WR%**: m-arena-hard-EU winrate vs baseline. **en WR%**: arena-hard (English) winrate vs baseline.
 
 ### Per-language winrate from Elo battles (Q3.5 judge, LMArena)
 
