@@ -35,32 +35,50 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 
 ### Full experiment matrix
 
-| Exp. | En/EU | N | Elo† Q3 | Elo† Q3.5 | Elo en Q3.5 | Elo w/o en Q3.5 | Elo‡ Q3 | EU WR% | en WR% |
-|---|---|---|---|---|---|---|---|---|---|
-| **Baseline** | — | — | 766±54 | 741±9 | **950±21** | 722±10 | 247±40 | 50% | 50% |
-| **A1-90en** | 90/10 | 94.7k | 613±89 | 702±10 | 771±32 | 692±10 | 224±40 | **54.8%** | 14.1% |
-| **A2-80en** | 80/20 | 93.6k | 600±110 | 704±11 | 769±30 | 703±11 | 233±37 | **57.2%** | 12.4% |
-| **A3-70en** | 70/30 | 91.7k | **709±48** | 713±10 | 766±29 | 689±11 | **235±39** | **58.8%** | 13.3% |
-| **B1-90en** | 90/10 | 491k | 633±75 | 720±9 | 789±26 | 708±10 | 604±4 | 53.6% | 13.0% |
-| **B2-80en** | 80/20 | 473k | 595±136 | 722±9 | 797±26 | 722±10 | 582±5 | 52.9% | 14.2% |
-| **C0-100en** | 100/0 | 94.7k | 524±142 | 670±11 | 791±29 | 681±11 | 540±5 | 48.9% | 11.8% |
-| **D1-90en** | 90/10 | 94.7k | **755±50** | **751±8** | **942±20** | 716±11 | **716±4** | **63.4%** | **54.6%** |
-| **D2-80en** | 80/20 | 93.6k | **777±41** | **751±8** | **956±20** | **725±12** | **739±3** | **62.0%** | **54.6%** |
-| **D3-70en** | 70/30 | 91.7k | 729±90 | **753±9** | **963±21** | **731±11** | **760±3** | **63.5%** | **54.3%** |
-| **E1-90en** | 90/10 | 491k | **808±51** | **758±9** | **965±21** | **740±9** | **765±3** | **59.9%** | **57.0%** |
-| **E2-80en** | 80/20 | 474k | 661±130 | **759±8** | **931±24** | **725±9** | 600±4 | **56.6%** | **58.2%** |
-| **E3-70en** | 70/30 | 455k | 688±79 | **751±9** | **940±22** | **726±9** | 596±4 | 53.1% | **58.6%** |
-| **F1-100en** | 100/0 | 500k | — | tba | tba | tba | — | tba | tba |
-| **F2-75en** | 75/25 | 500k | — | tba | tba | tba | — | tba | tba |
-| **F3-50en** | 50/50 | 500k | — | tba | tba | tba | — | tba | tba |
-| **F4-25en** | 25/75 | 500k | — | tba | tba | tba | — | tba | tba |
-| **F5-0en** | 0/100 | 500k | — | tba | tba | tba | — | tba | tba |
+| Exp. | En/EU | N | Elo† | Elo en† | Elo w/o en† | EU WR% (Q3) | en WR% (Q3) |
+|---|---|---|---|---|---|---|---|
+| **Baseline** | — | — | 741±9 | **950±21** | 722±10 | 50% | 50% |
+| **A1-90en** | 90/10 | 94.7k | 702±10 | 771±32 | 692±10 | **54.8%** | 14.1% |
+| **A2-80en** | 80/20 | 93.6k | 704±11 | 769±30 | 703±11 | **57.2%** | 12.4% |
+| **A3-70en** | 70/30 | 91.7k | 713±10 | 766±29 | 689±11 | **58.8%** | 13.3% |
+| **B1-90en** | 90/10 | 491k | 720±9 | 789±26 | 708±10 | 53.6% | 13.0% |
+| **B2-80en** | 80/20 | 473k | 722±9 | 797±26 | 722±10 | 52.9% | 14.2% |
+| **C0-100en** | 100/0 | 94.7k | 670±11 | 791±29 | 681±11 | 48.9% | 11.8% |
+| **D1-90en** | 90/10 | 94.7k | **751±8** | **942±20** | 716±11 | **63.4%** | **54.6%** |
+| **D2-80en** | 80/20 | 93.6k | **751±8** | **956±20** | **725±12** | **62.0%** | **54.6%** |
+| **D3-70en** | 70/30 | 91.7k | **753±9** | **963±21** | **731±11** | **63.5%** | **54.3%** |
+| **E1-90en** | 90/10 | 491k | **758±9** | **965±21** | **740±9** | **59.9%** | **57.0%** |
+| **E2-80en** | 80/20 | 474k | **759±8** | **931±24** | **725±9** | **56.6%** | **58.2%** |
+| **E3-70en** | 70/30 | 455k | **751±9** | **940±22** | **726±9** | 53.1% | **58.6%** |
+| **F1-100en** | 100/0 | 500k | tba | tba | tba | tba | tba |
+| **F2-75en** | 75/25 | 500k | tba | tba | tba | tba | tba |
+| **F3-50en** | 50/50 | 500k | tba | tba | tba | tba | tba |
+| **F4-25en** | 25/75 | 500k | tba | tba | tba | tba | tba |
+| **F5-0en** | 0/100 | 500k | tba | tba | tba | tba | tba |
 
-† LMArena Elo: Bradley-Terry, 100 bootstraps, 200 battles/lang. Q3 = Qwen3-30B-A3B, Q3.5 = Qwen3.5-27B. "en" = English-only (200 battles). "w/o en" = 11 non-English languages.
+† Elo: Qwen3.5-27B judge, LMArena Bradley-Terry, 100 bootstraps, 200 battles/lang. "en" = English-only (200 battles). "w/o en" = 11 non-English languages.
 
-‡ ComparIA Elo: Bradley-Terry, 100 bootstraps, 20k battles, mostly French (~92%).
+EU WR% / en WR% = winrate vs baseline (Qwen3-30B-A3B judge). 50% = parity.
 
-EU WR% = m-arena-hard-EU winrate vs baseline. en WR% = arena-hard (English) winrate vs baseline. 50% = parity.
+### Elo with Qwen3-30B-A3B judge (Q3)
+
+| Exp. | En/EU | N | Elo LMArena | Elo ComparIA |
+|---|---|---|---|---|
+| **Baseline** | — | — | 766±54 | 247±40 |
+| **A1-90en** | 90/10 | 94.7k | 613±89 | 224±40 |
+| **A2-80en** | 80/20 | 93.6k | 600±110 | 233±37 |
+| **A3-70en** | 70/30 | 91.7k | **709±48** | **235±39** |
+| **B1-90en** | 90/10 | 491k | 633±75 | 604±4 |
+| **B2-80en** | 80/20 | 473k | 595±136 | 582±5 |
+| **C0-100en** | 100/0 | 94.7k | 524±142 | 540±5 |
+| **D1-90en** | 90/10 | 94.7k | **755±50** | **716±4** |
+| **D2-80en** | 80/20 | 93.6k | **777±41** | **739±3** |
+| **D3-70en** | 70/30 | 91.7k | 729±90 | **760±3** |
+| **E1-90en** | 90/10 | 491k | **808±51** | **765±3** |
+| **E2-80en** | 80/20 | 474k | 661±130 | 600±4 |
+| **E3-70en** | 70/30 | 455k | 688±79 | 596±4 |
+
+LMArena: 200 battles/lang, 12 EU languages. ComparIA: 20k battles, mostly French (~92%). Both: Bradley-Terry, 100 bootstraps.
 
 **Sample counts**: Fusion-synth has 94,721 rows across 10 languages, setting the dataset size for Tracks A/D. At 90/10, Czech (1,295 available) fits within its 1.25% share → 94.7k samples. At 80/20 and 70/30, Czech and Dutch (2,800) are capped below their required shares, reducing totals to 93.6k and 91.7k. Track A and D have identical EU distributions — only the English source differs (fusion-synth vs Dolci replay). C0 (100% English) = exactly 94.7k. All sampling is random (not sequential) with a fixed seed (42) for reproducibility.
 
