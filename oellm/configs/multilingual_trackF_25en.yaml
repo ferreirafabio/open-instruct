@@ -1,0 +1,25 @@
+# Track F4: 25% English (Dolci-Instruct-SFT), 75% EU languages, 500k samples
+# Purpose: EU-dominant ratio test with Dolci replay.
+# 6 EU languages (drop cs/nl due to data scarcity at this scale).
+# Each EU language gets 75%/6 = 12.5% → 62,500 samples each.
+
+name: F4-25en
+total_samples: 500000
+english_ratio: 0.25
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages:
+  de: 0.125000   # German: 12.5%
+  fr: 0.125000   # French: 12.5%
+  es: 0.125000   # Spanish: 12.5%
+  it: 0.125000   # Italian: 12.5%
+  pt: 0.125000   # Portuguese: 12.5%
+  pl: 0.125000   # Polish: 12.5%
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+seed: 42

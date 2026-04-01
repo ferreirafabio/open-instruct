@@ -31,24 +31,30 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **C** | Is the English regression caused by EU data, or by continued training itself? | 100% English control (no EU data at all), same total samples. If English still regresses, the problem is continued SFT, not the EU data. |
 | **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same ratios as Track A, but English data comes from Dolci-Instruct-SFT (the base checkpoint's own training data) instead of new English data |
 | **E** | Does Dolci replay scale with more data? | Same ratios as Track D, but ~490k samples instead of 94.7k (Dolci English + same EU sources) |
+| **F** | How do extreme English/EU ratios affect performance with Dolci replay? | 100/75/50/25/0% English, 500k samples, 6 EU languages (de,es,fr,it,pt,pl — drop cs/nl due to data scarcity at scale), Dolci replay |
 
 ### Full experiment matrix
 
-| Exp. | En/EU | Samples | Elo LMArena† (Q3) | Elo LMArena† (Q3.5) | Elo LMArena w/o en (Q3.5) | Elo ComparIA‡ (Q3) | m-arena-hard-EU WR% | arena-hard (en) WR% |
-|---|---|---|---|---|---|---|---|---|
-| **Baseline** | — | — | 766±54 | 741±9 | 722±10 | 247±40 | 50% | 50% |
-| **A1-90en** | 90/10 | 94.7k | 613±89 | 702±10 | 692±10 | 224±40 | **54.8%** | 14.1% |
-| **A2-80en** | 80/20 | 93.6k | 600±110 | 704±11 | 703±11 | 233±37 | **57.2%** | 12.4% |
-| **A3-70en** | 70/30 | 91.7k | **709±48** | 713±10 | 689±11 | **235±39** | **58.8%** | 13.3% |
-| **B1-90en** | 90/10 | 491k | 633±75 | 720±9 | 708±10 | 604±4 | 53.6% | 13.0% |
-| **B2-80en** | 80/20 | 473k | 595±136 | 722±9 | 722±10 | 582±5 | 52.9% | 14.2% |
-| **C0-100en** | 100/0 | 94.7k | 524±142 | 670±11 | 681±11 | 540±5 | 48.9% | 11.8% |
-| **D1-90en** | 90/10 | 94.7k | **755±50** | **751±8** | 716±11 | **716±4** | **63.4%** | **54.6%** |
-| **D2-80en** | 80/20 | 93.6k | **777±41** | **751±8** | **725±12** | **739±3** | **62.0%** | **54.6%** |
-| **D3-70en** | 70/30 | 91.7k | 729±90 | **753±9** | **731±11** | **760±3** | **63.5%** | **54.3%** |
-| **E1-90en** | 90/10 | 491k | **808±51** | **758±9** | **740±9** | **765±3** | **59.9%** | **57.0%** |
-| **E2-80en** | 80/20 | 474k | 661±130 | **759±8** | **725±9** | 600±4 | **56.6%** | **58.2%** |
-| **E3-70en** | 70/30 | 455k | 688±79 | **751±9** | **726±9** | 596±4 | 53.1% | **58.6%** |
+| Exp. | En/EU | Samples | Elo LMArena† (Q3) | Elo LMArena† (Q3.5) | Elo en-only (Q3.5) | Elo LMArena w/o en (Q3.5) | Elo ComparIA‡ (Q3) | m-arena-hard-EU WR% | arena-hard (en) WR% |
+|---|---|---|---|---|---|---|---|---|---|
+| **Baseline** | — | — | 766±54 | 741±9 | tba | 722±10 | 247±40 | 50% | 50% |
+| **A1-90en** | 90/10 | 94.7k | 613±89 | 702±10 | tba | 692±10 | 224±40 | **54.8%** | 14.1% |
+| **A2-80en** | 80/20 | 93.6k | 600±110 | 704±11 | tba | 703±11 | 233±37 | **57.2%** | 12.4% |
+| **A3-70en** | 70/30 | 91.7k | **709±48** | 713±10 | tba | 689±11 | **235±39** | **58.8%** | 13.3% |
+| **B1-90en** | 90/10 | 491k | 633±75 | 720±9 | tba | 708±10 | 604±4 | 53.6% | 13.0% |
+| **B2-80en** | 80/20 | 473k | 595±136 | 722±9 | tba | 722±10 | 582±5 | 52.9% | 14.2% |
+| **C0-100en** | 100/0 | 94.7k | 524±142 | 670±11 | tba | 681±11 | 540±5 | 48.9% | 11.8% |
+| **D1-90en** | 90/10 | 94.7k | **755±50** | **751±8** | tba | 716±11 | **716±4** | **63.4%** | **54.6%** |
+| **D2-80en** | 80/20 | 93.6k | **777±41** | **751±8** | tba | **725±12** | **739±3** | **62.0%** | **54.6%** |
+| **D3-70en** | 70/30 | 91.7k | 729±90 | **753±9** | tba | **731±11** | **760±3** | **63.5%** | **54.3%** |
+| **E1-90en** | 90/10 | 491k | **808±51** | **758±9** | tba | **740±9** | **765±3** | **59.9%** | **57.0%** |
+| **E2-80en** | 80/20 | 474k | 661±130 | **759±8** | tba | **725±9** | 600±4 | **56.6%** | **58.2%** |
+| **E3-70en** | 70/30 | 455k | 688±79 | **751±9** | tba | **726±9** | 596±4 | 53.1% | **58.6%** |
+| **F1-100en** | 100/0 | 500k | — | tba | tba | tba | — | tba | tba |
+| **F2-75en** | 75/25 | 500k | — | tba | tba | tba | — | tba | tba |
+| **F3-50en** | 50/50 | 500k | — | tba | tba | tba | — | tba | tba |
+| **F4-25en** | 25/75 | 500k | — | tba | tba | tba | — | tba | tba |
+| **F5-0en** | 0/100 | 500k | — | tba | tba | tba | — | tba | tba |
 
 **Sample counts**: Fusion-synth has 94,721 rows across 10 languages, setting the dataset size for Tracks A/D. At 90/10, Czech (1,295 available) fits within its 1.25% share → 94.7k samples. At 80/20 and 70/30, Czech and Dutch (2,800) are capped below their required shares, reducing totals to 93.6k and 91.7k. Track A and D have identical EU distributions — only the English source differs (fusion-synth vs Dolci replay). C0 (100% English) = exactly 94.7k. All sampling is random (not sequential) with a fixed seed (42) for reproducibility.
 
@@ -57,6 +63,8 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 Winrate = our model vs instruct baseline. 50% = parity. >50% = our model wins.
 
 †**Elo LMArena**: Bradley-Terry, 100 bootstraps, ~2.1k battles. Balanced at 200 battles/language, 12 EU languages. Q3 = Qwen3-30B-A3B-Instruct-2507, Q3.5 = Qwen3.5-27B (dense). Q3.5 CIs are much tighter (±7-11 vs ±41-142).
+
+**Elo en-only**: English-only Elo (200 English battles, Q3.5 judge). Isolates English performance in the Bradley-Terry model.
 
 **Elo w/o en**: Same as † but excluding English battles (11 languages, ~1.9k battles). Only measured with Q3.5 judge.
 
@@ -169,14 +177,18 @@ Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qw
 
 These are significantly higher quality than our current NLLB-200-distilled-600M translations. Since the per-language analysis shows EU language winrates are modest (6-22% vs arena field), better translations may be the bottleneck.
 
-**Track F (planned)**: High-quality Dolci-Instruct translations with Dolci replay
+**Track F (configs ready)**: Extreme English/EU ratios with Dolci replay at 500k scale
+- F1-F5: 100/75/50/25/0% English, 500k samples, Dolci replay
+- 6 EU languages (de, es, fr, it, pt, pl) — cs/nl dropped due to data scarcity at 500k scale
+- **Purpose**: Map the full English/EU ratio curve. How far can we push EU data before English collapses, even with Dolci replay?
+
+**Track G (planned)**: High-quality Dolci translations with gemma3-27b-it
 - Same design as Track D (Dolci English replay), but EU data = gemma3-27b-it translations
 - Languages: cs, de, it, fr, fi, es, sv (7 high-quality) + pl, nl (NLLB, 2)
-- Ratio: 90/10 only (D-track showed ratio doesn't matter with Dolci replay)
-- **Purpose**: Isolate translation quality effect. If F1 >> D1 on EU languages, translation quality was the bottleneck.
+- **Purpose**: Isolate translation quality effect. If G >> D on EU languages, translation quality was the bottleneck.
 
-**Track G (planned)**: High-quality Dolci-Think translations
-- Same as F but using Dolci-Think-SFT translations
+**Track H (planned)**: High-quality Dolci-Think translations
+- Same as G but using Dolci-Think-SFT translations
 - **Purpose**: Compare Think vs Instruct as multilingual data source.
 
 ### Code

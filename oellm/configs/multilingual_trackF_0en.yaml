@@ -1,0 +1,25 @@
+# Track F5: 0% English, 100% EU languages, 500k samples
+# Purpose: Pure EU data (no English at all). Tests maximum EU exposure.
+# 6 EU languages (drop cs/nl due to data scarcity at this scale).
+# Each EU language gets 100%/6 ≈ 16.6667% → ~83,333 samples each.
+# No english_dir since there's no English data.
+
+name: F5-0en
+total_samples: 500000
+english_ratio: 0.0
+
+languages:
+  de: 0.166667   # German: ~16.67%
+  fr: 0.166667   # French: ~16.67%
+  es: 0.166667   # Spanish: ~16.67%
+  it: 0.166667   # Italian: ~16.67%
+  pt: 0.166667   # Portuguese: ~16.67%
+  pl: 0.166665   # Polish: ~16.67% (adjusted to sum exactly to 1.0)
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+seed: 42

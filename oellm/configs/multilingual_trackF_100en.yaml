@@ -1,0 +1,18 @@
+# Track F1: 100% English (Dolci-Instruct-SFT), 0% EU languages, 500k samples
+# Purpose: Pure Dolci replay baseline at 500k scale. No EU data at all.
+# Like C0 but with Dolci English and 5× more data.
+
+name: F1-100en
+total_samples: 500000
+english_ratio: 1.0
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages: {}
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+seed: 42

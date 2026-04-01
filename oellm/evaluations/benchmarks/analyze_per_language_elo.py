@@ -45,6 +45,11 @@ MODEL_MAP = {
     "eu-E1-90en": "E1-90en",
     "eu-E2-80en": "E2-80en",
     "eu-E3-70en": "E3-70en",
+    "eu-F1-100en": "F1-100en",
+    "eu-F2-75en": "F2-75en",
+    "eu-F3-50en": "F3-50en",
+    "eu-F4-25en": "F4-25en",
+    "eu-F5-0en": "F5-0en",
     "instruct-v2-step3252": "Baseline",
 }
 

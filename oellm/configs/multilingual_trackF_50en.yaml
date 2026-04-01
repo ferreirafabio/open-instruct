@@ -1,0 +1,25 @@
+# Track F3: 50% English (Dolci-Instruct-SFT), 50% EU languages, 500k samples
+# Purpose: Balanced ratio test with Dolci replay.
+# 6 EU languages (drop cs/nl due to data scarcity at this scale).
+# Each EU language gets 50%/6 ≈ 8.3333% → ~41,667 samples each.
+
+name: F3-50en
+total_samples: 500000
+english_ratio: 0.50
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages:
+  de: 0.083334   # German: ~8.33%
+  fr: 0.083334   # French: ~8.33%
+  es: 0.083334   # Spanish: ~8.33%
+  it: 0.083334   # Italian: ~8.33%
+  pt: 0.083334   # Portuguese: ~8.33%
+  pl: 0.083330   # Polish: ~8.33% (adjusted to sum exactly to 0.50)
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+seed: 42
