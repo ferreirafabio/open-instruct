@@ -172,7 +172,7 @@ run_eval() {
         EXPLAIN_FLAG="--provide_explanation"
     fi
 
-    $VENV_PYTHON openjury/generate_and_evaluate.py \
+    $VENV_PYTHON judgearena/generate_and_evaluate.py \
         --dataset "$dataset" \
         --model_A "VLLM/$TEMP_BASELINE" \
         --model_B "VLLM/$TEMP_OURS" \
@@ -183,7 +183,6 @@ run_eval() {
         --max_out_tokens_judge $MAX_OUT_TOKENS_JUDGE \
         --truncate_all_input_chars $TRUNCATE_CHARS \
         --swap_mode $SWAP_MODE \
-        --eval_mode $EVAL_MODE \
         $EXPLAIN_FLAG \
         $EXTRA_FLAGS
 }
