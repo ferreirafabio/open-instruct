@@ -32,6 +32,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same ratios as Track A, but English data comes from Dolci-Instruct-SFT (the base checkpoint's own training data) instead of new English data |
 | **E** | Does Dolci replay scale with more data? | Same ratios as Track D, but ~490k samples instead of 94.7k (Dolci English + same EU sources) |
 | **F** | How do extreme English/EU ratios affect performance with Dolci replay? | 100/75/50/25/0% English, 500k samples, 6 EU languages (de,es,fr,it,pt,pl — drop cs/nl due to data scarcity at scale), Dolci replay |
+| **G** | Same as F but with matched sample counts (removing data size confound) | 100/75/50/25/0% English, 166k samples (matched), 4 EU languages (de,es,fr,pt — drop pl/it bottleneck), Dolci replay |
 
 ### Full experiment matrix
 
@@ -55,6 +56,11 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **F3-50en** | 50/50 | 453k | 726±9 | **935±21** | 700±12 | 44.7% | **55.9%** |
 | **F4-25en** | 25/75 | 359k | 739±9 | **912±22** | 685±11 | 43.3% | **57.2%** |
 | **F5-0en** | 0/100 | 234k | 677±11 | 762±31 | 680±11 | 36.6% | 9.7% |
+| **G1-100en** | 100/0 | 166k | 739±9 | **987±22** | 702±11 | 53.6% | **57.3%** |
+| **G2-75en** | 75/25 | 166k | **751±9** | **951±21** | 709±10 | **60.2%** | **57.4%** |
+| **G3-50en** | 50/50 | 166k | 737±9 | **914±21** | 708±11 | 55.0% | **56.6%** |
+| **G4-25en** | 25/75 | 166k | 722±9 | **961±23** | 694±11 | 47.4% | **53.7%** |
+| **G5-0en** | 0/100 | 166k | tba | tba | tba | tba | tba |
 
 † Elo: Qwen3.5-27B judge, LMArena Bradley-Terry, 100 bootstraps, 200 battles/lang. "en" = English-only (200 battles). "w/o en" = 11 non-English languages.
 
@@ -84,19 +90,35 @@ LMArena: 200 battles/lang, 12 EU languages. ComparIA: 20k battles, mostly French
 
 **~490k** (Track B) = ~5× Track A to test data scaling. Target is 500k, but Czech (1,295) and Dutch (2,800) are capped at what's available, giving actual totals of ~491k (B1) and ~473k (B2).
 
-### Per-language winrate from Elo battles (Q3.5 judge, LMArena)
+### Per-language Elo ratings (Q3.5 judge, LMArena)
 
-Winrate of our model vs LMArena arena opponents (GPT-4o, Claude, Gemini, etc.), from the balanced Elo judge cache (200 battles/language). Winrates are low (~10-40%) as expected for a 7B model vs frontier models.
+Bradley-Terry Elo computed independently per language (200 battles/language, Qwen3.5-27B judge). Higher = better.
 
-| Model | en | de | es | fr | it | pt | pl | nl | cs | ro | el | uk | ALL |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| **A2-80en** | 15.8 | 7.5 | 20.0 | 9.5 | 21.5 | 15.0 | 12.5 | 15.8 | 10.8 | 16.4 | 6.2 | 11.5 | 13.8 |
-| **A3-70en** | 16.2 | 9.0 | 16.8 | 13.8 | 19.8 | 17.0 | 15.5 | 13.8 | 13.0 | 20.9 | 7.7 | 9.2 | 14.4 |
-| **D1-90en** | **41.8** | 6.5 | 19.2 | 13.5 | 20.5 | 16.0 | 13.0 | 19.5 | 12.5 | **30.9** | 5.4 | 11.2 | 17.4 |
-| **D2-80en** | **35.0** | 9.8 | 21.5 | 11.8 | 24.2 | 13.5 | 11.8 | 16.2 | 16.8 | **29.1** | 6.2 | 14.0 | 17.4 |
-| **D3-70en** | **40.2** | 9.2 | 22.0 | 10.0 | 21.5 | 19.8 | 14.5 | 16.2 | 10.0 | **28.2** | 6.2 | 10.5 | 17.3 |
-| **E1-90en** | **38.2** | **13.5** | 21.0 | 13.8 | **25.5** | 16.2 | 17.0 | **20.0** | 10.5 | **29.1** | 9.2 | 11.8 | **18.7** |
-| **E3-70en** | **38.8** | 11.2 | 17.2 | 14.8 | 21.8 | 16.8 | 14.8 | 18.5 | 12.8 | **28.2** | 8.5 | 12.5 | 17.9 |
+| Model | en | de | es | fr | it | pt | pl | nl | cs | ro | el | uk |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| **Baseline** | 950±21 | 647±40 | 691±37 | 675±32 | 771±24 | 704±37 | 721±30 | 749±29 | 696±29 | 863±45 | 641±74 | 664±34 |
+| **A1-90en** | 771±32 | 613±40 | 750±34 | 612±42 | 771±28 | 650±46 | 634±40 | 714±27 | 718±29 | 726±60 | 661±57 | 677±36 |
+| **A2-80en** | 769±30 | 574±46 | 735±37 | 663±39 | 779±26 | 671±37 | 732±33 | 712±32 | 675±34 | 688±79 | 640±70 | 666±39 |
+| **A3-70en** | 766±29 | 515±58 | 733±38 | 693±35 | 784±26 | 706±38 | 721±34 | 706±35 | 684±34 | 845±51 | 618±68 | 634±37 |
+| **B1-90en** | 789±26 | 615±43 | 692±32 | 675±33 | 776±26 | 705±37 | 742±30 | 717±34 | 732±27 | 875±47 | 595±79 | 620±40 |
+| **B2-80en** | 797±26 | 668±37 | 698±34 | 711±33 | 807±24 | 729±37 | 740±31 | 690±32 | 676±38 | 815±54 | 662±56 | 652±38 |
+| **C0-100en** | 791±29 | 612±41 | 670±38 | 654±41 | 756±27 | 641±35 | 691±36 | 689±29 | 648±33 | 705±58 | 686±63 | 650±33 |
+| **D1-90en** | 942±20 | 619±39 | 744±34 | 672±36 | 766±26 | 651±42 | 712±35 | 718±35 | 697±32 | 888±51 | 644±66 | 687±35 |
+| **D2-80en** | 956±20 | 589±43 | 708±32 | 699±36 | 746±28 | 683±42 | 663±38 | 742±32 | 706±29 | 854±58 | 688±52 | 656±41 |
+| **D3-70en** | 962±20 | 643±40 | 708±32 | 663±34 | 784±26 | 706±37 | 734±34 | 723±35 | 710±33 | 845±55 | 627±77 | 664±36 |
+| **E1-90en** | 965±21 | 642±40 | 711±34 | 695±36 | 807±25 | 712±31 | 732±34 | 758±27 | 703±37 | 754±63 | 604±65 | 634±37 |
+| **E2-80en** | 931±24 | 681±36 | 726±34 | 608±46 | 751±31 | 645±38 | 705±36 | 754±29 | 706±30 | 838±52 | 673±59 | 634±40 |
+| **E3-70en** | 940±22 | 613±44 | 721±36 | 682±32 | 781±27 | 676±43 | 676±34 | 757±27 | 694±30 | 844±49 | 658±67 | 642±38 |
+| **F1-100en** | 954±22 | 614±39 | 718±32 | 664±42 | 742±28 | 680±40 | 634±38 | 714±33 | 677±33 | 892±49 | 636±66 | 671±37 |
+| **F2-75en** | 947±22 | 624±44 | 713±36 | 702±34 | 776±30 | 697±36 | 708±32 | 708±32 | 666±34 | 854±49 | 612±74 | 624±37 |
+| **F3-50en** | 935±20 | 658±44 | 696±35 | 712±30 | 788±27 | 635±55 | 750±30 | 679±33 | 653±34 | 825±50 | 652±75 | 637±38 |
+| **F4-25en** | 912±22 | 601±40 | 732±32 | 646±45 | 800±24 | 638±43 | 715±29 | 649±36 | 661±35 | 784±52 | 605±66 | 689±32 |
+| **F5-0en** | 762±30 | 607±46 | 685±36 | 619±41 | 775±26 | 601±50 | 686±34 | 641±39 | 621±39 | 718±69 | 575±87 | 564±46 |
+| **G1-100en** | 987±22 | 549±45 | 733±33 | 685±34 | 781±27 | 700±28 | 680±35 | 740±26 | 586±37 | 819±53 | 596±73 | 623±39 |
+| **G2-75en** | 950±21 | 685±34 | 696±35 | 689±35 | 757±28 | — | 711±32 | 781±29 | 665±32 | 878±52 | 676±62 | 675±33 |
+| **G3-50en** | 914±21 | 631±42 | 715±35 | 707±34 | 788±26 | 710±38 | 667±33 | 649±38 | 647±35 | 841±50 | 659±63 | 655±31 |
+| **G4-25en** | 960±23 | 623±46 | 712±35 | 676±34 | 774±27 | 651±40 | 656±37 | 682±30 | 661±31 | 826±54 | 660±60 | 656±37 |
+| **G5-0en** | 776±24 | 640±40 | 701±33 | 696±31 | 751±28 | 628±40 | 636±33 | 646±35 | 585±46 | 833±49 | 543±86 | 650±37 |
 
 D-track's advantage over A-track comes almost entirely from **English** (19–24pp gap) and **Romanian** (7–13pp gap). On other trained EU languages, A and D perform within ±5pp. This explains why D-track w/o English Elo is lower: remove English, and D-track loses its main advantage.
 

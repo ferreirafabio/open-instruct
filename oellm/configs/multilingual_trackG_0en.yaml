@@ -1,0 +1,20 @@
+# Track F2-5: 0% English, 100% EU, 166k samples (matched)
+# 4 EU languages (de, es, fr, pt), each gets 100%/4 = 25% = 41,500 samples.
+
+name: G5-0en
+total_samples: 166000
+english_ratio: 0.0
+
+languages:
+  de: 0.25
+  es: 0.25
+  fr: 0.25
+  pt: 0.25
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+seed: 42

@@ -1,0 +1,21 @@
+# Track F2-3: 50% English, 50% EU, 166k samples (matched)
+# 4 EU languages (de, es, fr, pt), each gets 50%/4 = 12.5% = ~20,750 samples.
+
+name: G3-50en
+total_samples: 166000
+english_ratio: 0.50
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages:
+  de: 0.125
+  es: 0.125
+  fr: 0.125
+  pt: 0.125
+
+sources:
+  - CohereLabs-fusion-synth-data-ufb
+  - allenai-WildChat-1M
+  - lmsys-lmsys-chat-1m-multilingual
+  - OpenAssistant-oasst2
+
+seed: 42
