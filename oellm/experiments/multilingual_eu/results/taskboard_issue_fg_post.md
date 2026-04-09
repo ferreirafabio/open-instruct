@@ -1,4 +1,4 @@
-## Update: Track F, extreme En/EU ratios with Dolci replay
+## Update: Track F with extreme En/EU ratios
 
 Following up on the Track A–E results above, we mapped the full English/EU ratio curve (100% → 0% English) with Dolci replay.
 
