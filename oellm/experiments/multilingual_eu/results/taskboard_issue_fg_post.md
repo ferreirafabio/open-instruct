@@ -1,6 +1,6 @@
-## Update: Track F & G — extreme En/EU ratio experiments
+## Update: Track F — extreme En/EU ratios with Dolci replay
 
-Following up on the Track A–E results above, we ran two additional tracks to map the full English/EU ratio curve with Dolci replay.
+Following up on the Track A–E results above, we mapped the full English/EU ratio curve (100% → 0% English) with Dolci replay.
 
 ### New tracks
 
