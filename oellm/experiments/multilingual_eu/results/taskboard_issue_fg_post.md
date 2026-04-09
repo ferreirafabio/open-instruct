@@ -31,7 +31,7 @@ Elo: Qwen3.5-27B judge, LMArena Bradley-Terry, 200 battles/lang. EU/en WR%: Qwen
 
 ![Per-language heatmap](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/fg_per_language_heatmap.png?raw=true)
 
-### Ratio curve
+### Elo vs English/EU ratio
 
 ![Ratio curve](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/fg_ratio_curve.png?raw=true)
 

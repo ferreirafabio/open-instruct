@@ -42,28 +42,24 @@ G_ELO_WOEN = [702, 709, 708, 694, None]
 
 # All models for scatter + heatmap
 ALL_MODELS = {
-    "Baseline":  {"elo": 741, "en": 950, "woen": 722, "track": "Baseline"},
-    "A1-90en":   {"elo": 702, "en": 771, "woen": 692, "track": "A"},
-    "A2-80en":   {"elo": 704, "en": 769, "woen": 703, "track": "A"},
-    "A3-70en":   {"elo": 713, "en": 766, "woen": 689, "track": "A"},
-    "B1-90en":   {"elo": 720, "en": 789, "woen": 708, "track": "B"},
-    "B2-80en":   {"elo": 722, "en": 797, "woen": 722, "track": "B"},
-    "C0-100en":  {"elo": 670, "en": 791, "woen": 681, "track": "C"},
-    "D1-90en":   {"elo": 751, "en": 942, "woen": 716, "track": "D"},
-    "D2-80en":   {"elo": 751, "en": 956, "woen": 725, "track": "D"},
-    "D3-70en":   {"elo": 753, "en": 963, "woen": 731, "track": "D"},
-    "E1-90en":   {"elo": 758, "en": 965, "woen": 740, "track": "E"},
-    "E2-80en":   {"elo": 759, "en": 931, "woen": 725, "track": "E"},
-    "E3-70en":   {"elo": 751, "en": 940, "woen": 726, "track": "E"},
-    "F1-100en":  {"elo": 728, "en": 954, "woen": 695, "track": "F"},
-    "F2-75en":   {"elo": 747, "en": 947, "woen": 711, "track": "F"},
-    "F3-50en":   {"elo": 726, "en": 935, "woen": 700, "track": "F"},
-    "F4-25en":   {"elo": 739, "en": 912, "woen": 685, "track": "F"},
-    "F5-0en":    {"elo": 677, "en": 762, "woen": 680, "track": "F"},
-    "G1-100en":  {"elo": 739, "en": 987, "woen": 702, "track": "G"},
-    "G2-75en":   {"elo": 751, "en": 951, "woen": 709, "track": "G"},
-    "G3-50en":   {"elo": 737, "en": 914, "woen": 708, "track": "G"},
-    "G4-25en":   {"elo": 722, "en": 961, "woen": 694, "track": "G"},
+    "Baseline":  {"elo": 741, "en": 950, "woen": 722, "en_ci": 21, "woen_ci": 10, "track": "Baseline"},
+    "A1-90en":   {"elo": 702, "en": 771, "woen": 692, "en_ci": 32, "woen_ci": 10, "track": "A"},
+    "A2-80en":   {"elo": 704, "en": 769, "woen": 703, "en_ci": 30, "woen_ci": 11, "track": "A"},
+    "A3-70en":   {"elo": 713, "en": 766, "woen": 689, "en_ci": 29, "woen_ci": 11, "track": "A"},
+    "B1-90en":   {"elo": 720, "en": 789, "woen": 708, "en_ci": 26, "woen_ci": 10, "track": "B"},
+    "B2-80en":   {"elo": 722, "en": 797, "woen": 722, "en_ci": 26, "woen_ci": 10, "track": "B"},
+    "C0-100en":  {"elo": 670, "en": 791, "woen": 681, "en_ci": 29, "woen_ci": 11, "track": "C"},
+    "D1-90en":   {"elo": 751, "en": 942, "woen": 716, "en_ci": 20, "woen_ci": 11, "track": "D"},
+    "D2-80en":   {"elo": 751, "en": 956, "woen": 725, "en_ci": 20, "woen_ci": 12, "track": "D"},
+    "D3-70en":   {"elo": 753, "en": 963, "woen": 731, "en_ci": 21, "woen_ci": 11, "track": "D"},
+    "E1-90en":   {"elo": 758, "en": 965, "woen": 740, "en_ci": 21, "woen_ci": 9, "track": "E"},
+    "E2-80en":   {"elo": 759, "en": 931, "woen": 725, "en_ci": 24, "woen_ci": 9, "track": "E"},
+    "E3-70en":   {"elo": 751, "en": 940, "woen": 726, "en_ci": 22, "woen_ci": 9, "track": "E"},
+    "F1-100en":  {"elo": 728, "en": 954, "woen": 695, "en_ci": 22, "woen_ci": 11, "track": "F"},
+    "F2-75en":   {"elo": 747, "en": 947, "woen": 711, "en_ci": 22, "woen_ci": 10, "track": "F"},
+    "F3-50en":   {"elo": 726, "en": 935, "woen": 700, "en_ci": 21, "woen_ci": 12, "track": "F"},
+    "F4-25en":   {"elo": 739, "en": 912, "woen": 685, "en_ci": 22, "woen_ci": 11, "track": "F"},
+    "F5-0en":    {"elo": 677, "en": 762, "woen": 680, "en_ci": 31, "woen_ci": 11, "track": "F"},
 }
 
 # Per-language Elo for heatmap
@@ -156,11 +152,11 @@ texts = []
 
 for name, d in ALL_MODELS.items():
     track = d["track"]
-    if track == "G":
-        continue  # skip G-track
     color = TRACK_COLORS[track]
     marker = {"Baseline": "*", "A": "o", "B": "D", "C": "X", "D": "s", "E": "^", "F": "v"}[track]
     size = 150 if track == "Baseline" else 70
+    ax.errorbar(d["en"], d["woen"], xerr=d["en_ci"], yerr=d["woen_ci"],
+                fmt="none", ecolor=color, alpha=0.3, elinewidth=1, capsize=2, zorder=2)
     ax.scatter(d["en"], d["woen"], c=color, marker=marker, s=size, zorder=3, edgecolors="white", linewidth=0.5)
     texts.append(ax.text(d["en"], d["woen"], name, fontsize=8, color=color))
 
