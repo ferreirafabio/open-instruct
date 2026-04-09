@@ -120,90 +120,27 @@ Bradley-Terry Elo computed independently per language (200 battles/language, Qwe
 | **G4-25en** | 960±23 | 623±46 | 712±35 | 676±34 | 774±27 | 651±40 | 656±37 | 682±30 | 661±31 | 826±54 | 660±60 | 656±37 |
 | **G5-0en** | 776±24 | 640±40 | 701±33 | 696±31 | 751±28 | 628±40 | 636±33 | 646±35 | 585±46 | 833±49 | 543±86 | 650±37 |
 
-D-track's advantage over A-track comes almost entirely from **English** (19–24pp gap) and **Romanian** (7–13pp gap). On other trained EU languages, A and D perform within ±5pp. This explains why D-track w/o English Elo is lower: remove English, and D-track loses its main advantage.
+### Per-language Elo heatmap
 
-### Per-language winrate vs baseline (m-arena-hard-EU, Q3 judge)
+![Per-language Elo heatmap](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/fg_per_language_heatmap.png?raw=true)
 
-Winrate = our model vs instruct baseline (head-to-head). 50% = parity. Judge: Qwen3-30B-A3B-Instruct-2507.
+### English vs EU tradeoff (all tracks)
 
-`[T]` = trained language, `[H]` = held-out (zero-shot). "uk" = Ukrainian.
+![English vs EU tradeoff](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/fg_tradeoff_scatter.png?raw=true)
 
-**Track A:**
+### Elo vs English/EU ratio (Track F)
 
-| Language | A1-90en | A2-80en | A3-70en |
-|---|---:|---:|---:|
-| en | 13.2% | 16.0% | 13.6% |
-| de [T] | 63.9% | 66.3% | **69.6%** |
-| es [T] | 62.6% | **68.4%** | **71.6%** |
-| fr [T] | 46.2% | 51.4% | 53.4% |
-| it [T] | 51.9% | 60.4% | 59.3% |
-| pt [T] | 60.2% | 60.6% | **66.8%** |
-| pl [T] | 59.6% | 60.7% | 63.4% |
-| nl [T] | 65.1% | 64.3% | 65.1% |
-| cs [T] | **73.8%** | **74.2%** | **74.3%** |
-| ro [H] | 60.2% | 64.4% | 64.9% |
-| el [H] | 51.3% | 50.9% | 49.8% |
-| uk | 52.0% | 48.6% | 54.0% |
-
-**Track B/C:**
-
-| Language | B1-90en | B2-80en | C0-100en |
-|---|---:|---:|---:|
-| en | 14.2% | 14.3% | 15.7% |
-| de [T] | 63.6% | 64.0% | 51.7% |
-| es [T] | 66.5% | 60.6% | 55.9% |
-| fr [T] | 44.2% | 41.5% | 41.3% |
-| it [T] | 53.3% | 51.9% | 42.0% |
-| pt [T] | 60.3% | 58.0% | 48.4% |
-| pl [T] | 56.8% | 57.3% | 48.6% |
-| nl [T] | 57.9% | 60.7% | 59.2% |
-| cs [T] | **71.7%** | **71.0%** | **61.9%** |
-| ro [H] | 58.0% | 55.9% | 61.2% |
-| el [H] | 51.9% | 53.8% | 54.2% |
-| uk | 45.5% | 46.5% | 46.4% |
-
-**Track D:**
-
-| Language | D1-90en | D2-80en | D3-70en |
-|---|---:|---:|---:|
-| en | **54.4%** | **56.6%** | **57.7%** |
-| de [T] | **67.5%** | **70.5%** | **75.8%** |
-| es [T] | **67.1%** | **71.9%** | **72.0%** |
-| fr [T] | 57.2% | **60.6%** | **63.9%** |
-| it [T] | 59.4% | **60.2%** | **63.0%** |
-| pt [T] | **70.7%** | **65.7%** | **70.0%** |
-| pl [T] | 59.1% | 59.2% | **60.7%** |
-| nl [T] | **68.4%** | **62.5%** | **61.2%** |
-| cs [T] | **73.8%** | **70.0%** | **71.9%** |
-| ro [H] | **67.7%** | **65.8%** | **64.1%** |
-| el [H] | **62.0%** | 51.2% | 51.5% |
-| uk | 54.1% | 49.9% | 50.2% |
-
-**Track E:**
-
-| Language | E1-90en | E2-80en | E3-70en |
-|---|---:|---:|---:|
-| en | **60.3%** | **58.3%** | **57.6%** |
-| de [T] | **71.4%** | **66.9%** | 59.9% |
-| es [T] | **66.3%** | **61.9%** | 58.2% |
-| fr [T] | **61.3%** | 41.2% | 39.2% |
-| it [T] | **70.3%** | 53.0% | 41.3% |
-| pt [T] | **67.4%** | 58.5% | 56.3% |
-| pl [T] | 56.7% | 54.8% | 57.4% |
-| nl [T] | 56.5% | 57.3% | 59.2% |
-| cs [T] | **68.6%** | **70.3%** | **68.4%** |
-| ro [H] | 48.8% | 54.9% | 49.1% |
-| el [H] | 46.1% | 49.9% | 43.8% |
-| uk | 45.3% | 53.2% | 47.2% |
+![Elo vs ratio](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/fg_ratio_curve.png?raw=true)
 
 ### Key findings
 
-1. **Dolci replay (Track D) preserves English**: D-track maintains ~55% English arena-hard winrate (vs A-track's ~13%). D-track Elo is stable at 748 regardless of EN/EU ratio — the English source matters, the ratio doesn't.
-2. **D-track advantage holds with and without English**: D-track leads both w/ en (751 vs A-track 702-713) and w/o en (716-731 vs A-track 689-703). Per-language Elo battle analysis shows the gap is largest on English (19-24pp) and Romanian (7-13pp), with ±5pp on other trained EU languages.
-3. **Scaling helps modestly (Track E)**: E1 achieves the highest Elo (764 Q3.5). E2/E3 drop on French (41%/39% vs E1's 61%) — more EU data at scale hurts some languages.
-4. **More diverse data doesn't help (Track B)**: B-track (5× more data from wildchat/lmsys/oasst2) scores below A-track on m-arena-hard-EU despite 5× samples.
-5. **Continued SFT itself causes English forgetting (Track C)**: C0 (100% English, no EU data) still drops English to 12%. C0 Elo (690) is only 10-20 points below A-track (700-709).
-6. **Q3.5 Elo tiers** (w/ en): E-track (751-759) > D-track (751-753) > baseline (741) > A/B (702-722) > C0 (670). W/o en: E1 (740) > D3 (731) > D2 (725) ≈ E2/E3 (725-726) > baseline (722) > D1 (716) > B1 (708) > A (689-703) > C0 (681). CIs of ±8-12 (vs Q3's ±41-142) make these separations reliable.
+1. **Dolci replay preserves English** (Track D): English Elo stays at 942-963 (baseline is 950), English arena-hard winrate ~55%. Without replay (Track A), English drops to 766-771 Elo / ~13% winrate. The source of the English data matters, the En/EU ratio doesn't.
+2. **The D-track advantage is almost entirely English**: per-language Elo shows A vs D gap is ~190 points on English. On trained EU languages, they're within CIs.
+3. **Scaling helps modestly**: E1 (90/10 at 491k) reaches the highest overall Elo (758). More EU data at scale (E2/E3) shows diminishing returns.
+4. **More diverse data doesn't help** (Track B): 5x more data from wildchat/lmsys/oasst2, similar Elo to Track A.
+5. **Continued SFT itself causes forgetting** (Track C): C0 (100% English, no EU data at all) still drops English Elo to 791. The regression is not from the EU data, it's from training on non-Dolci English.
+6. **75/25 is the sweet spot** (Track F): F2 achieves the highest overall Elo (747). English Elo degrades gracefully up to ~50% EU, then collapses at 0% English (762). Pure EU training (F5) hurts EU performance too (below baseline).
+7. **Transfer**: Romanian (held-out, Latin script) transfers well (Elo 700-890). Greek (held-out, different script) does not (540-690).
 
 ### Next steps
 
