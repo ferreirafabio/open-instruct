@@ -20,7 +20,7 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **Benchmarks** | m-arena-hard-EU (6000 prompts, 12 EU languages), arena-hard (500 prompts, English) |
 | **Training languages** | en + de, es, fr, it, pt, pl, nl, cs (ratio varies by experiment) |
 | **Eval languages** | en, de, es, fr, it, pt, pl, nl, cs, ro, el, uk (12 languages in m-arena-hard-EU) |
-| **Held-out languages** | ro, el (zero-shot transfer test — not in training data) |
+| **Held-out languages** | ro, el (zero-shot transfer test, not in training data) |
 
 ### Experiment tracks
 
@@ -31,8 +31,8 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **C** | Is the English regression caused by EU data, or by continued training itself? | 100% English control (no EU data at all), same total samples. If English still regresses, the problem is continued SFT, not the EU data. |
 | **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same ratios as Track A, but English data comes from Dolci-Instruct-SFT (the base checkpoint's own training data) instead of new English data |
 | **E** | Does Dolci replay scale with more data? | Same ratios as Track D, but ~490k samples instead of 94.7k (Dolci English + same EU sources) |
-| **F** | How do extreme English/EU ratios affect performance with Dolci replay? | 100/75/50/25/0% English, 500k samples, 6 EU languages (de,es,fr,it,pt,pl — drop cs/nl due to data scarcity at scale), Dolci replay |
-| **G** | Same as F but with matched sample counts (removing data size confound) | 100/75/50/25/0% English, 166k samples (matched), 4 EU languages (de,es,fr,pt — drop pl/it bottleneck), Dolci replay |
+| **F** | How do extreme English/EU ratios affect performance with Dolci replay? | 100/75/50/25/0% English, 500k samples, 6 EU languages (de,es,fr,it,pt,pl), Dolci replay |
+| **G** | Same as F but with matched sample counts (removing data size confound) | 100/75/50/25/0% English, 166k samples (matched), 4 EU languages (de,es,fr,pt), Dolci replay |
 
 ### Full experiment matrix
 
@@ -86,7 +86,7 @@ EU WR% / en WR% = winrate vs baseline (Qwen3-30B-A3B judge). 50% = parity.
 
 LMArena: 200 battles/lang, 12 EU languages. ComparIA: 20k battles, mostly French (~92%). Both: Bradley-Terry, 100 bootstraps.
 
-**Sample counts**: Fusion-synth has 94,721 rows across 10 languages, setting the dataset size for Tracks A/D. At 90/10, Czech (1,295 available) fits within its 1.25% share → 94.7k samples. At 80/20 and 70/30, Czech and Dutch (2,800) are capped below their required shares, reducing totals to 93.6k and 91.7k. Track A and D have identical EU distributions — only the English source differs (fusion-synth vs Dolci replay). C0 (100% English) = exactly 94.7k. All sampling is random (not sequential) with a fixed seed (42) for reproducibility.
+**Sample counts**: Fusion-synth has 94,721 rows across 10 languages, setting the dataset size for Tracks A/D. At 90/10, Czech (1,295 available) fits within its 1.25% share → 94.7k samples. At 80/20 and 70/30, Czech and Dutch (2,800) are capped below their required shares, reducing totals to 93.6k and 91.7k. Track A and D have identical EU distributions, only the English source differs (fusion-synth vs Dolci replay). C0 (100% English) = exactly 94.7k. All sampling is random (not sequential) with a fixed seed (42) for reproducibility.
 
 **~490k** (Track B) = ~5× Track A to test data scaling. Target is 500k, but Czech (1,295) and Dutch (2,800) are capped at what's available, giving actual totals of ~491k (B1) and ~473k (B2).
 
@@ -138,7 +138,7 @@ Bradley-Terry Elo computed independently per language (200 battles/language, Qwe
 2. **The D-track advantage is almost entirely English**: per-language Elo shows A vs D gap is ~190 points on English. On trained EU languages, they're within CIs.
 3. **Scaling helps modestly**: E1 (90/10 at 491k) reaches the highest overall Elo (758). More EU data at scale (E2/E3) shows diminishing returns.
 4. **More diverse data doesn't help** (Track B): 5x more data from wildchat/lmsys/oasst2, similar Elo to Track A.
-5. **Continued SFT itself causes forgetting** (Track C): C0 (100% English, no EU data at all) still drops English Elo to 791. The regression is not from the EU data, it's from training on non-Dolci English.
+5. **Continued SFT itself causes forgetting** (Track C): C0 (100% English, no EU data at all) still drops English Elo to 791. The regression is not caused by EU data but by training on non-Dolci English.
 6. **75/25 is the sweet spot** (Track F): F2 achieves the highest overall Elo (747). English Elo degrades gracefully up to ~50% EU, then collapses at 0% English (762). Pure EU training (F5) hurts EU performance too (below baseline).
 7. **Transfer**: Romanian (held-out, Latin script) transfers well (Elo 700-890). Greek (held-out, different script) does not (540-690).
 
