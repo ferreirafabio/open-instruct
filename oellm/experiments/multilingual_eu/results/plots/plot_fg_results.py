@@ -132,6 +132,7 @@ for ax, (metric, f_vals, g_vals, title) in zip(axes, [
 
 axes[0].legend(fontsize=9, loc="lower left", framealpha=0.9)
 fig.tight_layout()
+fig.suptitle("Elo vs English/EU ratio (Dolci replay, ~500k samples)", fontsize=13, y=1.02)
 fig.savefig(f"{OUTDIR}/fg_ratio_curve.png", dpi=150, bbox_inches="tight")
 print(f"Saved {OUTDIR}/fg_ratio_curve.png")
 plt.close()
