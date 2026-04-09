@@ -2,9 +2,18 @@
 
 Following up on the Track A–E results above, we mapped the full English/EU ratio curve (100% → 0% English) with Dolci replay.
 
-### Design
+### Experiment tracks (recap + new)
 
-100/75/50/25/0% English, ~500k target, 6 EU langs (de,es,fr,it,pt,pl), Dolci replay. Sample counts not fully matched due to Polish (7k) and Italian (29k) data caps.
+| Track | Question | Design |
+|---|---|---|
+| **A** | Preliminary: does the English/EU ratio matter? | 90/80/70% English, ~95k samples, fusion-synth only, EU share split equally across 8 languages |
+| **B** | Does more diverse data help? | Same ratios, ~490k samples, fusion-synth + wildchat, lmsys-chat, oasst2 |
+| **C** | Is English regression caused by EU data, or by continued SFT itself? | 100% English control (no EU data), same total samples |
+| **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same ratios as Track A, but English from Dolci-Instruct-SFT (base checkpoint's own training data) |
+| **E** | Does Dolci replay scale with more data? | Same as Track D, but ~490k samples instead of ~95k |
+| **F** | How do extreme En/EU ratios affect performance? | 100/75/50/25/0% English, ~500k target, 6 EU langs (de,es,fr,it,pt,pl), Dolci replay |
+
+Note: F track sample counts are not fully matched because Polish (7k available) and Italian (29k) cap the high EU ratio configs.
 
 ### Results
 
