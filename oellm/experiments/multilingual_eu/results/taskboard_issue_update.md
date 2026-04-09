@@ -23,7 +23,7 @@ Percentage-based (w.r.t. the respective dataset):
 | **Winrate benchmarks** | m-arena-hard-EU (6000 prompts, 12 EU languages), arena-hard (500 English prompts) |
 | **Training languages** | en + de, es, fr, it, pt, pl, nl, cs (ratio varies by experiment) |
 | **Eval languages** | en, de, es, fr, it, pt, pl, nl, cs, ro, el, uk (12 languages available in LMArena) |
-| **Held-out languages** | ro, el (zero-shot transfer test — not in training data) |
+| **Held-out languages** | ro, el (zero-shot transfer test, not in training data) |
 
 ### Experiment tracks
 
@@ -83,7 +83,7 @@ Bradley-Terry Elo computed independently per language (200 battles/language). Hi
 2. **The D-track advantage is almost entirely English**: per-language Elo shows A vs D gap is ~190 points on English. On trained EU languages, they're within CIs.
 3. **Scaling helps modestly**: E1 (90/10 at 491k) reaches the highest overall Elo (758). More EU data at scale (E2/E3) shows diminishing returns.
 4. **More diverse data doesn't help** (Track B): 5× more data from wildchat/lmsys/oasst2 → similar Elo to Track A.
-5. **Continued SFT itself causes forgetting** (Track C): C0 (100% English, no EU data at all) still drops English Elo to 791. The regression is not from the EU data — it's from training on non-Dolci English.
+5. **Continued SFT itself causes forgetting** (Track C): C0 (100% English, no EU data at all) still drops English Elo to 791. The regression is not caused by EU data but by training on non-Dolci English.
 6. **Transfer**: Romanian (held-out, Latin script) transfers well (Elo 700-890). Greek (held-out, different script) does not (540-690).
 
 ### Code
