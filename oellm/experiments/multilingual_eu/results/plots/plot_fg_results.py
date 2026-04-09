@@ -148,20 +148,22 @@ plt.close()
 # Plot 2: English vs EU tradeoff scatter
 # ============================================================
 
-fig, ax = plt.subplots(figsize=(8, 6))
+fig, ax = plt.subplots(figsize=(9, 7))
+
+from adjustText import adjust_text
+texts = []
 
 for name, d in ALL_MODELS.items():
     track = d["track"]
+    if track == "G":
+        continue  # skip G-track
     color = TRACK_COLORS[track]
-    marker = {"Baseline": "*", "A": "o", "B": "D", "C": "X", "D": "s", "E": "^", "F": "v", "G": "P"}[track]
-    size = 120 if track == "Baseline" else 60
+    marker = {"Baseline": "*", "A": "o", "B": "D", "C": "X", "D": "s", "E": "^", "F": "v"}[track]
+    size = 150 if track == "Baseline" else 70
     ax.scatter(d["en"], d["woen"], c=color, marker=marker, s=size, zorder=3, edgecolors="white", linewidth=0.5)
-    # Label select models
-    if name in ["Baseline", "F5-0en", "E1-90en", "F2-75en", "G2-75en", "C0-100en", "A3-70en", "D1-90en"]:
-        offset = {"Baseline": (8, 5), "F5-0en": (8, -5), "E1-90en": (8, 5), "F2-75en": (-45, 8),
-                  "G2-75en": (8, -8), "C0-100en": (8, -5), "A3-70en": (-15, 8), "D1-90en": (-40, -10)}
-        ax.annotate(name, (d["en"], d["woen"]), textcoords="offset points",
-                    xytext=offset.get(name, (8, 5)), fontsize=8, color=color)
+    texts.append(ax.text(d["en"], d["woen"], name, fontsize=8, color=color))
+
+adjust_text(texts, arrowprops=dict(arrowstyle="-", color="gray", lw=0.5, alpha=0.5))
 
 # Legend for tracks
 from matplotlib.lines import Line2D
@@ -173,7 +175,6 @@ legend_elements = [
     Line2D([0], [0], marker="s", color="w", markerfacecolor=TRACK_COLORS["D"], markersize=8, label="D (Dolci replay)"),
     Line2D([0], [0], marker="^", color="w", markerfacecolor=TRACK_COLORS["E"], markersize=8, label="E (Dolci scaled)"),
     Line2D([0], [0], marker="v", color="w", markerfacecolor=TRACK_COLORS["F"], markersize=8, label="F (extreme ratios)"),
-    Line2D([0], [0], marker="P", color="w", markerfacecolor=TRACK_COLORS["G"], markersize=8, label="G (matched 166k)"),
 ]
 ax.legend(handles=legend_elements, fontsize=9, loc="lower right")
 
