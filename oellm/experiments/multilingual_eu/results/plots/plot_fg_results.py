@@ -26,8 +26,11 @@ OUTDIR = "oellm/experiments/multilingual_eu/results/plots"
 F_RATIOS = [100, 75, 50, 25, 0]
 F_NAMES = ["F1-100en", "F2-75en", "F3-50en", "F4-25en", "F5-0en"]
 F_ELO = [728, 747, 726, 739, 677]
+F_ELO_CI = [9, 10, 9, 9, 11]
 F_ELO_EN = [954, 947, 935, 912, 762]
+F_ELO_EN_CI = [22, 22, 21, 22, 31]
 F_ELO_WOEN = [695, 711, 700, 685, 680]
+F_ELO_WOEN_CI = [11, 10, 12, 11, 11]
 F_N = [500, 486, 453, 359, 234]  # in k
 
 # G-track (matched 166k)
@@ -111,12 +114,16 @@ TRACK_COLORS = {
 
 fig, axes = plt.subplots(1, 3, figsize=(15, 4.5), sharey=False)
 
-for ax, (metric, f_vals, g_vals, title) in zip(axes, [
-    ("Elo (all langs)", F_ELO, G_ELO, "Overall Elo"),
-    ("Elo (English only)", F_ELO_EN, G_ELO_EN, "English Elo"),
-    ("Elo (w/o English)", F_ELO_WOEN, G_ELO_WOEN, "Non-English Elo"),
+for ax, (metric, f_vals, f_ci, title) in zip(axes, [
+    ("Elo (all langs)", F_ELO, F_ELO_CI, "Overall Elo"),
+    ("Elo (English only)", F_ELO_EN, F_ELO_EN_CI, "English Elo"),
+    ("Elo (w/o English)", F_ELO_WOEN, F_ELO_WOEN_CI, "Non-English Elo"),
 ]):
-    # F-track
+    f_vals_arr = np.array(f_vals)
+    f_ci_arr = np.array(f_ci)
+    # F-track with CI bands
+    ax.fill_between(F_RATIOS, f_vals_arr - f_ci_arr, f_vals_arr + f_ci_arr,
+                    color=TRACK_COLORS["F"], alpha=0.15)
     ax.plot(F_RATIOS, f_vals, "o-", color=TRACK_COLORS["F"], markersize=8, linewidth=2)
 
     # Baseline reference
