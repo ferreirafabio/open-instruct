@@ -117,15 +117,7 @@ for ax, (metric, f_vals, g_vals, title) in zip(axes, [
     ("Elo (w/o English)", F_ELO_WOEN, G_ELO_WOEN, "Non-English Elo"),
 ]):
     # F-track
-    ax.plot(F_RATIOS, f_vals, "o--", color=TRACK_COLORS["F"], label="F-track (varying N)", markersize=7, linewidth=1.5)
-    for i, (r, v, n) in enumerate(zip(F_RATIOS, f_vals, F_N)):
-        ax.annotate(f"{n}k", (r, v), textcoords="offset points", xytext=(0, 10),
-                    ha="center", fontsize=8, color=TRACK_COLORS["F"], alpha=0.7)
-
-    # G-track (skip None)
-    g_r = [r for r, v in zip(G_RATIOS, g_vals) if v is not None]
-    g_v = [v for v in g_vals if v is not None]
-    ax.plot(g_r, g_v, "s-", color=TRACK_COLORS["G"], label="G-track (166k matched)", markersize=7, linewidth=1.5)
+    ax.plot(F_RATIOS, f_vals, "o-", color=TRACK_COLORS["F"], markersize=8, linewidth=2)
 
     # Baseline reference
     baseline_val = {"Elo (all langs)": 741, "Elo (English only)": 950, "Elo (w/o English)": 722}[metric]
@@ -138,7 +130,7 @@ for ax, (metric, f_vals, g_vals, title) in zip(axes, [
     ax.invert_xaxis()
     ax.grid(alpha=0.2)
 
-axes[0].legend(fontsize=9, loc="lower left")
+axes[0].legend(fontsize=9, loc="lower left", framealpha=0.9)
 fig.tight_layout()
 fig.savefig(f"{OUTDIR}/fg_ratio_curve.png", dpi=150, bbox_inches="tight")
 print(f"Saved {OUTDIR}/fg_ratio_curve.png")
