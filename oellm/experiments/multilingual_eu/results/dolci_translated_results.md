@@ -11,7 +11,7 @@ Previous multilingual experiments (Tracks A-G in `multilingual_eu`) used machine
 | **Base checkpoint** | dolci-instruct-sft-v2-horeka (reproduced OLMo-3-7B-Instruct-SFT) |
 | **English source** | allenai/Dolci-Instruct-SFT (2,152,112 samples) |
 | **Translated source** | openeurollm/Dolci-Instruct-SFT-translated (495k/lang) |
-| **Training languages** | en + cs, de, es, fi, fr, it, sv (7 translated) |
+| **Training languages** | en, cs, de, es, fi, fr, it, sv (7 translated) |
 | **Eval languages** | en, cs, de, es, fi, fr, it, sv (same 8 languages) |
 | **Judge** | Qwen3.5-27B (LMArena, 200 battles/lang, 100 bootstraps) |
 | **Training** | 2 epochs, LR=8e-5, batch=1M tokens, seq_len=32768 |
@@ -21,7 +21,7 @@ Previous multilingual experiments (Tracks A-G in `multilingual_eu`) used machine
 
 | Track | Question | Design |
 |-------|----------|--------|
-| A | Does En/EU ratio matter with high-quality translations? | 75/25% and 25/75% en, Dolci replay. Training: en + cs, de, es, fi, fr, it, sv. Eval: same 8 languages via LMArena Elo. |
+| A | Does En/EU ratio matter with high-quality translations? | 75/25% and 25/75% en, Dolci replay. Training: en, cs, de, es, fi, fr, it, sv. Eval: same 8 languages via LMArena Elo. |
 
 ## Experiment Matrix
 
