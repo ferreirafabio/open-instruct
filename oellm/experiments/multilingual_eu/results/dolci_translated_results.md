@@ -2,7 +2,7 @@
 
 ## Motivation
 
-Previous multilingual experiments (Tracks A-G in `multilingual_eu`) used machine-translated data from multiple sources (fusion-synth, WildChat, lmsys, oasst2). This experiment uses Elaine's high-quality translations of the original Dolci-Instruct-SFT data (`openeurollm/Dolci-Instruct-SFT-translated`), covering 7 EU languages.
+Previous multilingual experiments (Tracks A-F in `multilingual_eu`) used machine-translated data from multiple sources (fusion-synth, WildChat, lmsys, oasst2). This experiment uses Elaine's high-quality translations of the original Dolci-Instruct-SFT data (`openeurollm/Dolci-Instruct-SFT-translated`), covering 7 EU languages.
 
 ## Setup
 
