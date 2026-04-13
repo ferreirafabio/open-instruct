@@ -43,7 +43,7 @@ Note: fi (96 LMArena entries) and sv (87 entries) have fewer battles available.
 
 ## Key Findings (preliminary, A-25en only)
 
-1. **English preserved**: A-25en English Elo (930±22) is within CI of baseline (950±21). Dolci replay works.
+1. **English preserved**: A-25en English Elo (930±22) is within CI of baseline (950±21).
 2. **All 7 translated languages improve**: Czech +68, German +64, Spanish +62, Finnish +115, French +78, Italian +37, Swedish +12.
 3. **Finnish shows the largest gain** (+115 Elo), suggesting it benefits most from dedicated training data.
 4. **Italian gains are modest** (+37) (likely because the baseline already performs well on Italian (771)).
