@@ -11,7 +11,8 @@ Previous multilingual experiments (Tracks A-G in `multilingual_eu`) used machine
 | **Base checkpoint** | dolci-instruct-sft-v2-horeka (reproduced OLMo-3-7B-Instruct-SFT) |
 | **English source** | allenai/Dolci-Instruct-SFT (2,152,112 samples) |
 | **Translated source** | openeurollm/Dolci-Instruct-SFT-translated (495k/lang) |
-| **Translated languages** | cs, de, es, fi, fr, it, sv (7 languages) |
+| **Training languages** | en + cs, de, es, fi, fr, it, sv (7 translated) |
+| **Eval languages** | en, cs, de, es, fi, fr, it, sv (same 8 languages) |
 | **Judge** | Qwen3.5-27B (LMArena, 200 battles/lang, 100 bootstraps) |
 | **Training** | 2 epochs, LR=8e-5, batch=1M tokens, seq_len=32768 |
 | **Checkpointing** | ephemeral=100, permanent=500 |
@@ -20,7 +21,7 @@ Previous multilingual experiments (Tracks A-G in `multilingual_eu`) used machine
 
 | Track | Question | Design |
 |-------|----------|--------|
-| A | Does En/EU ratio matter with high-quality translations? | 75/25% and 25/75% en, Dolci replay, 7 translated languages |
+| A | Does En/EU ratio matter with high-quality translations? | 75/25% and 25/75% en, Dolci replay. Training: en + cs, de, es, fi, fr, it, sv. Eval: same 8 languages via LMArena Elo. |
 
 ## Experiment Matrix
 
@@ -50,6 +51,6 @@ Note: fi (96 LMArena entries) and sv (87 entries) have fewer battles available, 
 ## Code
 
 - Configs: `oellm/configs/dolci_translated_A_{75en,25en}.yaml`
-- Training: `oellm/experiments/dolci_translated/scripts/train_{kislurm,horeka}.sh`
-- Evaluation: `oellm/experiments/dolci_translated/scripts/run_elo_per_language.sh`
+- Training: `oellm/experiments/multilingual_eu/scripts/dolci_translated/train_{kislurm,horeka,horeka_h100}.sh`
+- Evaluation: `oellm/experiments/multilingual_eu/scripts/dolci_translated/run_elo_per_language.sh`
 - Tests: `oellm/tests/test_dolci_translated.py`
