@@ -39,7 +39,7 @@ Previous multilingual experiments (Tracks A-G in `multilingual_eu`) used machine
 | **A-25en** | 930±22 | 764±26 | 711±33 | 753±32 | 796±33 | 753±27 | 808±25 | 769±32 |
 | **Baseline** | 950±21 | 696±29 | 647±40 | 691±37 | 681±48 | 675±32 | 771±24 | 757±35 |
 
-Note: fi (96 LMArena entries) and sv (87 entries) have fewer battles available, expect wider CIs.
+Note: fi (96 LMArena entries) and sv (87 entries) have fewer battles available.
 
 ## Key Findings (preliminary, A-25en only)
 
