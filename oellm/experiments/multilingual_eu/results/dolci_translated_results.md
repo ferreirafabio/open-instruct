@@ -25,11 +25,13 @@ Previous multilingual experiments (Tracks A-F in `multilingual_eu`) used machine
 
 ## Experiment Matrix
 
-| Exp. | En/EU | English samples | Translated samples | Per-lang samples | Total samples | Elo | Elo en | Elo w/o en |
+| Exp. | En/EU | English samples | Translated samples | Per-lang samples | Total samples | Elo† | Elo en† | Elo w/o en† |
 |------|-------|-----------|-------------|------------|---------|-----|--------|------------|
 | **A-75en** | 75/25 | 2,152,112 | 717,370 | 102,481 | 2,869,482 | tba | tba | tba |
 | **A-25en** | 25/75 | 1,155,000 | 3,465,000 | 495,000 | 4,620,000 | tba | 930±22 | tba |
 | **Baseline** | — | — | — | — | — | tba | 950±21 | tba |
+
+† Elo: LMArena Bradley-Terry, Qwen3.5-27B judge, 200 battles/lang, 100 bootstraps.
 
 ## Per-language Elo (Qwen3.5-27B, 200 battles/lang)
 
