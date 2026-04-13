@@ -15,7 +15,7 @@ Previous multilingual experiments (Tracks A-G in `multilingual_eu`) used machine
 | **Eval languages** | en, cs, de, es, fi, fr, it, sv (same 8 languages) |
 | **Judge** | Qwen3.5-27B (LMArena, 200 battles/lang, 100 bootstraps) |
 | **Training** | 2 epochs, LR=8e-5, batch=1M tokens, seq_len=32768 |
-| **Checkpointing** | ephemeral=100, permanent=500 |
+
 
 ## Experiment Tracks
 
