@@ -32,7 +32,6 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **D** | Does replaying the base checkpoint's English data reduce forgetting? | Same ratios as Track A, but English data comes from Dolci-Instruct-SFT (the base checkpoint's own training data) instead of new English data |
 | **E** | Does Dolci replay scale with more data? | Same ratios as Track D, but ~490k samples instead of 94.7k (Dolci English + same EU sources) |
 | **F** | How do extreme English/EU ratios affect performance with Dolci replay? | 100/75/50/25/0% English, 500k samples, 6 EU languages (de,es,fr,it,pt,pl), Dolci replay |
-| **G** | Same as F but with matched sample counts (removing data size confound) | 100/75/50/25/0% English, 166k samples (matched), 4 EU languages (de,es,fr,pt), Dolci replay |
 
 ### Full experiment matrix
 
@@ -56,11 +55,6 @@ The base checkpoint's training data (Dolci-Instruct-SFT: 2.15M samples, Dolci-Th
 | **F3-50en** | 50/50 | 453k | 726±9 | **935±21** | 700±12 | 44.7% | **55.9%** |
 | **F4-25en** | 25/75 | 359k | 739±9 | **912±22** | 685±11 | 43.3% | **57.2%** |
 | **F5-0en** | 0/100 | 234k | 677±11 | 762±31 | 680±11 | 36.6% | 9.7% |
-| **G1-100en** | 100/0 | 166k | 739±9 | **987±22** | 702±11 | 53.6% | **57.3%** |
-| **G2-75en** | 75/25 | 166k | **751±9** | **951±21** | 709±10 | **60.2%** | **57.4%** |
-| **G3-50en** | 50/50 | 166k | 737±9 | **914±21** | 708±11 | 55.0% | **56.6%** |
-| **G4-25en** | 25/75 | 166k | 722±9 | **961±23** | 694±11 | 47.4% | **53.7%** |
-| **G5-0en** | 0/100 | 166k | tba | tba | tba | tba | tba |
 
 † Elo: Qwen3.5-27B judge, LMArena Bradley-Terry, 100 bootstraps, 200 battles/lang. "en" = English-only (200 battles). "w/o en" = 11 non-English languages.
 
@@ -114,11 +108,6 @@ Bradley-Terry Elo computed independently per language (200 battles/language, Qwe
 | **F3-50en** | 935±20 | 658±44 | 696±35 | 712±30 | 788±27 | 635±55 | 750±30 | 679±33 | 653±34 | 825±50 | 652±75 | 637±38 |
 | **F4-25en** | 912±22 | 601±40 | 732±32 | 646±45 | 800±24 | 638±43 | 715±29 | 649±36 | 661±35 | 784±52 | 605±66 | 689±32 |
 | **F5-0en** | 762±30 | 607±46 | 685±36 | 619±41 | 775±26 | 601±50 | 686±34 | 641±39 | 621±39 | 718±69 | 575±87 | 564±46 |
-| **G1-100en** | 987±22 | 549±45 | 733±33 | 685±34 | 781±27 | 700±28 | 680±35 | 740±26 | 586±37 | 819±53 | 596±73 | 623±39 |
-| **G2-75en** | 950±21 | 685±34 | 696±35 | 689±35 | 757±28 | — | 711±32 | 781±29 | 665±32 | 878±52 | 676±62 | 675±33 |
-| **G3-50en** | 914±21 | 631±42 | 715±35 | 707±34 | 788±26 | 710±38 | 667±33 | 649±38 | 647±35 | 841±50 | 659±63 | 655±31 |
-| **G4-25en** | 960±23 | 623±46 | 712±35 | 676±34 | 774±27 | 651±40 | 656±37 | 682±30 | 661±31 | 826±54 | 660±60 | 656±37 |
-| **G5-0en** | 776±24 | 640±40 | 701±33 | 696±31 | 751±28 | 628±40 | 636±33 | 646±35 | 585±46 | 833±49 | 543±86 | 650±37 |
 
 ### Per-language Elo heatmap
 
