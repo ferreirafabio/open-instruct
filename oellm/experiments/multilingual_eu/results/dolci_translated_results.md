@@ -13,7 +13,7 @@ Previous multilingual experiments (Tracks A-F in `multilingual_eu`) used machine
 | **Translated source** | openeurollm/Dolci-Instruct-SFT-translated (495k/lang) |
 | **Training languages** | en, cs, de, es, fi, fr, it, sv (7 translated) |
 | **Eval languages** | en, cs, de, es, fi, fr, it, sv (same 8 languages) |
-| **Judge** | Qwen3.5-27B (LMArena, 200 battles/lang, 100 bootstraps) |
+| **Judge** | Qwen3.5-27B (LMArena, 500 battles/lang, 100 bootstraps) |
 | **Training** | 2 epochs, LR=8e-5, batch=1M tokens, seq_len=32768 |
 
 
@@ -28,27 +28,28 @@ Previous multilingual experiments (Tracks A-F in `multilingual_eu`) used machine
 | Exp. | En/EU | English samples | Translated samples | Per-lang samples | Total samples | Elo† | Elo en† | Elo w/o en† |
 |------|-------|-----------|-------------|------------|---------|-----|--------|------------|
 | **A-75en** | 75/25 | 2,152,112 | 717,370 | 102,481 | 2,869,482 | tba | tba | tba |
-| **A-25en** | 25/75 | 1,155,000 | 3,465,000 | 495,000 | 4,620,000 | **778±11** | 930±22 | **753±12** |
-| **Baseline** | 100/0 | 2,152,112 | 0 | 0 | 2,152,112 | 758±12 | **950±21** | 689±14 |
+| **A-25en** | 25/75 | 1,155,000 | 3,465,000 | 495,000 | 4,620,000 | **782±6** | 913±16 | **742±8** |
+| **Baseline** | 100/0 | 2,152,112 | 0 | 0 | 2,152,112 | 762±7 | **954±16** | 697±9 |
 
-† Elo: LMArena Bradley-Terry, Qwen3.5-27B judge, 200 battles/lang, 100 bootstraps.
+† Elo: LMArena Bradley-Terry, Qwen3.5-27B judge, 500 battles/lang, 100 bootstraps.
 
-## Per-language Elo (Qwen3.5-27B, 200 battles/lang)
+## Per-language Elo (Qwen3.5-27B, 500 battles/lang)
 
 | Exp. | en | cs | de | es | fi | fr | it | sv |
 |------|----|----|----|----|----|----|----|----|
 | **A-75en** | tba | tba | tba | tba | tba | tba | tba | tba |
-| **A-25en** | 930±22 | 764±26 | 711±33 | 753±32 | 796±33 | 753±27 | 808±25 | 769±32 |
-| **Baseline** | 950±21 | 696±29 | 647±40 | 691±37 | 681±48 | 675±32 | 771±24 | 757±35 |
+| **A-25en** | 913±16 | **745±15** | **701±23** | **763±18** | **813±33** | **756±17** | **801±15** | 756±33 |
+| **Baseline** | **954±16** | 647±23 | 632±27 | 745±20 | 688±48 | 695±23 | 766±17 | **777±33** |
 
 Note: fi (96 LMArena entries) and sv (87 entries) have fewer battles available.
 
 ## Key Findings (preliminary, A-25en only)
 
-1. **English preserved**: A-25en English Elo (930±22) is within CI of baseline (950±21).
-2. **All 7 translated languages improve**: Czech +68, German +64, Spanish +62, Finnish +115, French +78, Italian +37, Swedish +12.
-3. **Finnish shows the largest gain** (+115 Elo), suggesting it benefits most from dedicated training data.
-4. **Italian gains are modest** (+37) (likely because the baseline already performs well on Italian (771)).
+1. **English preserved**: A-25en English Elo (913±16) is within CI of baseline (954±16).
+2. **6 of 7 translated languages improve**: Czech +98, German +69, Finnish +125, French +61, Italian +35, Spanish +18.
+3. **Finnish shows the largest gain** (+125 Elo), suggesting it benefits most from dedicated training data.
+4. **Swedish is the exception**: baseline (777±33) outperforms A-25en (756±33), though within CI.
+5. **Italian gains are modest** (+35) (likely because the baseline already performs well on Italian (766)).
 
 ## Code
 
