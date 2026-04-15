@@ -27,7 +27,7 @@ Previous multilingual experiments (Tracks A-F in `multilingual_eu`) used machine
 
 | Exp. | En/EU | English samples | Translated samples | Per-lang samples | Total samples | Elo† | Elo en† | Elo w/o en† |
 |------|-------|-----------|-------------|------------|---------|-----|--------|------------|
-| **A-75en** | 75/25 | 2,152,112 | 717,370 | 102,481 | 2,869,482 | tba | tba | tba |
+| **A-75en** | 75/25 | 2,152,112 | 717,370 | 102,481 | 2,869,482 | **789±7** | **950±14** | 755±8 |
 | **A-25en** | 25/75 | 1,155,000 | 3,465,000 | 495,000 | 4,620,000 | **782±6** | 913±16 | **742±8** |
 | **Baseline** | 100/0 | 2,152,112 | 0 | 0 | 2,152,112 | 762±7 | **954±16** | 697±9 |
 
@@ -37,19 +37,21 @@ Previous multilingual experiments (Tracks A-F in `multilingual_eu`) used machine
 
 | Exp. | en | cs | de | es | fi | fr | it | sv |
 |------|----|----|----|----|----|----|----|----|
-| **A-75en** | tba | tba | tba | tba | tba | tba | tba | tba |
+| **A-75en** | **950±14** | 714±19 | 690±24 | 746±18 | 732±44 | 743±17 | **820±15** | 722±35 |
 | **A-25en** | 913±16 | **745±15** | **701±23** | **763±18** | **813±33** | **756±17** | **801±15** | 756±33 |
 | **Baseline** | **954±16** | 647±23 | 632±27 | 745±20 | 688±48 | 695±23 | 766±17 | **777±33** |
 
 Note: fi (96 LMArena entries) and sv (87 entries) have fewer battles available.
 
-## Key Findings (preliminary, A-25en only)
+## Key Findings
 
-1. **English preserved**: A-25en English Elo (913±16) is within CI of baseline (954±16).
-2. **6 of 7 translated languages improve**: Czech +98, German +69, Finnish +125, French +61, Italian +35, Spanish +18.
-3. **Finnish shows the largest gain** (+125 Elo), suggesting it benefits most from dedicated training data.
-4. **Swedish is the exception**: baseline (777±33) outperforms A-25en (756±33), though within CI.
-5. **Italian gains are modest** (+35) (likely because the baseline already performs well on Italian (766)).
+1. **A-75en preserves English perfectly** (950±14 vs baseline 954±16, within CI) while improving non-English (755±8 vs 697±9).
+2. **A-25en has strongest non-English gains** but slightly lower English (913±16). Overall Elo is comparable to A-75en (782±6 vs 789±7).
+3. **A-75en has the best Italian** (820±15, +54 over baseline). A-25en is close (801±15).
+4. **A-25en has the best Finnish** (813±33, +125 over baseline). A-75en gains less (732±44, +44).
+5. **More translated data helps non-English** (A-25en beats A-75en on cs, de, es, fi, fr) at the cost of ~37 points English.
+6. **Swedish is the exception**: baseline (777±33) outperforms both A-75en (722±35) and A-25en (756±33).
+7. **Both experiments beat baseline overall**: A-75en 789±7, A-25en 782±6, baseline 762±7.
 
 ## Code
 
