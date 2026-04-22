@@ -43,6 +43,8 @@ Previous multilingual experiments (Tracks A-F in `multilingual_eu`) used machine
 
 Note: fi (96 LMArena entries) and sv (87 entries) have fewer battles available.
 
+![Per-language Elo comparison](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/dolci_translated_per_language_elo.png?raw=true)
+
 ## Key Findings
 
 1. **A-75en preserves English perfectly** (950±14 vs baseline 954±16, within CI) while improving non-English (755±8 vs 697±9).
