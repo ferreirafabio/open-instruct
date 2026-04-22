@@ -40,7 +40,7 @@ def plot_dolci_translated():
 
     ax.set_xlabel("Language", fontsize=12)
     ax.set_ylabel("Elo Rating", fontsize=12)
-    ax.set_title("Per-language Elo: Dolci-Translated SFT (OLMo-3-7B)", fontsize=14)
+    ax.set_title("Per-language Elo: Dolci-Translated SFT (OLMo-3-7B-Instruct-SFT)", fontsize=14)
     ax.set_xticks(x + width)
     ax.set_xticklabels(langs, fontsize=11)
     ax.legend(fontsize=11)
@@ -56,7 +56,7 @@ def plot_dolci_translated():
 
 
 def plot_datamix_9b():
-    """Bar plot for datamix-9b vs OLMo-3-7B A-75en vs OLMo baseline."""
+    """Bar plot for datamix-9b vs OLMo-3-7B-Instruct-SFT-Instruct-SFT A-75en vs OLMo baseline."""
     langs = ["en", "cs", "de", "es", "fi", "fr", "it", "sv"]
 
     data = {
@@ -64,7 +64,7 @@ def plot_datamix_9b():
             "elo": [879, 833, 792, 764, None, 790, 780, 820],
             "ci": [16, 15, 19, 20, None, 18, 18, 32],
         },
-        "OLMo-3-7B A-75en": {
+        "OLMo-3-7B-Instruct-SFT A-75en": {
             "elo": [950, 714, 690, 746, 732, 743, 820, 722],
             "ci": [14, 19, 24, 18, 44, 17, 15, 35],
         },
@@ -97,7 +97,7 @@ def plot_datamix_9b():
 
     ax.set_xlabel("Language", fontsize=12)
     ax.set_ylabel("Elo Rating", fontsize=12)
-    ax.set_title("Per-language Elo: datamix-9b vs OLMo-3-7B", fontsize=14)
+    ax.set_title("Per-language Elo: datamix-9b vs OLMo-3-7B-Instruct-SFT", fontsize=14)
     ax.set_xticks(x + width)
     ax.set_xticklabels(langs, fontsize=11)
     ax.legend(fontsize=11)
