@@ -20,7 +20,7 @@ def plot_dolci_translated():
             "elo": [913, 745, 701, 763, 813, 756, 801, 756],
             "ci": [16, 15, 23, 18, 33, 17, 15, 33],
         },
-        "Baseline": {
+        "OLMo-3-7B-Instruct-SFT": {
             "elo": [954, 647, 632, 745, 688, 695, 766, 777],
             "ci": [16, 23, 27, 20, 48, 23, 17, 33],
         },
@@ -56,7 +56,7 @@ def plot_dolci_translated():
 
 
 def plot_datamix_9b():
-    """Bar plot for datamix-9b vs OLMo A-75en vs OLMo baseline."""
+    """Bar plot for datamix-9b vs OLMo-3-7B A-75en vs OLMo baseline."""
     langs = ["en", "cs", "de", "es", "fi", "fr", "it", "sv"]
 
     data = {
@@ -64,11 +64,11 @@ def plot_datamix_9b():
             "elo": [879, 833, 792, 764, None, 790, 780, 820],
             "ci": [16, 15, 19, 20, None, 18, 18, 32],
         },
-        "OLMo A-75en": {
+        "OLMo-3-7B A-75en": {
             "elo": [950, 714, 690, 746, 732, 743, 820, 722],
             "ci": [14, 19, 24, 18, 44, 17, 15, 35],
         },
-        "OLMo Baseline": {
+        "OLMo-3-7B-Instruct-SFT": {
             "elo": [954, 647, 632, 745, 688, 695, 766, 777],
             "ci": [16, 23, 27, 20, 48, 23, 17, 33],
         },
