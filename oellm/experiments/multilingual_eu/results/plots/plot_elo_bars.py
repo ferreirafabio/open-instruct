@@ -61,8 +61,8 @@ def plot_datamix_9b():
 
     data = {
         "datamix-9b-sft": {
-            "elo": [879, 833, 792, 764, None, 790, 780, 820],
-            "ci": [16, 15, 19, 20, None, 18, 18, 32],
+            "elo": [879, 833, 792, 764, 815, 790, 780, 820],
+            "ci": [16, 15, 19, 20, 35, 18, 18, 32],
         },
         "OLMo-3-7B-Instruct-SFT A-75en": {
             "elo": [950, 714, 690, 746, 732, 743, 820, 722],
@@ -80,20 +80,11 @@ def plot_datamix_9b():
     colors = ["#4CAF50", "#2196F3", "#9E9E9E"]
 
     for i, (model, vals) in enumerate(data.items()):
-        elo = [v if v is not None else 0 for v in vals["elo"]]
-        ci = [v if v is not None else 0 for v in vals["ci"]]
         bars = ax.bar(
-            x + i * width, elo, width,
-            yerr=ci, capsize=3,
+            x + i * width, vals["elo"], width,
+            yerr=vals["ci"], capsize=3,
             label=model, color=colors[i], alpha=0.85,
         )
-        # Mark missing data
-        for j, v in enumerate(vals["elo"]):
-            if v is None:
-                ax.text(
-                    x[j] + i * width, 600, "tba",
-                    ha="center", va="bottom", fontsize=8, fontstyle="italic",
-                )
 
     ax.set_xlabel("Language", fontsize=12)
     ax.set_ylabel("Elo Rating", fontsize=12)

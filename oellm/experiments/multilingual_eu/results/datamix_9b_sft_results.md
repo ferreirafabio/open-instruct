@@ -22,18 +22,19 @@ The OpenEuroLLM 9B alpha model ([datamix-9b-80-20](https://huggingface.co/openeu
 
 | Model | en | cs | de | es | fi | fr | it | sv |
 |-------|-----|-----|-----|-----|-----|-----|-----|-----|
-| **datamix-9b-sft** | 879±16 | **833±15** | **792±19** | **764±20** | tba | **790±18** | 780±18 | **820±32** |
+| **datamix-9b-sft** | 879±16 | **833±15** | **792±19** | **764±20** | **815±35** | **790±18** | 780±18 | **820±32** |
 | **OLMo-3-7B-Instruct-SFT A-75en** | **950±14** | 714±19 | 690±24 | 746±18 | 732±44 | 743±17 | **820±15** | 722±35 |
 | **OLMo-3-7B-Instruct-SFT** | 954±16 | 647±23 | 632±27 | 745±20 | 688±48 | 695±23 | 766±17 | 777±33 |
 
 ![Per-language Elo comparison](https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/plots/datamix_9b_per_language_elo.png?raw=true)
 
-## Key Findings (preliminary, fi pending)
+## Key Findings
 
-1. **datamix-9b strongly outperforms OLMo on non-English languages**: Czech +119, German +102, Swedish +98, French +47 over OLMo-3-7B-Instruct-SFT A-75en.
+1. **datamix-9b strongly outperforms OLMo on non-English languages**: Czech +119, German +102, Swedish +98, Finnish +83, French +47 over OLMo-3-7B-Instruct-SFT A-75en.
 2. **English is weaker** (879±16 vs OLMo-3-7B-Instruct-SFT A-75en 950±14), likely due to shorter context (2048 vs 32768) and the base model being an early alpha.
 3. **Czech is the standout** (833±15), highest non-English Elo across all models. The 80/20 multilingual pretraining datamix gives a strong multilingual foundation.
 4. **Swedish transfers well** (820±32) despite the base model's 80/20 datamix focusing on higher-resource languages.
+5. **Finnish strongly improved** (815±35 vs OLMo baseline 688±48, +127), showing the multilingual pretraining datamix benefits even lower-resource languages.
 
 ## Code
 
