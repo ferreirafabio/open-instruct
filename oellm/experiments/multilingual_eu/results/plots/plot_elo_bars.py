@@ -102,6 +102,54 @@ def plot_datamix_9b():
     plt.close()
 
 
+def plot_datamix_9b_truncated():
+    """Bar plot for datamix-9b vs OLMo models with 1024/1024 token truncation."""
+    langs = ["en", "cs", "de", "es", "fi", "fr", "it", "sv"]
+
+    data = {
+        "datamix-9b-sft": {
+            "elo": [879, 833, 792, 764, 815, 790, 780, 820],
+            "ci": [16, 15, 19, 20, 35, 18, 18, 32],
+        },
+        "OLMo-3-7B-Instruct-SFT A-75en (1024/1024)": {
+            "elo": [970, 733, 742, 820, 752, 804, 821, 786],
+            "ci": [14, 18, 20, 17, 38, 16, 15, 32],
+        },
+        "OLMo-3-7B-Instruct-SFT (1024/1024)": {
+            "elo": [976, 690, 722, 799, 812, 756, 766, 805],
+            "ci": [15, 19, 22, 18, 36, 20, 15, 37],
+        },
+    }
+
+    fig, ax = plt.subplots(figsize=(12, 6))
+    x = np.arange(len(langs))
+    width = 0.25
+    colors = ["#4CAF50", "#2196F3", "#9E9E9E"]
+
+    for i, (model, vals) in enumerate(data.items()):
+        bars = ax.bar(
+            x + i * width, vals["elo"], width,
+            yerr=vals["ci"], capsize=3,
+            label=model, color=colors[i], alpha=0.85,
+        )
+
+    ax.set_xlabel("Language", fontsize=12)
+    ax.set_ylabel("Elo Rating", fontsize=12)
+    ax.set_title("Per-language Elo: datamix-9b vs OLMo-3-7B-Instruct-SFT (1024/1024 truncation)", fontsize=14)
+    ax.set_xticks(x + width)
+    ax.set_xticklabels(langs, fontsize=11)
+    ax.legend(fontsize=11)
+    ax.set_ylim(550, 1050)
+    ax.grid(axis="y", alpha=0.3)
+
+    plt.tight_layout()
+    out = f"{PLOTS_DIR}/datamix_9b_per_language_elo_truncated.png"
+    plt.savefig(out, dpi=150, bbox_inches="tight")
+    print(f"Saved: {out}")
+    plt.close()
+
+
 if __name__ == "__main__":
     plot_dolci_translated()
     plot_datamix_9b()
+    plot_datamix_9b_truncated()
