@@ -1,0 +1,23 @@
+# Dolci-Translated A-25en: 25% English / 75% translated (7 languages)
+# Uses ALL translated data (7 x 495,000 = 3,465,000 samples).
+# Total = 3,465,000 / 0.75 = 4,620,000. English = 1,155,000 (sampled from 2,152,112).
+# Source: openeurollm/Dolci-Instruct-SFT-translated (Elaine's high-quality translations).
+
+name: dt-A-25en
+total_samples: 4620000
+english_ratio: 0.25
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages:
+  cs: 0.107143
+  de: 0.107143
+  es: 0.107143
+  fi: 0.107143
+  fr: 0.107143
+  it: 0.107143
+  sv: 0.107142   # adjusted to sum exactly to 0.75
+
+sources:
+  - Dolci-Instruct-SFT-translated
+
+seed: 42

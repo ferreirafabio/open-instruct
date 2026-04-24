@@ -1,0 +1,27 @@
+# Dolci-Translated A-25en (matched compute): 25% English / 75% translated, total samples
+# matched to A-75en (2,869,482) so the two runs are directly comparable.
+#
+# Original A-25en used 4,620,000 samples (took ALL translated data) → 1.6× more compute
+# than A-75en. This run downsamples translated to 2,152,111 (75% of 2.87M, ~307k per lang)
+# and English to 717,371 (25% of 2.87M).
+#
+# Source: openeurollm/Dolci-Instruct-SFT-translated (Elaine's high-quality translations).
+
+name: dt-A-25en-matched
+total_samples: 2869482
+english_ratio: 0.25
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages:
+  cs: 0.107143
+  de: 0.107143
+  es: 0.107143
+  fi: 0.107143
+  fr: 0.107143
+  it: 0.107143
+  sv: 0.107142   # adjusted to sum exactly to 0.75
+
+sources:
+  - Dolci-Instruct-SFT-translated
+
+seed: 42

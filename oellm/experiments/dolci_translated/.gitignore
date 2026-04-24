@@ -1,0 +1,11 @@
+# SLURM / vLLM logs — transient, regenerated per run
+logs/
+
+# HF Space staging mirror — redundant copy of site/, only used during deploy
+.hf-staging/
+
+# Playwright test artifacts
+site_tests/node_modules/
+site_tests/test-results/
+site_tests/playwright-report/
+site_tests/playwright/.cache/

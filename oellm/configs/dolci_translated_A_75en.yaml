@@ -1,0 +1,23 @@
+# Dolci-Translated A-75en: 75% English / 25% translated (7 languages)
+# Uses ALL English from Dolci-Instruct-SFT (2,152,112 samples).
+# Total = 2,152,112 / 0.75 = 2,869,482. Each translated lang gets ~102,481.
+# Source: openeurollm/Dolci-Instruct-SFT-translated (Elaine's high-quality translations).
+
+name: dt-A-75en
+total_samples: 2869482
+english_ratio: 0.75
+english_dir: data/huggingface/allenai/Dolci-Instruct-SFT/data
+
+languages:
+  cs: 0.035714
+  de: 0.035714
+  es: 0.035714
+  fi: 0.035714
+  fr: 0.035714
+  it: 0.035714
+  sv: 0.035716   # adjusted to sum exactly to 0.25
+
+sources:
+  - Dolci-Instruct-SFT-translated
+
+seed: 42

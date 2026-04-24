@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multilingual-Dolci-SFTed Olmo3 Checkpoint Viewer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode (T)">
+        <span class="theme-icon-light" aria-hidden="true">☀</span>
+        <span class="theme-icon-dark" aria-hidden="true">☾</span>
+    </button>
+
+    <header class="hero">
+        <div class="hero-inner">
+            <div class="eyebrow">qualitative completions</div>
+            <h1>Multilingual-Dolci-SFTed <span class="hero-accent">Olmo3 Checkpoint Viewer</span></h1>
+            <p class="hero-sub">
+                Side-by-side completions from the
+                <a href="https://github.com/ferreirafabio/open-instruct/blob/main/oellm/experiments/multilingual_eu/results/dolci_translated_results.md" target="_blank" rel="noopener">dolci_translated</a>
+                SFT experiment, sampled stratified-by-category from
+                <a href="https://huggingface.co/datasets/lmarena-ai/arena-human-preference-100k" target="_blank" rel="noopener">LMArena</a>
+                across <strong>7 EU languages</strong> (cs, de, es, fi, fr, it, sv). Slide through training progress to see how the SFT runs evolve checkpoint by checkpoint; the pre-SFT base and SFT baseline are static references. Filter by LMArena category (math, creativity, instruction-following, …) to focus on a behaviour.
+            </p>
+            <p class="hero-meta" id="meta">Loading…</p>
+        </div>
+    </header>
+
+    <section class="controls">
+        <div class="control control-grow">
+            <span class="control-label">Language</span>
+            <div id="lang-segmented" class="segmented"></div>
+        </div>
+
+        <div class="control control-prompt">
+            <div class="control-row">
+                <span class="control-label">Prompt</span>
+                <span class="prompt-counter" id="prompt-counter"></span>
+            </div>
+            <div class="prompt-nav">
+                <button id="prev-prompt" class="icon-btn" aria-label="Previous prompt" title="Previous (←)">‹</button>
+                <input id="prompt-jump" type="number" min="1" placeholder="#" class="prompt-jump" />
+                <button id="next-prompt" class="icon-btn" aria-label="Next prompt" title="Next (→)">›</button>
+                <button id="random-prompt" class="ghost-btn" title="Pick a random prompt">Random</button>
+                <button id="list-toggle" class="ghost-btn" title="Pick from a list">List</button>
+            </div>
+        </div>
+
+        <div class="control control-grow">
+            <div class="control-row">
+                <span class="control-label">Training progress (A-75en / A-25en)</span>
+                <span class="prompt-counter" id="step-counter"></span>
+            </div>
+            <div class="step-global">
+                <span class="step-end-label" id="step-left-label">early</span>
+                <input id="step-slider" type="range" min="0" max="4" value="4" />
+                <span class="step-end-label" id="step-right-label">final</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="models-bar-section">
+        <div class="models-bar">
+            <span class="control-label">Show / hide</span>
+            <div id="model-toggles" class="pills"></div>
+        </div>
+        <div class="models-bar models-bar-secondary">
+            <span class="control-label">Filter prompts by category</span>
+            <div id="category-pills" class="pills"></div>
+            <button id="category-clear" class="ghost-btn" title="Clear all category filters">Clear</button>
+            <span class="hint">prompts are multi-tagged — most hit several categories</span>
+        </div>
+    </section>
+
+    <section class="prompt-display">
+        <div class="prompt-display-head">
+            <span class="prompt-display-tag">Prompt</span>
+            <span class="prompt-display-meta" id="prompt-display-meta"></span>
+        </div>
+        <div id="prompt-text" class="prompt-text"></div>
+        <div id="prompt-tags" class="prompt-tags"></div>
+    </section>
+
+    <main id="results"></main>
+
+    <div id="list-backdrop" class="backdrop" hidden></div>
+    <aside id="list-modal" class="drawer" hidden>
+        <div class="drawer-header">
+            <h3 class="drawer-title" id="list-title">Prompts</h3>
+            <button id="list-close" class="close-btn" aria-label="Close">Close ✕</button>
+        </div>
+        <ul id="prompt-list" class="browse-list"></ul>
+    </aside>
+
+    <footer>
+        <p>
+            Source prompts sampled from <code>lmarena-ai/arena-human-preference-100k</code> (seed 42).
+            Generation: vLLM, temperature 0, max 1024 new tokens.
+            <a href="https://github.com/ferreirafabio/open-instruct/tree/main/oellm/experiments/dolci_translated" target="_blank" rel="noopener">Source on GitHub ↗</a>
+        </p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
