@@ -45,3 +45,34 @@ Sampling seed: 42. First user-turn extracted, deduplicated.
 - **3288 / 3288 completions** (12 models × 274 prompts), all per-model counts equal to 274
 - Jobs: conversion array `28802199` (8 tasks, ~10 min total on `alldlc2_cpu-epyc9655`); generation `28802214` (~16 min on a single H200)
 - Site is ready to deploy via `site/README.md`
+
+## Major refactor (2026-04-24)
+
+- Renamed deployment paths: `oellm-completions` → `olmo3-multilingual-dolci-sft-progression` on both github.io and HF Space (`move_repo` for HF, redirect stub for github.io)
+- Stratified-by-category prompt re-sampling: 3 langs (274 prompts) → **7 langs (698 prompts)** with target ≥50 prompts per LMArena category per language
+- Added Swedish, Italian, Spanish, Czech as new languages
+- Added LMArena category filter (multi-select pills)
+- Original A-25en card hidden pending matched-compute re-run
+
+## Matched A-25en submitted (2026-04-24)
+
+- Original A-25en used 4.62M samples (8686 steps) vs A-75en's 2.87M (3998 steps) → 1.6× more compute
+- Submitted matched re-run: same 2.87M total samples, 25/75 ratio (717k English sampled + 2.15M translated sampled), `PERMANENT_SAVE_INTERVAL=500` to match A-75en's checkpointing pattern
+- Pipeline chain: assemble (`28807731`) → tokenize (`28807733`) → SFT training (`28807746`)
+
+## Matched A-25en complete (2026-04-25)
+
+- Training started 2026-04-24 19:32, ended 2026-04-25 ~16:00, **final step = 5398**
+- A-75en converged in **3998 steps**, A-25en-matched in **5398 steps** despite both runs processing the same 2.87M samples × 2 epochs at the same 1M-token batch size and identical hyperparameters (lr=8e-5, AdamW, linear warmup, bf16, etc.). The asymmetry comes from translated text packing into more tokens per sample → more sequences per epoch → more steps to cover the same data.
+- Intermediate ckpts converted + generated incrementally during training: step500 (parallel chain `28811481`/`28811482`), then step1500/2500/3500 (jobs `28812804`/`805`/`806`/`807`), final step5398 post-training (jobs `28815065` convert + `28816548` gen).
+- Site updated to use matched A-25en across all 7 langs.
+
+### Comparison philosophy
+The viewer's slider compares **literal step numbers** at ticks 0-3 (both groups at step 500 / 1500 / 2500 / 3500). At those ticks A-75en is at 12.5% / 37.5% / 62.5% / 87.5% trained, while A-25en-matched is at 9.3% / 27.8% / 46.3% / 64.8%. The two runs are NOT at identical training fractions at intermediate ticks.
+
+**Tick 4 (final)** is the only slider position where both runs are at 100% trained — that's the cleanest apples-to-apples comparison. The matched-compute property (same data, same epochs) means the two runs are equivalent at their respective ends, even though they took different numbers of steps to get there.
+
+If a per-tick training-fraction match is needed in the future, re-pick A-25en-matched intermediates at A-75en's fractions (e.g. step 5398 × 0.125 ≈ 675 instead of 500, step 5398 × 0.375 ≈ 2024 instead of 1500). Costs 4 more conversions + ~5 min H200 of regen.
+
+### Hero banner
+Added a visible note to the viewer hero explaining the step-count asymmetry and the tick-4-is-true-final caveat, with a Playwright test asserting the explanation stays present.

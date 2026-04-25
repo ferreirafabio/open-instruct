@@ -1,9 +1,8 @@
 // @ts-check
 const { test, expect } = require("@playwright/test");
 
-// A-25en card temporarily hidden while the matched-compute re-run is in progress.
-const GROUP_LABELS = ["Pre-SFT (base)", "OLMo-3-7B-Instruct-SFT", "A-75en"];
-const VISIBLE_GROUPS = ["base", "sft-baseline", "A-75en"];
+const GROUP_LABELS = ["Pre-SFT (base)", "OLMo-3-7B-Instruct-SFT", "A-75en", "A-25en"];
+const VISIBLE_GROUPS = ["base", "sft-baseline", "A-75en", "A-25en"];
 const CARD_COUNT = VISIBLE_GROUPS.length;
 
 test.describe("oellm-completions site", () => {
@@ -31,8 +30,8 @@ test.describe("oellm-completions site", () => {
         for (const label of GROUP_LABELS) {
             await expect(page.locator(".card .card-title", { hasText: label })).toBeVisible();
         }
-        // A-25en explicitly hidden for now
-        await expect(page.locator(".card.group-A-25en")).toHaveCount(0);
+        // A-25en card is restored (matched re-run provides step500 now; others fill in progressively)
+        await expect(page.locator(".card.group-A-25en")).toHaveCount(1);
     });
 
     test("language switcher exposes all 7 EU languages", async ({ page }) => {
@@ -113,13 +112,15 @@ test.describe("oellm-completions site", () => {
         expect(changed).toBe(true);
     });
 
-    test("global step slider updates A-75en step tag but NOT static cards", async ({ page }) => {
+    test("global step slider updates A-75en + A-25en step tags but NOT static cards", async ({ page }) => {
         const a75Tag = page.locator(".card.group-A-75en .card-step-tag");
+        const a25Tag = page.locator(".card.group-A-25en .card-step-tag");
         const baseTag = page.locator(".card.group-base .card-step-tag");
         const sftTag = page.locator(".card.group-sft-baseline .card-step-tag");
 
-        // slider default = 4 (final ckpt) → A-75en step 3998
+        // slider default = tick 4 (final) → both A-75en and A-25en at step 3998 (matched)
         await expect(a75Tag).toContainText("step 3998");
+        await expect(a25Tag).toContainText(/step \d{3,4}/);  // matches whatever A-25en's final step is
 
         const baseInitial = await baseTag.textContent();
         const sftInitial = await sftTag.textContent();
@@ -131,16 +132,16 @@ test.describe("oellm-completions site", () => {
             el.dispatchEvent(new Event("input", { bubbles: true }));
         });
         await expect(a75Tag).toContainText("step 500");
+        await expect(a25Tag).toContainText("step 500");
 
         // static cards should NOT have changed
         await expect(baseTag).toHaveText(baseInitial);
         await expect(sftTag).toHaveText(sftInitial);
 
-        // counter shouldn't say "tick X/Y" any more, and should mention A-75en
+        // counter shows both matched step numbers
         await expect(page.locator("#step-counter")).not.toContainText("tick");
         await expect(page.locator("#step-counter")).toContainText("A-75en step 500");
-        // A-25en should NOT appear in the counter while hidden
-        await expect(page.locator("#step-counter")).not.toContainText("A-25en");
+        await expect(page.locator("#step-counter")).toContainText("A-25en step 500");
     });
 
     test("model toggles hide and show cards", async ({ page }) => {
@@ -170,12 +171,13 @@ test.describe("oellm-completions site", () => {
         await expect(page.locator(".empty-state")).toBeVisible();
     });
 
-    test("step slider at middle picks correct intermediate A-75en ckpt", async ({ page }) => {
+    test("step slider at middle picks matched intermediate ckpt for both training runs", async ({ page }) => {
         await page.locator("#step-slider").evaluate((el) => {
             el.value = "2";
             el.dispatchEvent(new Event("input", { bubbles: true }));
         });
         await expect(page.locator(".card.group-A-75en .card-step-tag")).toContainText("step 2500");
+        await expect(page.locator(".card.group-A-25en .card-step-tag")).toContainText("step 2500");
     });
 
     test("static cards have a 'static' visual marker", async ({ page }) => {
@@ -286,6 +288,15 @@ test.describe("oellm-completions site", () => {
         await expect(page.locator("#meta")).toContainText(/checkpoints/);
         const reloaded = await html.getAttribute("data-theme");
         expect(reloaded).toBe(after2);
+    });
+
+    test("hero note explains step-count asymmetry between A-75en and A-25en", async ({ page }) => {
+        const note = page.locator(".hero-note");
+        await expect(note).toBeVisible();
+        await expect(note).toContainText(/3998/);  // A-75en final step
+        await expect(note).toContainText(/5398/);  // A-25en final step
+        await expect(note).toContainText(/2\.87M samples/);
+        await expect(note).toContainText(/Tick 4/);
     });
 
     test("hero copy mentions LMArena and 7 EU languages", async ({ page }) => {

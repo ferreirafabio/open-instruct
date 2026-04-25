@@ -81,12 +81,11 @@ def build_model_list() -> list[ModelSpec]:
             )
         )
 
-    a25_steps = [500, 2500, 5000, 7000, 8686]
+    # A-25en uses the matched-compute re-run (same 2.87M total samples as A-75en,
+    # same 3998 steps) so slider positions compare apples-to-apples
+    a25_steps = [500, 1500, 2500, 3500, 5398]
     for step in a25_steps:
-        if step == 8686:
-            path = CKPT_BASE / "dolci-translated-A-25en-hf"
-        else:
-            path = CKPT_BASE / f"dolci-translated-A-25en-step{step}-hf"
+        path = CKPT_BASE / f"dolci-translated-A-25en-matched-step{step}-hf"
         models.append(
             ModelSpec(
                 id=f"A-25en-step{step}",
