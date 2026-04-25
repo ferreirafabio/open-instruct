@@ -25,3 +25,13 @@ export HF_DATASETS_CACHE="$PROJECT_ROOT/data/huggingface"
 cd "$PROJECT_ROOT"
 
 $VENV_PYTHON oellm/experiments/dolci_translated/scripts/qualitative/generate_completions.py
+
+# Auto-deploy refreshed completions to github.io + HF Space (skip with NO_DEPLOY=1).
+# Runs the Playwright suite first; deploy aborts on failure.
+if [ "${NO_DEPLOY:-0}" = "0" ]; then
+    echo "==> Auto-deploying refreshed completions.json"
+    bash "$PROJECT_ROOT/oellm/experiments/dolci_translated/scripts/qualitative/deploy.sh" || {
+        echo "WARN: deploy failed; completions.json saved locally but NOT pushed"
+        exit 0  # don't propagate deploy failure as gen failure
+    }
+fi

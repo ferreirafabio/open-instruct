@@ -28,3 +28,11 @@ cd "$PROJECT_ROOT"
 
 $VENV_PYTHON oellm/experiments/dolci_translated/scripts/qualitative/generate_completions.py \
     --skip-group A-25en
+
+if [ "${NO_DEPLOY:-0}" = "0" ]; then
+    echo "==> Auto-deploying refreshed completions.json"
+    bash "$PROJECT_ROOT/oellm/experiments/dolci_translated/scripts/qualitative/deploy.sh" || {
+        echo "WARN: deploy failed; completions.json saved locally but NOT pushed"
+        exit 0
+    }
+fi
